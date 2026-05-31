@@ -46,7 +46,7 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--purple-dark); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
 
-/* ========== NAVBAR ========== */
+/* NAVBAR */
 .navbar {
     position: fixed; top: 0; left: 0; right: 0;
     height: var(--nav-h);
@@ -165,7 +165,7 @@ body {
     letter-spacing: 1px;
 }
 
-/* ========== HERO ========== */
+/* HERO */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -395,7 +395,7 @@ body {
 
 @keyframes textGlow { 0%,100%{opacity:0.7;} 50%{opacity:1;} }
 
-/* ========== SECTIONS ========== */
+/* SECTIONS */
 .section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
 .section-full { padding: 100px 0; }
 
@@ -423,7 +423,7 @@ body {
     line-height: 1.7;
 }
 
-/* ========== STORY SECTION ========== */
+/* STORY SECTION */
 .story-section {
     background: linear-gradient(180deg, transparent, rgba(107,33,232,0.03), transparent);
     border-top: 1px solid var(--border);
@@ -487,7 +487,7 @@ body {
     font-size: 1rem; line-height: 1.6;
 }
 
-/* ========== CHARACTERS GRID ========== */
+/* CHARACTERS GRID */         
 .characters-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
 }
@@ -542,6 +542,9 @@ body {
 .grade-1 { background: rgba(107,33,232,0.2); border: 1px solid rgba(107,33,232,0.5); color: var(--purple-glow); }
 .grade-2 { background: rgba(0,150,255,0.15); border: 1px solid rgba(0,150,255,0.4); color: #4dc8ff; }
 .grade-3 { background: rgba(100,100,120,0.2); border: 1px solid rgba(100,100,120,0.5); color: #aaa8c0; }
+.grade-4    { background:rgba(80,80,80,.15); border:1px solid rgba(80,80,80,.4); color:#888888; }
+.grade-unranked { background:rgba(60,60,60,.12); border:1px solid rgba(60,60,60,.3); color:#666666; }
+
 
 .char-card-info { padding: 16px; }
 .char-name { font-family: 'Cinzel Decorative', serif; font-size: 0.85rem; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
@@ -556,7 +559,7 @@ body {
 .fill-def { background: linear-gradient(90deg, var(--purple), var(--purple-glow)); }
 .fill-spd { background: linear-gradient(90deg, #0088ff, #44ccff); }
 
-/* ========== MINI GAME SECTION ========== */
+/* MINI GAME SECTION */
 .game-section {
     background: linear-gradient(180deg, transparent, rgba(204,34,51,0.03), transparent);
     border-top: 1px solid var(--border);
@@ -602,7 +605,7 @@ body {
 
 .game-pseudo { height: 300px; background: linear-gradient(180deg, #05030f, #0a0520); display:flex; align-items:center; justify-content:center; font-size:3rem; }
 
-/* ========== LEADERBOARD ========== */
+/* LEADERBOARD */
 .leaderboard {
     max-width: 700px; margin: 0 auto;
 }
@@ -638,7 +641,7 @@ body {
     font-size: 1rem; font-weight: 700; color: var(--purple-glow);
 }
 
-/* ========== FOOTER ========== */
+/* FOOTER */
 footer {
     border-top: 1px solid var(--border);
     padding: 40px;
@@ -649,7 +652,7 @@ footer {
 .footer-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 8px; }
 .footer-sub { font-size: 0.8rem; color: var(--text-muted); }
 
-/* ========== ANIMATIONS ========== */
+/* ANIMATIONS */
 .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
@@ -815,13 +818,24 @@ footer {
     
     <div class="characters-grid">
         <?php
-        $charEmojis = ['👊','🌑','🔨','♾️','💀','👁️','👋','⚡'];
+        $charEmojis = [
+        '👊','🌑','🔨','♾️','💀','👁️','👋','⚡',
+        '🔮','🗡️','🌊','🔥','🌿','🦴','🐼','👁',
+        '🩸','💠','🌸','⚡','🦋','🐦','🎭','🌙',
+        '💫','🔴','🟣','⚫','🌀','🏮','🎯','💥',
+        '🕷️','👻','🦂','🐍','💎','🌑','🔯','⭐',
+        '🎪','🃏','🎲','🌟','🔱','⚜️','🏴','🎖️',
+        '🩻','🦾','🌊','🔮','🎭','🌺','💀','⚡',
+        '🔥','🌑','👁️','🗡️'
+        ];
         $charColors = [
-            'Special Grade' => ['bg' => 'linear-gradient(135deg, rgba(240,192,64,0.15), rgba(240,192,64,0.03))', 'class' => 'grade-special'],
-            'Grade 1' => ['bg' => 'linear-gradient(135deg, rgba(107,33,232,0.15), rgba(107,33,232,0.03))', 'class' => 'grade-1'],
-            'Grade 2' => ['bg' => 'linear-gradient(135deg, rgba(0,150,255,0.12), rgba(0,150,255,0.02))', 'class' => 'grade-2'],
-            'Grade 3' => ['bg' => 'linear-gradient(135deg, rgba(100,100,120,0.15), rgba(100,100,120,0.03))', 'class' => 'grade-3'],
-            'Semi-Grade 1' => ['bg' => 'linear-gradient(135deg, rgba(107,33,232,0.1), rgba(107,33,232,0.02))', 'class' => 'grade-1'],
+            'Special Grade' => ['bg' => 'linear-gradient(...gold...)', 'class' => 'grade-special'],
+            'Semi-Grade 1'  => ['bg' => 'linear-gradient(...purple...)', 'class' => 'grade-1'],
+            'Grade 1'       => ['bg' => 'linear-gradient(...purple...)', 'class' => 'grade-1'],
+            'Grade 2'       => ['bg' => 'linear-gradient(...blue...)', 'class' => 'grade-2'],
+            'Grade 3'       => ['bg' => 'linear-gradient(...gray...)', 'class' => 'grade-3'],
+            'Grade 4'       => ['bg' => 'linear-gradient(135deg,rgba(80,80,80,.15),rgba(80,80,80,.03))', 'class' => 'grade-3'],
+            'Unranked'      => ['bg' => 'linear-gradient(135deg,rgba(60,60,60,.12),rgba(60,60,60,.02))', 'class' => 'grade-3'],
         ];
         
         foreach ($characters as $i => $char):

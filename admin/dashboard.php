@@ -144,6 +144,8 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .grade-1{background:rgba(107,33,232,.15);border:1px solid rgba(107,33,232,.4);color:var(--purple-glow);}
 .grade-2{background:rgba(0,150,255,.1);border:1px solid rgba(0,150,255,.3);color:#4dc8ff;}
 .grade-3{background:rgba(100,100,120,.15);border:1px solid rgba(100,100,120,.4);color:#aaa8c0;}
+.grade-4    { background:rgba(80,80,80,.15); border:1px solid rgba(80,80,80,.4); color:#888888; }
+.grade-unranked { background:rgba(60,60,60,.12); border:1px solid rgba(60,60,60,.3); color:#666666; }
 
 .playable-badge{display:inline-block;font-family:'Orbitron',sans-serif;font-size:.45rem;padding:2px 7px;border-radius:1px;}
 .playable-yes{background:rgba(0,204,102,.12);border:1px solid rgba(0,204,102,.3);color:var(--green);}

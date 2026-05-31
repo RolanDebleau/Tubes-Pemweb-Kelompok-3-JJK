@@ -1,7 +1,5 @@
 <?php
-// =============================================
 // KONFIGURASI DATABASE & SESSION
-// =============================================
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
@@ -28,9 +26,7 @@ function getDB() {
     return $conn;
 }
 
-// =============================================
 // AUTH FUNCTIONS (Function 1)
-// =============================================
 
 function isLoggedIn() {
     return isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
@@ -101,9 +97,7 @@ function logoutUser() {
     exit;
 }
 
-// =============================================
 // CRUD CHARACTERS (Function 2)
-// =============================================
 
 function getAllCharacters($limit = null, $search = '') {
     $db = getDB();

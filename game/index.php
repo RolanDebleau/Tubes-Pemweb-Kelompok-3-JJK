@@ -252,9 +252,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 </div>
 
 <script>
-// ============================================
 // CURSED SPIRIT SLAYER - Game Engine
-// ============================================
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -287,9 +285,7 @@ function resizeCanvas() {
 }
 window.addEventListener('resize', resizeCanvas);
 
-// ============================================
 // CLASSES
-// ============================================
 
 class Player {
     constructor(char) {
@@ -816,9 +812,7 @@ class Particle {
     }
 }
 
-// ============================================
 // HELPERS
-// ============================================
 
 function rectsOverlap(a, b) {
     return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
@@ -873,9 +867,7 @@ function updateHUD() {
     document.getElementById('waveNum').textContent = G.wave;
 }
 
-// ============================================
 // GAME LOOP
-// ============================================
 
 let bgStars = [];
 function initBg() {
@@ -1126,9 +1118,7 @@ function goMenu() {
     G.state = 'select';
 }
 
-// ============================================
 // CHARACTER SELECT & GAME INIT
-// ============================================
 
 let currentSelected = null;
 

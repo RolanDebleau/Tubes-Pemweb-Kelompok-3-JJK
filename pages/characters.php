@@ -22,7 +22,16 @@ if (!empty($params)) $stmt->bind_param($types, ...$params);
 $stmt->execute();
 $characters = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$charEmojis = ['👊','🌑','🔨','♾️','💀','👁️','👋','⚡'];
+$charEmojis = [
+    '👊','🌑','🔨','♾️','💀','👁️','👋','⚡',
+    '🔮','🗡️','🌊','🔥','🌿','🦴','🐼','👁',
+    '🩸','💠','🌸','⚡','🦋','🐦','🎭','🌙',
+    '💫','🔴','🟣','⚫','🌀','🏮','🎯','💥',
+    '🕷️','👻','🦂','🐍','💎','🌑','🔯','⭐',
+    '🎪','🃏','🎲','🌟','🔱','⚜️','🏴','🎖️',
+    '🩻','🦾','🌊','🔮','🎭','🌺','💀','⚡',
+    '🔥','🌑','👁️','🗡️'
+];
 $charColors = [
     'Special Grade' => ['bg' => 'linear-gradient(135deg,rgba(240,192,64,.15),rgba(240,192,64,.03))', 'class'=>'grade-special'],
     'Grade 1' => ['bg' => 'linear-gradient(135deg,rgba(107,33,232,.15),rgba(107,33,232,.03))', 'class'=>'grade-1'],
@@ -97,6 +106,8 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .grade-1{background:rgba(107,33,232,.2);border:1px solid rgba(107,33,232,.5);color:var(--purple-glow);}
 .grade-2{background:rgba(0,150,255,.15);border:1px solid rgba(0,150,255,.4);color:#4dc8ff;}
 .grade-3{background:rgba(100,100,120,.2);border:1px solid rgba(100,100,120,.5);color:#aaa8c0;}
+.grade-4    { background:rgba(80,80,80,.15); border:1px solid rgba(80,80,80,.4); color:#888888; }
+.grade-unranked { background:rgba(60,60,60,.12); border:1px solid rgba(60,60,60,.3); color:#666666; }
 .char-card-info{padding:18px;}
 .char-name{font-family:'Cinzel Decorative',serif;font-size:.9rem;color:var(--text);margin-bottom:4px;}
 .char-affiliation{font-size:.75rem;color:var(--purple-glow);margin-bottom:6px;}
