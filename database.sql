@@ -1,63 +1,68 @@
--- JUJUTSU KAISEN WEB - DATABASE SCHEMA 
+--  JUJUTSU KAISEN WEB — DATABASE SCHEMA & SEED DATA
 
-CREATE DATABASE IF NOT EXISTS jjk_web CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS jjk_web
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
 USE jjk_web;
 
--- Table 1: Users
+--  TABEL 1 : users
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'user') DEFAULT 'user',
-    avatar VARCHAR(255) DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id          INT           AUTO_INCREMENT PRIMARY KEY,
+    username    VARCHAR(50)   NOT NULL UNIQUE,
+    email       VARCHAR(100)  NOT NULL UNIQUE,
+    password    VARCHAR(255)  NOT NULL,
+    role        ENUM('admin','user') DEFAULT 'user',
+    avatar      VARCHAR(255)  DEFAULT NULL,
+    created_at  TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table 2: Characters
+--  TABEL 2 : characters
 CREATE TABLE IF NOT EXISTS characters (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    grade ENUM('Special Grade','Semi-Grade 1','Grade 1','Grade 2','Grade 3','Grade 4','Unranked') NOT NULL,
-    affiliation VARCHAR(150),
-    cursed_technique VARCHAR(255),
-    description TEXT,
-    lore TEXT,
-    image_url VARCHAR(255),
-    attack_power INT DEFAULT 50,
-    defense_power INT DEFAULT 50,
-    speed_power INT DEFAULT 50,
-    is_playable BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id                INT           AUTO_INCREMENT PRIMARY KEY,
+    name              VARCHAR(100)  NOT NULL,
+    grade             ENUM('Special Grade','Semi-Grade 1','Grade 1',
+                           'Grade 2','Grade 3','Grade 4','Unranked') NOT NULL,
+    affiliation       VARCHAR(150),
+    cursed_technique  VARCHAR(255),
+    description       TEXT,
+    lore              TEXT,
+    image_url         VARCHAR(255),
+    attack_power      INT           DEFAULT 50,
+    defense_power     INT           DEFAULT 50,
+    speed_power       INT           DEFAULT 50,
+    is_playable       BOOLEAN       DEFAULT FALSE,
+    created_at        TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+                                    ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Table 3: Game Scores
+--  TABEL 3 : game_scores
 CREATE TABLE IF NOT EXISTS game_scores (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    character_used VARCHAR(100),
-    score INT DEFAULT 0,
-    enemies_defeated INT DEFAULT 0,
-    played_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id               INT   AUTO_INCREMENT PRIMARY KEY,
+    user_id          INT   NOT NULL,
+    character_used   VARCHAR(100),
+    score            INT   DEFAULT 0,
+    enemies_defeated INT   DEFAULT 0,
+    played_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Table 4: Comments
+--  TABEL 4 : comments
 CREATE TABLE IF NOT EXISTS comments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    character_id INT NOT NULL,
-    content TEXT NOT NULL,
-    rating INT DEFAULT 5 CHECK (rating BETWEEN 1 AND 5),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    id           INT   AUTO_INCREMENT PRIMARY KEY,
+    user_id      INT   NOT NULL,
+    character_id INT   NOT NULL,
+    content      TEXT  NOT NULL,
+    rating       INT   DEFAULT 5 CHECK (rating BETWEEN 1 AND 5),
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id)      REFERENCES users(id)      ON DELETE CASCADE,
     FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
 );
 
 
--- SEED: USERS
--- password default: "password"
+--  SEED : USERS
+--  Password default semua akun : "password"
 INSERT INTO users (username, email, password, role) VALUES
 ('admin',          'admin@jjk.com',   '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
 ('yuji_itadori',   'yuji@jjk.com',    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user'),
@@ -65,12 +70,15 @@ INSERT INTO users (username, email, password, role) VALUES
 ('gojo_strongest', 'gojo@jjk.com',    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user');
 
 
--- SEED: CHARACTERS 50+ karakter JJK 
+--  SEED : CHARACTERS
+
+--  BLOK A — TOKYO JUJUTSU HIGH
 INSERT INTO characters
-(name, grade, affiliation, cursed_technique, description, lore, image_url, attack_power, defense_power, speed_power, is_playable)
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
 VALUES
 
--- ===================== TOKYO JUJUTSU HIGH ====================
 ('Yuji Itadori',
  'Special Grade', 'Tokyo Jujutsu High',
  'Divergent Fist / Black Flash / Shrine (Sukuna)',
@@ -148,14 +156,20 @@ VALUES
  'Yaga Masamichi adalah Kepala Sekolah Tokyo Jujutsu High dan pencipta Cursed Corpse paling canggih yang pernah ada. Kemampuannya membuat Cursed Corpse yang memiliki kesadaran mandiri seperti Panda dianggap sebagai pencapaian luar biasa. Ia sosok yang keras di luar namun peduli terhadap murid-muridnya.',
  'yaga.png', 76, 74, 68, FALSE),
 
-('Ijichi Kiyotaka',
+('Kiyotaka Ijichi',
  'Grade 3', 'Tokyo Jujutsu High',
- 'Tidak diketahui',
+ 'Territory-type barrier',
  'Asisten manajer Tokyo Jujutsu High yang sering bertugas mendampingi dan memandu para sorcerer muda.',
  'Ijichi adalah staf administrasi Tokyo Jujutsu High yang bertugas sebagai pendukung operasional para sorcerer. Meski kemampuan bertarungnya terbatas, ia sangat berdedikasi dalam tugasnya dan menjadi figur yang dapat diandalkan oleh Yuji dan kawan-kawan.',
- 'ijichi.png', 35, 40, 45, FALSE),
+ 'ijichi.png', 38, 42, 50, FALSE);
 
--- ==================== KYOTO JUJUTSU HIGH ====================
+
+--  BLOK B — KYOTO JUJUTSU HIGH
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
 
 ('Arata Nitta',
  'Grade 2', 'Kyoto Jujutsu High',
@@ -190,9 +204,15 @@ VALUES
  'Ultimate Mechamaru / Puppet Manipulation',
  'Sorcerer yang tubuhnya lemah dan dikurung di satu tempat, namun mengendalikan robot Mechamaru dari jauh.',
  'Muta Kokichi lahir dengan Heavenly Restriction yang membuat tubuhnya sangat lemah dan sensitif — bahkan sinar bulan terasa menyakitkan. Sebagai kompensasi, ia memiliki reservoir cursed energy yang sangat besar dan mengendalikan robot Mechamaru di seluruh Jepang. Ia akhirnya berkhianat demi keinginan memiliki tubuh yang normal.',
- 'mechamaru.png', 72, 60, 70, FALSE),
+ 'mechamaru.png', 72, 60, 70, FALSE);
 
--- ==================== SPECIAL GRADE CURSED SPIRITS ====================
+
+--  BLOK C — SPECIAL GRADE CURSED SPIRITS
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
 
 ('Ryomen Sukuna',
  'Special Grade', 'Tidak ada (Raja Kutukan)',
@@ -227,12 +247,18 @@ VALUES
  'Disaster Tides / Death Swarm',
  'Kutukan air laut yang berevolusi dari benih kutukan menjadi Special Grade dalam waktu singkat.',
  'Dagon awalnya adalah benih kutukan yang dipelihara oleh Jogo dan rekan-rekannya. Selama Shibuya Incident, ia berevolusi menjadi Special Grade Cursed Spirit sepenuhnya. Teknik-nya berkaitan dengan air laut, ikan, dan bencana kelautan. Domain Expansion-nya Horizon of the Captivating Skandha menjebak target di pantai yang dipenuhi ikan mematikan.',
- 'dagon.png', 84, 82, 80, FALSE),
+ 'dagon.png', 84, 82, 80, FALSE);
 
--- ==================== CURSED SPIRIT USERS / ANTAGONIS ====================
+
+--  BLOK D — CURSED SPIRIT USERS / ANTAGONIS
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
 
 ('Suguru Geto',
- 'Special Grade', 'Cursed Spirit Users (mantan Tokyo)',
+ 'Special Grade', 'Cursed Spirit Users',
  'Cursed Spirit Manipulation',
  'Mantan sahabat Gojo yang berubah menjadi villain setelah memutuskan bahwa non-sorcerer adalah hambatan dunia.',
  'Geto Suguru dulunya adalah sahabat terbaik Gojo dan salah satu sorcerer paling berbakat di generasinya. Setelah menyaksikan kematian tragis seorang gadis yang ia lindungi dan bertanya-tanya tentang makna eksistensi sorcerer, ia memutuskan untuk memusnahkan semua non-sorcerer. Cursed Spirit Manipulation-nya memungkinkan ia menyerap dan mengendalikan kutukan yang sudah dikalahkannya.',
@@ -271,9 +297,15 @@ VALUES
  'Rot Technique',
  'Death Painting ketiga yang berbagi teknik Rot dengan Eso namun lebih besar dan kuat secara fisik.',
  'Kechizu adalah saudara termuda dari tiga Death Painting yang muncul pertama kali dalam cerita. Ia lebih mengandalkan kekuatan fisik dan Rot Technique-nya yang melumpuhkan lawan melalui racun busuk. Bersama Eso, ia hampir mengalahkan Yuji dan Nobara sebelum akhirnya dikalahkan.',
- 'kechizu.png', 75, 70, 68, FALSE),
+ 'kechizu.png', 75, 70, 68, FALSE);
 
--- ==================== KLAN ZENIN ====================
+
+--  BLOK E — KLAN ZENIN
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
 
 ('Naobito Zenin',
  'Special Grade', 'Klan Zenin',
@@ -296,7 +328,27 @@ VALUES
  'Zenin Ogi adalah ayah Maki dan Mai yang tidak pernah menerima mereka karena merasa mereka membawa malu pada klan Zenin. Ia adalah sorcerer Grade 1 yang kuat namun karakter moralnya sangat buruk. Ia akhirnya dikalahkan oleh Maki yang telah mencapai potensi penuhnya setelah kehilangan Mai.',
  'ogi.png', 78, 72, 76, FALSE),
 
--- ==================== SORCERER SENIOR / JUJUTSU SOCIETY ====================
+('Jinichi Zenin',
+ 'Grade 1', 'Klan Zenin',
+ 'Zenin Clan Techniques',
+ 'Anggota senior klan Zenin yang setia pada tradisi klan.',
+ 'Anggota klan Zenin yang terlibat dalam urusan internal klan saat konflik antara Maki dan klan Zenin memuncak.',
+ 'jinichi.png', 76, 74, 70, FALSE),
+
+('Ranta Zenin',
+ 'Grade 2', 'Klan Zenin',
+ 'Zenin Clan Techniques',
+ 'Anggota muda klan Zenin yang terlibat dalam konfrontasi dengan Maki.',
+ 'Anggota klan Zenin yang menjadi bagian dari pasukan yang menghadapi Maki setelah kematian Mai.',
+ 'ranta.png', 65, 62, 68, FALSE);
+
+
+--  BLOK F — SORCERER SENIOR / INDEPENDEN
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
 
 ('Mei Mei',
  'Grade 1', 'Independen',
@@ -307,10 +359,10 @@ VALUES
 
 ('Ui Ui',
  'Grade 4', 'Independen',
- 'Teleportation (via kakak)',
- 'Adik Mei Mei yang terobsesi dengan kakaknya. Mampu melakukan teleportasi dalam kondisi tertentu.',
- 'Ui Ui adalah adik Mei Mei yang mengikuti kakaknya ke mana saja. Meski kemampuan tempurnya terbatas, ia memiliki teknik yang memungkinkan teleportasi dirinya dan orang lain dalam kondisi tertentu. Obsesinya terhadap Mei Mei sering dikomentari oleh karakter lain.',
- 'uiui.png', 40, 45, 65, FALSE),
+ 'Technique Relay',
+ 'Adik Mei Mei yang terobsesi dengan kakaknya. Memiliki teknik Technique Relay untuk memindahkan teknik kutukan ke orang lain.',
+ 'Ui Ui adalah adik Mei Mei yang mengikuti kakaknya ke mana saja. Meski kemampuan tempurnya terbatas, teknik Technique Relay-nya memungkinkan pemindahan teknik kutukan dari satu orang ke orang lain dalam kondisi tertentu. Obsesinya terhadap Mei Mei sering dikomentari oleh karakter lain.',
+ 'uiui.png', 42, 45, 68, FALSE),
 
 ('Utahime Iori',
  'Semi-Grade 1', 'Kyoto Jujutsu High',
@@ -326,44 +378,34 @@ VALUES
  'Ieiri Shoko adalah teman seangkatan Gojo dan Geto. Ia satu-satunya sorcerer aktif yang mampu menggunakan Reverse Cursed Technique untuk menyembuhkan orang lain — kemampuan yang sangat langka. Sebagai dokter utama Jujutsu Society, ia berperan vital dalam merawat sorcerer yang terluka.',
  'shoko.png', 55, 65, 60, FALSE),
 
-('Haibara Yu',
- 'Grade 2', 'Tokyo Jujutsu High',
- 'Tidak diketahui sepenuhnya',
- 'Senpai Nanami yang gugur saat misi, kematiannya menjadi salah satu motivasi Nanami kembali menjadi sorcerer.',
- 'Haibara Yu adalah senior Nanami di Tokyo Jujutsu High yang tewas dalam misi. Kematiannya yang tragis meninggalkan kesan mendalam pada Nanami dan menjadi salah satu alasan Nanami akhirnya kembali ke dunia sorcerer meski pernah meninggalkannya.',
- 'haibara.png', 62, 58, 65, FALSE),
+('Atsuya Kusakabe',
+ 'Grade 1', 'Tokyo Jujutsu High',
+ 'Classical Swordsmanship',
+ 'Guru Tokyo Jujutsu High yang ahli pedang dan sangat pragmatis dalam menghadapi bahaya.',
+ 'Kusakabe Atsuya adalah sorcerer Grade 1 yang menjadi guru di Tokyo Jujutsu High. Ia sangat pragmatis dan cenderung menghindari risiko yang tidak perlu. Meskipun tidak memiliki teknik kutukan yang diketahui publik, keahlian pedangnya sangat tinggi.',
+ 'kusakabe.png', 78, 75, 76, FALSE),
 
--- ==================== KARAKTER PENDUKUNG ====================
+('Yuki Tsukumo',
+ 'Special Grade', 'Independen',
+ 'Star Rage / Virtual Mass',
+ 'Satu dari empat Special Grade sorcerer resmi. Tidak terikat pada Jujutsu Society dan meneliti cara menghilangkan kutukan dari manusia.',
+ 'Tsukumo Yuki adalah salah satu dari empat Special Grade sorcerer yang diakui secara resmi. Ia menolak bekerja untuk Jujutsu Society dan hidup sebagai sorcerer independen sambil meneliti cara menghapus kutukan dari umat manusia sepenuhnya. Star Rage-nya menambahkan Virtual Mass ke dirinya atau orang lain, menciptakan kekuatan destruktif setara bintang.',
+ 'yuki.png', 95, 85, 88, FALSE),
 
-('Junpei Yoshino',
- 'Unranked', 'Tokyo Jujutsu High (sebentar)',
- 'Moon Dregs (via Mahito)',
- 'Siswa SMA biasa yang di-bully dan akhirnya bertemu Yuji. Korban Mahito yang paling membekas.',
- 'Yoshino Junpei adalah siswa SMA biasa yang sering di-bully dan tidak punya tempat berpijak hingga bertemu Yuji Itadori. Pertemuan dengan Mahito mengubahnya — ia diberikan teknik Moon Dregs yang menggunakan ubur-ubur kutukan. Namun Mahito akhirnya mengkhianatinya dan mengubah Junpei menjadi monster di depan mata Yuji, menciptakan luka yang tidak pernah sembuh bagi Yuji.',
- 'junpei.png', 45, 40, 55, FALSE),
+('Master Tengen',
+ 'Special Grade', 'Jujutsu Society',
+ 'Immortality / Barrier Technique',
+ 'Sorcerer abadi yang menjaga barrier seluruh Jepang. Keberadaannya adalah fondasi dunia sorcerer.',
+ 'Tengen adalah sorcerer yang telah hidup selama ratusan tahun berkat teknik Immortality-nya. Ia bertanggung jawab mempertahankan barrier-barrier yang melindungi berbagai fasilitas Jujutsu Society di seluruh Jepang. Tanpa intervensi Star Plasma Vessel setiap 500 tahun, Tengen akan berevolusi melampaui bentuk manusia dan menjadi ancaman.',
+ 'tengen.png', 60, 100, 40, FALSE);
 
-('Takuma Ino',
- 'Grade 2', 'Tokyo Jujutsu High',
- 'Auspicious Beasts Summon',
- 'Sorcerer yang sangat menghormati Nanami dan menganggapnya sebagai mentor.',
- 'Ino Takuma adalah sorcerer Grade 2 yang bekerja di bawah Nanami dan sangat mengidolakan seniornya itu. Auspicious Beasts Summon-nya memungkinkan ia memanggil berbagai makhluk jimat sesuai level kekuatan yang dibutuhkan. Ia terluka parah selama Shibuya Incident saat mencoba melindungi rekan-rekannya.',
- 'ino.png', 68, 62, 66, FALSE),
 
-('Nobuo Takuma',
- 'Grade 3', 'Tokyo Jujutsu High',
- 'Tidak diketahui',
- 'Sorcerer pendukung yang bertugas dalam berbagai misi.',
- 'Sorcerer Grade 3 yang menjadi bagian dari pasukan Tokyo Jujutsu High dalam berbagai misi pertempuran besar.',
- 'nobuo.png', 52, 50, 55, FALSE),
-
-('Akari Nitta',
- 'Grade 3', 'Tokyo Jujutsu High',
- 'Healing (terbatas)',
- 'Asisten manajer yang memiliki kemampuan penyembuhan terbatas, bertugas mendampingi para sorcerer dalam misi.',
- 'Nitta Akari adalah asisten manajer yang sering mendampingi sorcerer dalam misi. Kemampuan penyembuhannya terbatas namun berguna untuk pertolongan pertama di lapangan.',
- 'akari.png', 38, 48, 52, FALSE),
-
--- ==================== KARAKTER SENPAI LEGENDARIS ====================
+--  BLOK G — KARAKTER LEGENDARIS / MASA LALU
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
 
 ('Toji Fushiguro',
  'Unranked', 'Independen (mantan)',
@@ -379,38 +421,44 @@ VALUES
  'Amanai Riko adalah Star Plasma Vessel — manusia yang dipilih untuk bersatu dengan Sorcerer Tengen agar Tengen bisa mempertahankan bentuk manusianya. Ia dilindungi oleh Gojo dan Geto muda dalam misi yang akhirnya berakhir tragis saat Toji Fushiguro berhasil membunuhnya.',
  'riko.png', 20, 20, 35, FALSE),
 
-('Master Tengen',
- 'Special Grade', 'Jujutsu Society',
- 'Immortality / Barrier Technique',
- 'Sorcerer abadi yang menjaga barrier seluruh Jepang. Keberadaannya adalah fondasi dunia sorcerer.',
- 'Tengen adalah sorcerer yang telah hidup selama ratusan tahun berkat teknik Immortality-nya. Ia bertanggung jawab mempertahankan barrier-barrier yang melindungi berbagai fasilitas Jujutsu Society di seluruh Jepang. Tanpa intervensi Star Plasma Vessel setiap 500 tahun, Tengen akan berevolusi melampaui bentuk manusia dan menjadi ancaman.',
- 'tengen.png', 60, 100, 40, FALSE),
+('Haibara Yu',
+ 'Grade 2', 'Tokyo Jujutsu High',
+ 'Tidak diketahui sepenuhnya',
+ 'Senpai Nanami yang gugur saat misi, kematiannya menjadi salah satu motivasi Nanami kembali menjadi sorcerer.',
+ 'Haibara Yu adalah senior Nanami di Tokyo Jujutsu High yang tewas dalam misi. Kematiannya yang tragis meninggalkan kesan mendalam pada Nanami dan menjadi salah satu alasan Nanami akhirnya kembali ke dunia sorcerer meski pernah meninggalkannya.',
+ 'haibara.png', 62, 58, 65, FALSE),
 
--- ==================== KARAKTER CULLING GAME ====================
+('Rika Orimoto',
+ 'Special Grade', 'Yuta Okkotsu (terikat)',
+ 'Unlimited Cursed Energy Stockpile',
+ 'Roh kutukan Special Grade yang terikat pada Yuta Okkotsu. Disebut Ratu Kutukan.',
+ 'Rika Orimoto adalah mantan kekasih Yuta yang meninggal dalam kecelakaan saat masih kecil. Cintanya yang kuat pada Yuta mengubahnya menjadi Cursed Spirit maha kuat yang terikat padanya. Kekuatannya hampir tak terbatas, dan ia melindungi Yuta secara fanatik dari siapapun yang mengancamnya. Setelah Yuta membebaskannya, Rika tetap ada dalam bentuk yang lebih lemah namun masih bisa dipanggil.',
+ 'rika.png', 98, 92, 88, FALSE);
+
+
+--  BLOK H — CULLING GAME
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
 
 ('Hiromi Higuruma',
- 'Unranked (mantan pengacara)', 'Culling Game',
+ 'Unranked', 'Culling Game',
  'Juryman / Deadly Sentencing',
  'Mantan pengacara yang mendapatkan teknik kutukan setelah menerima poin dalam Culling Game. Menggunakan sistem pengadilan.',
  'Higuruma Hiromi adalah mantan pengacara yang kecewa dengan sistem hukum. Setelah bergabung dalam Culling Game, ia mendapatkan teknik Juryman yang menciptakan domain pengadilan di mana ia bertindak sebagai hakim. Jika terdakwa dinyatakan bersalah, mereka kehilangan teknik kutukan mereka. Ia akhirnya bersekutu dengan Yuji.',
  'higuruma.png', 80, 75, 70, FALSE),
 
 ('Hajime Kashimo',
- 'Unranked (sorcerer kuno)', 'Culling Game',
+ 'Unranked', 'Culling Game',
  'Genju Kasshin / Mythical Beast Amber',
  'Sorcerer dari 400 tahun lalu yang mengorbankan semua kemampuannya untuk satu teknik terakhir maha kuat demi melawan Sukuna.',
  'Kashimo Hajime adalah sorcerer dari era 400 tahun lalu yang lahir di zaman yang sama dengan Sukuna. Ia menghabiskan seluruh hidupnya menginginkan pertarungan melawan Sukuna. Teknik Mythical Beast Amber-nya mengubah tubuhnya menjadi senjata listrik hidup yang maha destruktif, namun hanya bisa digunakan sekali.',
  'kashimo.png', 95, 80, 90, FALSE),
 
-('Yuki Tsukumo',
- 'Special Grade', 'Independen',
- 'Star Rage / Virtual Mass',
- 'Satu dari empat Special Grade sorcerer resmi. Tidak terikat pada Jujutsu Society dan meneliti cara menghilangkan kutukan dari manusia.',
- 'Tsukumo Yuki adalah salah satu dari empat Special Grade sorcerer yang diakui secara resmi. Ia menolak bekerja untuk Jujutsu Society dan hidup sebagai sorcerer independen sambil meneliti cara menghapus kutukan dari umat manusia sepenuhnya. Star Rage-nya menambahkan Virtual Mass ke dirinya atau orang lain, menciptakan kekuatan destruktif setara bintang.',
- 'yuki.png', 95, 85, 88, FALSE),
-
 ('Kinji Hakari',
- 'Grade 3 (potensi Special Grade)', 'Tokyo Jujutsu High',
+ 'Grade 3', 'Tokyo Jujutsu High',
  'Idle Death Gamble / Pachinko Domain',
  'Sorcerer yang diskors karena melanggar aturan. Tekniknya berdasarkan perjudian pachinko dengan hadiah jackpot regenerasi tak terbatas.',
  'Hakari Kinji adalah sorcerer yang sangat kuat namun diskors dari Tokyo Jujutsu High karena bertengkar dengan petinggi Jujutsu Society. Domain Expansion-nya didasarkan pada mesin pachinko, dan jika jackpot tercapai, ia mendapatkan Reverse Cursed Technique tak terbatas selama durasi tertentu, membuatnya praktis abadi. Gojo menganggapnya setara dengannya saat jackpot aktif.',
@@ -423,42 +471,12 @@ VALUES
  'Takaba Fumihiko adalah komedian yang berjuang keras tapi tidak pernah berhasil. Teknik Comedian-nya membuat apapun yang ia anggap lucu menjadi kenyataan — kekuatan yang secara teoritis tidak terbatas jika ia benar-benar meyakini leluconnya. Ia adalah karakter paling tak terduga dalam cerita.',
  'takaba.png', 70, 65, 72, FALSE),
 
-('Kurourushi',
- 'Special Grade', 'Culling Game',
- 'Cockroach Manipulation',
- 'Kutukan berbentuk kecoa raksasa dengan kemampuan memanipulasi dan memanggil kecoa dalam jumlah tak terbatas.',
- 'Kurourushi adalah Cursed Spirit berbentuk kecoa raksasa yang berpartisipasi dalam Culling Game. Kemampuannya memanipulasi kecoa dalam jumlah masif membuatnya sangat berbahaya karena kecoa-kecoanya bisa masuk ke tubuh lawan dan menghancurkan dari dalam.',
- 'kurourushi.png', 82, 78, 75, FALSE),
-
--- ==================== KARAKTER TAMBAHAN ====================
-
-('Nana Pele',
- 'Grade 1', 'Independen',
- 'Tidak diketahui',
- 'Sorcerer Grade 1 yang gugur selama Shibuya Incident.',
- 'Sorcerer Grade 1 yang menjadi salah satu korban dalam kekacauan Shibuya Incident. Kematiannya menjadi bagian dari korban besar yang berjatuhan dalam malam bersejarah tersebut.',
- 'nanapele.png', 75, 70, 72, FALSE),
-
-('Atsuya Kusakabe',
- 'Grade 1', 'Tokyo Jujutsu High',
- 'Unkonwn / Classical Swordsmanship',
- 'Guru Tokyo Jujutsu High yang ahli pedang dan sangat pragmatis dalam menghadapi bahaya.',
- 'Kusakabe Atsuya adalah sorcerer Grade 1 yang menjadi guru di Tokyo Jujutsu High. Ia sangat pragmatis dan cenderung menghindari risiko yang tidak perlu. Meskipun tidak memiliki teknik kutukan yang diketahui publik, keahlian pedangnya sangat tinggi.',
- 'kusakabe.png', 78, 75, 76, FALSE),
-
 ('Angel (Hana Kurusu)',
  'Unranked', 'Culling Game',
  'Jacob''s Ladder',
- 'Sorcerer dari masa lalu yang jiwa-nya mendiami tubuh Hana Kurusu. Memiliki teknik untuk menghancurkan teknik kutukan apapun.',
+ 'Sorcerer dari masa lalu yang jiwanya mendiami tubuh Hana Kurusu. Memiliki teknik untuk menghancurkan teknik kutukan apapun.',
  'Angel adalah jiwa sorcerer kuno yang mendiami tubuh Hana Kurusu dalam Culling Game. Jacob''s Ladder-nya adalah satu-satunya teknik yang mampu menghancurkan Prison Realm yang memenjarakan Gojo, menjadikannya target utama Yuji dan Megumi. Ia membenci reinkarnasi dan Kenjaku.',
  'angel.png', 75, 72, 70, FALSE),
-
-('Ui Ui (versi lengkap)',
- 'Grade 4', 'Independen',
- 'Technique Relay',
- 'Adik Mei Mei yang memiliki teknik Technique Relay untuk memindahkan teknik kutukan ke orang lain.',
- 'Ui Ui mampu memindahkan teknik kutukan dari satu orang ke orang lain dalam kondisi tertentu. Meskipun kekuatan tempurnya sendiri terbatas, teknik ini membuatnya sangat berharga dalam operasi tim.',
- 'uiui2.png', 42, 45, 68, FALSE),
 
 ('Dhruv Lakdawalla',
  'Unranked', 'Culling Game',
@@ -467,56 +485,69 @@ VALUES
  'Dhruv adalah peserta Culling Game yang berasal dari India dengan kekuatan fisik yang sangat tinggi. Ia adalah salah satu peserta non-Jepang dalam game mematikan tersebut.',
  'dhruv.png', 78, 75, 72, FALSE),
 
-('Kiyotaka Ijichi (revisi)',
+('Kurourushi',
+ 'Special Grade', 'Culling Game',
+ 'Cockroach Manipulation',
+ 'Kutukan berbentuk kecoa raksasa dengan kemampuan memanipulasi dan memanggil kecoa dalam jumlah tak terbatas.',
+ 'Kurourushi adalah Cursed Spirit berbentuk kecoa raksasa yang berpartisipasi dalam Culling Game. Kemampuannya memanipulasi kecoa dalam jumlah masif membuatnya sangat berbahaya karena kecoa-kecoanya bisa masuk ke tubuh lawan dan menghancurkan dari dalam.',
+ 'kurourushi.png', 82, 78, 75, FALSE);
+
+
+--  BLOK I — KARAKTER PENDUKUNG
+INSERT INTO characters
+    (name, grade, affiliation, cursed_technique,
+     description, lore,
+     image_url, attack_power, defense_power, speed_power, is_playable)
+VALUES
+
+('Junpei Yoshino',
+ 'Unranked', 'Tokyo Jujutsu High (sebentar)',
+ 'Moon Dregs (via Mahito)',
+ 'Siswa SMA biasa yang di-bully dan akhirnya bertemu Yuji. Korban Mahito yang paling membekas.',
+ 'Yoshino Junpei adalah siswa SMA biasa yang sering di-bully dan tidak punya tempat berpijak hingga bertemu Yuji Itadori. Pertemuan dengan Mahito mengubahnya — ia diberikan teknik Moon Dregs yang menggunakan ubur-ubur kutukan. Namun Mahito akhirnya mengkhianatinya dan mengubah Junpei menjadi monster di depan mata Yuji, menciptakan luka yang tidak pernah sembuh bagi Yuji.',
+ 'junpei.png', 45, 40, 55, FALSE),
+
+('Takuma Ino',
+ 'Grade 2', 'Tokyo Jujutsu High',
+ 'Auspicious Beasts Summon',
+ 'Sorcerer yang sangat menghormati Nanami dan menganggapnya sebagai mentor.',
+ 'Ino Takuma adalah sorcerer Grade 2 yang bekerja di bawah Nanami dan sangat mengidolakan seniornya itu. Auspicious Beasts Summon-nya memungkinkan ia memanggil berbagai makhluk jimat sesuai level kekuatan yang dibutuhkan. Ia terluka parah selama Shibuya Incident saat mencoba melindungi rekan-rekannya.',
+ 'ino.png', 68, 62, 66, FALSE),
+
+('Akari Nitta',
  'Grade 3', 'Tokyo Jujutsu High',
- 'Territory-type barrier',
- 'Asisten manajer yang juga bertugas sebagai pengemudi dan koordinator lapangan untuk para sorcerer.',
- 'Ijichi Kiyotaka berperan vital sebagai penghubung antara sorcerer dan Jujutsu Society dalam misi-misi lapangan. Meski kemampuan tempurnya tidak menonjol, dedikasinya sangat tinggi.',
- 'ijichi2.png', 38, 42, 50, FALSE),
+ 'Healing (terbatas)',
+ 'Asisten manajer yang memiliki kemampuan penyembuhan terbatas, bertugas mendampingi para sorcerer dalam misi.',
+ 'Nitta Akari adalah asisten manajer yang sering mendampingi sorcerer dalam misi. Kemampuan penyembuhannya terbatas namun berguna untuk pertolongan pertama di lapangan.',
+ 'akari.png', 38, 48, 52, FALSE),
 
--- ==================== KARAKTER KLAN KAMO / PENDUKUNG LAIN ====================
-
-('Jinichi Zenin',
- 'Grade 1', 'Klan Zenin',
- 'Zenin Clan Techniques',
- 'Anggota senior klan Zenin yang setia pada tradisi klan.',
- 'Anggota klan Zenin yang terlibat dalam urusan internal klan saat konflik antara Maki dan klan Zenin memuncak.',
- 'jinichi.png', 76, 74, 70, FALSE),
-
-('Ranta Zenin',
- 'Grade 2', 'Klan Zenin',
- 'Zenin Clan Techniques',
- 'Anggota muda klan Zenin yang terlibat dalam konfrontasi dengan Maki.',
- 'Anggota klan Zenin yang menjadi bagian dari pasukan yang menghadapi Maki setelah kematian Mai.',
- 'ranta.png', 65, 62, 68, FALSE),
-
-('Rika Orimoto',
- 'Special Grade', 'Yuta Okkotsu (terikat)',
- 'Unlimited Cursed Energy Stockpile',
- 'Roh kutukan Special Grade yang terikat pada Yuta Okkotsu. Disebut Ratu Kutukan.',
- 'Rika Orimoto adalah mantan kekasih Yuta yang meninggal dalam kecelakaan saat masih kecil. Cintanya yang kuat pada Yuta mengubahnya menjadi Cursed Spirit maha kuat yang terikat padanya. Kekuatannya hampir tak terbatas, dan ia melindungi Yuta secara fanatik dari siapapun yang mengancamnya. Setelah Yuta membebaskannya, Rika tetap ada dalam bentuk yang lebih lemah namun masih bisa dipanggil.',
- 'rika.png', 98, 92, 88, FALSE);
+('Nana Pele',
+ 'Grade 1', 'Independen',
+ 'Tidak diketahui',
+ 'Sorcerer Grade 1 yang gugur selama Shibuya Incident.',
+ 'Sorcerer Grade 1 yang menjadi salah satu korban dalam kekacauan Shibuya Incident. Kematiannya menjadi bagian dari korban besar yang berjatuhan dalam malam bersejarah tersebut.',
+ 'nanapele.png', 75, 70, 72, FALSE);
 
 
--- SEED: COMMENTS
+--  SEED : COMMENTS
 INSERT INTO comments (user_id, character_id, content, rating) VALUES
-(2, 1,  'Yuji Itadori adalah MC terbaik! Kuat secara fisik tapi hatinya selalu di tempat yang benar.', 5),
-(2, 4,  'Gojo Satoru simply the strongest. Tidak ada yang bisa menandingi Six Eyes dan Infinity!', 5),
-(3, 2,  'Megumi underrated banget. Ten Shadows Technique-nya sangat versatile dan Sukuna sendiri tertarik padanya!', 5),
-(3, 19, 'Mahito adalah villain terbaik JJK. Idle Transfiguration-nya benar-benar mengerikan.', 4),
-(4, 5,  'Nanami Kento adalah sorcerer paling profesional. Overtime mode-nya sangat keren!', 5),
-(4, 17, 'Sukuna terlalu OP. Malevolent Shrine di Shibuya benar-benar destruktif sekali.', 5),
-(2, 6,  'Todo Aoi character yang paling absurd tapi loveable. Boogie Woogie plus Black Flash = combo gila!', 4),
-(3, 9,  'Yuta Okkotsu di JJK 0 sangat emosional. Hubungannya dengan Rika bikin nangis.', 5),
-(4, 24, 'Choso adalah plot twist terbaik JJK. Dia nganggep Yuji sebagai adik karena Kenjaku!', 5),
-(2, 3,  'Nobara Kugisaki best girl! Straw Doll Technique-nya sangat unik dan Resonance sangat OP.', 5);
+(2,  1, 'Yuji Itadori adalah MC terbaik! Kuat secara fisik tapi hatinya selalu di tempat yang benar.', 5),
+(2,  4, 'Gojo Satoru simply the strongest. Tidak ada yang bisa menandingi Six Eyes dan Infinity!',     5),
+(2,  6, 'Todo Aoi karakter yang paling absurd tapi loveable. Boogie Woogie plus Black Flash = combo gila!', 4),
+(2,  3, 'Nobara Kugisaki best girl! Straw Doll Technique-nya sangat unik dan Resonance sangat OP.',   5),
+(3,  2, 'Megumi underrated banget. Ten Shadows Technique-nya sangat versatile dan Sukuna sendiri tertarik padanya!', 5),
+(3, 19, 'Mahito adalah villain terbaik JJK. Idle Transfiguration-nya benar-benar mengerikan.',        4),
+(3,  9, 'Yuta Okkotsu di JJK 0 sangat emosional. Hubungannya dengan Rika bikin nangis.',             5),
+(3, 24, 'Choso adalah plot twist terbaik JJK. Dia nganggep Yuji sebagai adik karena Kenjaku!',       5),
+(4,  5, 'Nanami Kento adalah sorcerer paling profesional. Overtime mode-nya sangat keren!',           5),
+(4, 17, 'Sukuna terlalu OP. Malevolent Shrine di Shibuya benar-benar destruktif sekali.',             5);
 
 
--- SEED: GAME SCORES (sample)
+--  SEED : GAME SCORES
 INSERT INTO game_scores (user_id, character_used, score, enemies_defeated) VALUES
-(2, 'Yuji Itadori',    15400, 28),
+(2, 'Yuji Itadori',     15400, 28),
 (3, 'Megumi Fushiguro', 12800, 22),
-(4, 'Satoru Gojo',     21500, 35),
-(2, 'Nobara Kugisaki', 9600,  18),
-(3, 'Satoru Gojo',     18900, 31),
-(4, 'Yuji Itadori',    13200, 24);
+(4, 'Satoru Gojo',      21500, 35),
+(2, 'Nobara Kugisaki',   9600, 18),
+(3, 'Satoru Gojo',      18900, 31),
+(4, 'Yuji Itadori',     13200, 24);
