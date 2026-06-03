@@ -233,9 +233,9 @@ footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
         <div class="char-visual">
             <div class="char-aura">
                 <div class="char-ring"></div>
-                <?php if (!empty($char['image_url']) && filter_var($char['image_url'], FILTER_VALIDATE_URL)): ?>
+                <?php if (!empty($char['image_url'])): ?>
                 <img class="char-aura-img"
-                     src="<?= htmlspecialchars($char['image_url']) ?>"
+                     src="../asset/<?= htmlspecialchars($char['image_url']) ?>"
                      alt="<?= htmlspecialchars($char['name']) ?>"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
                 <div class="char-emoji-big" style="display:none"><?=$charEmoji?></div>

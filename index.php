@@ -530,6 +530,8 @@ body {
 }
 
 .char-card-emoji { position: relative; z-index: 1; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.5)); }
+.char-card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; z-index: 1; transition: transform .4s; }
+.char-card:hover .char-card-img { transform: scale(1.08); }
 
 .char-grade-badge {
     position: absolute; top: 10px; right: 10px;
@@ -846,7 +848,15 @@ footer {
             <div class="char-card-art">
                 <div class="char-card-art-bg" style="background: <?= $gradeData['bg'] ?>"></div>
                 <span class="char-grade-badge <?= $gradeData['class'] ?>"><?= htmlspecialchars($char['grade']) ?></span>
+                <?php if (!empty($char['image_url'])): ?>
+                <img class="char-card-img"
+                     src="asset/<?= htmlspecialchars($char['image_url']) ?>"
+                     alt="<?= htmlspecialchars($char['name']) ?>"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <span class="char-card-emoji" style="display:none"><?= $emoji ?></span>
+                <?php else: ?>
                 <span class="char-card-emoji"><?= $emoji ?></span>
+                <?php endif; ?>
             </div>
             <div class="char-card-info">
                 <div class="char-name"><?= htmlspecialchars($char['name']) ?></div>

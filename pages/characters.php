@@ -201,9 +201,9 @@ footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
             <div class="char-card-art">
                 <div class="char-card-art-bg" style="background:<?= $gradeData['bg'] ?>"></div>
                 <span class="char-grade-badge <?= $gradeData['class'] ?>"><?= htmlspecialchars($char['grade']) ?></span>
-                <?php if (!empty($char['image_url']) && filter_var($char['image_url'], FILTER_VALIDATE_URL)): ?>
+                <?php if (!empty($char['image_url'])): ?>
                 <img class="char-card-img"
-                     src="<?= htmlspecialchars($char['image_url']) ?>"
+                     src="../asset/<?= htmlspecialchars($char['image_url']) ?>"
                      alt="<?= htmlspecialchars($char['name']) ?>"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
                 <span class="char-card-emoji" style="display:none"><?= $emoji ?></span>
