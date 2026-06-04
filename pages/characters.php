@@ -33,11 +33,13 @@ $charEmojis = [
     '🔥','🌑','👁️','🗡️'
 ];
 $charColors = [
-    'Special Grade' => ['bg' => 'linear-gradient(135deg,rgba(240,192,64,.15),rgba(240,192,64,.03))', 'class'=>'grade-special'],
-    'Grade 1' => ['bg' => 'linear-gradient(135deg,rgba(107,33,232,.15),rgba(107,33,232,.03))', 'class'=>'grade-1'],
-    'Grade 2' => ['bg' => 'linear-gradient(135deg,rgba(0,150,255,.12),rgba(0,150,255,.02))', 'class'=>'grade-2'],
-    'Grade 3' => ['bg' => 'linear-gradient(135deg,rgba(100,100,120,.15),rgba(100,100,120,.03))', 'class'=>'grade-3'],
-    'Semi-Grade 1' => ['bg' => 'linear-gradient(135deg,rgba(107,33,232,.1),rgba(107,33,232,.02))', 'class'=>'grade-1'],
+    'Special Grade' => ['bg' => 'linear-gradient(135deg,rgba(240,192,64,.18),rgba(240,192,64,.04))', 'class'=>'grade-special'],
+    'Semi-Grade 1'  => ['bg' => 'linear-gradient(135deg,rgba(157,77,255,.16),rgba(157,77,255,.03))', 'class'=>'grade-semi'],
+    'Grade 1'       => ['bg' => 'linear-gradient(135deg,rgba(107,33,232,.15),rgba(107,33,232,.03))', 'class'=>'grade-1'],
+    'Grade 2'       => ['bg' => 'linear-gradient(135deg,rgba(0,150,255,.12),rgba(0,150,255,.02))',   'class'=>'grade-2'],
+    'Grade 3'       => ['bg' => 'linear-gradient(135deg,rgba(100,100,120,.14),rgba(100,100,120,.03))','class'=>'grade-3'],
+    'Grade 4'       => ['bg' => 'linear-gradient(135deg,rgba(80,80,90,.12),rgba(80,80,90,.02))',     'class'=>'grade-4'],
+    'Unranked'      => ['bg' => 'linear-gradient(135deg,rgba(60,60,70,.10),rgba(60,60,70,.02))',     'class'=>'grade-unranked'],
 ];
 ?>
 <!DOCTYPE html>
@@ -53,27 +55,27 @@ $charColors = [
     --gold:#f0c040; --gold-light:#ffe888; --red:#cc2233;
     --text:#ede8f5; --text-muted:#7a7490;
     --border:rgba(107,33,232,.2); --border-gold:rgba(240,192,64,.2);
-    --card-bg:rgba(10,8,20,.8); --nav-h:72px;
+    --card-bg:rgba(10,8,20,.8); --nav-h:80px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:#08060f;} ::-webkit-scrollbar-thumb{background:#3a0d7a;border-radius:3px;}
 
-.navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;display:flex;align-items:center;padding:0 40px;background:rgba(3,2,10,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex:1;}
-.logo-symbol{font-size:1.8rem;background:linear-gradient(135deg,var(--purple-glow),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.logo-text{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--text);}
-.logo-sub{font-family:'Orbitron',sans-serif;font-size:.5rem;color:var(--text-muted);letter-spacing:3px;display:block;}
-.nav-links{display:flex;align-items:center;gap:8px;list-style:none;}
-.nav-links a{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:2px;color:var(--text-muted);text-decoration:none;padding:8px 16px;border-radius:2px;transition:all .3s;text-transform:uppercase;}
-.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(107,33,232,.15);}
-.nav-actions{display:flex;align-items:center;gap:12px;margin-left:20px;}
-.btn-nav{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;padding:8px 20px;border-radius:2px;cursor:pointer;transition:all .3s;text-decoration:none;}
-.btn-nav-outline{border:1px solid var(--border);color:var(--text-muted);background:transparent;}
-.btn-nav-outline:hover{border-color:var(--purple-glow);color:var(--purple-glow);}
-.btn-nav-primary{background:var(--purple);border:1px solid var(--purple);color:white;}
-.user-badge{display:flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--border-gold);border-radius:2px;background:rgba(240,192,64,.05);}
-.user-badge-name{font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--gold);letter-spacing:1px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .page-hero{padding-top:calc(var(--nav-h) + 60px);padding-bottom:60px;padding-left:40px;padding-right:40px;text-align:center;position:relative;overflow:hidden;}
 .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(107,33,232,.12) 0%,transparent 60%);pointer-events:none;}
@@ -103,6 +105,9 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .char-card:hover .char-card-emoji{transform:scale(1.1);}
 .char-grade-badge{position:absolute;top:10px;right:10px;font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:1px;padding:3px 8px;border-radius:1px;text-transform:uppercase;z-index:2;}
 .grade-special{background:rgba(240,192,64,.2);border:1px solid rgba(240,192,64,.5);color:var(--gold);}
+.grade-semi{background:rgba(157,77,255,.2);border:1px solid rgba(157,77,255,.5);color:#cc99ff;}
+.grade-4{background:rgba(80,80,90,.18);border:1px solid rgba(80,80,90,.45);color:#888898;}
+.grade-unranked{background:rgba(60,60,70,.15);border:1px solid rgba(60,60,70,.4);color:#777788;}
 .grade-1{background:rgba(107,33,232,.2);border:1px solid rgba(107,33,232,.5);color:var(--purple-glow);}
 .grade-2{background:rgba(0,150,255,.15);border:1px solid rgba(0,150,255,.4);color:#4dc8ff;}
 .grade-3{background:rgba(100,100,120,.2);border:1px solid rgba(100,100,120,.5);color:#aaa8c0;}
@@ -132,37 +137,17 @@ footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
 .footer-logo{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);}
 .footer-sub{font-size:.75rem;color:var(--text-muted);margin-top:6px;}
 
-@media(max-width:900px){.characters-grid{grid-template-columns:repeat(2,1fr);}.filter-bar{padding:0 20px;}.main-content{padding:0 20px 60px;}.navbar{padding:0 20px;}.nav-links{display:none;}}
+@media(max-width:900px){.characters-grid{grid-template-columns:repeat(2,1fr);}.filter-bar{padding:0 20px;}.main-content{padding:0 20px 60px;}}
 @media(max-width:500px){.characters-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<nav class="navbar">
-    <a href="../index.php" class="nav-logo">
-        <span class="logo-symbol">呪</span>
-        <div><span class="logo-text">JJK Universe</span><span class="logo-sub">Cursed Energy Portal</span></div>
-    </a>
-    <ul class="nav-links">
-        <li><a href="../index.php">Home</a></li>
-        <li><a href="characters.php" class="active">Characters</a></li>
-        <li><a href="story.php">Story Arc</a></li>
-        <li><a href="../game/index.php">Mini Game</a></li>
-        <?php if (isLoggedIn()): ?>
-        <li><a href="leaderboard.php">Leaderboard</a></li>
-        <?php if (isAdmin()): ?><li><a href="../admin/dashboard.php" style="color:var(--gold)">Admin</a></li><?php endif; ?>
-        <?php endif; ?>
-    </ul>
-    <div class="nav-actions">
-        <?php if (isLoggedIn()): ?>
-        <div class="user-badge"><span class="user-badge-name">⚡ <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span></div>
-        <a href="logout.php" class="btn-nav btn-nav-outline">Logout</a>
-        <?php else: ?>
-        <a href="login.php" class="btn-nav btn-nav-outline">Login</a>
-        <a href="register.php" class="btn-nav btn-nav-primary">Register</a>
-        <?php endif; ?>
-    </div>
-</nav>
+<?php
+$currentPage = 'characters';
+$basePath    = '../';
+require_once __DIR__ . '/../includes/navbar.php';
+?>
 
 <div class="page-hero">
     <span class="page-tag">Karakter</span>
@@ -177,9 +162,12 @@ footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
     </form>
     <a href="characters.php" class="filter-btn <?= empty($grade_filter) ? 'active' : '' ?>">Semua</a>
     <a href="?grade=Special+Grade" class="filter-btn grade-special-btn <?= $grade_filter==='Special Grade'?'active':'' ?>">⭐ Special</a>
-    <a href="?grade=Grade+1" class="filter-btn <?= $grade_filter==='Grade 1'?'active':'' ?>">Grade 1</a>
-    <a href="?grade=Grade+2" class="filter-btn <?= $grade_filter==='Grade 2'?'active':'' ?>">Grade 2</a>
-    <a href="?grade=Grade+3" class="filter-btn <?= $grade_filter==='Grade 3'?'active':'' ?>">Grade 3</a>
+    <a href="?grade=Semi-Grade+1"  class="filter-btn <?= $grade_filter==='Semi-Grade 1'?'active':'' ?>">✦ Semi-1</a>
+    <a href="?grade=Grade+1"       class="filter-btn <?= $grade_filter==='Grade 1'?'active':'' ?>">Grade 1</a>
+    <a href="?grade=Grade+2"       class="filter-btn <?= $grade_filter==='Grade 2'?'active':'' ?>">Grade 2</a>
+    <a href="?grade=Grade+3"       class="filter-btn <?= $grade_filter==='Grade 3'?'active':'' ?>">Grade 3</a>
+    <a href="?grade=Grade+4"       class="filter-btn <?= $grade_filter==='Grade 4'?'active':'' ?>">Grade 4</a>
+    <a href="?grade=Unranked"      class="filter-btn <?= $grade_filter==='Unranked'?'active':'' ?>">Unranked</a>
 </div>
 
 <div class="main-content">

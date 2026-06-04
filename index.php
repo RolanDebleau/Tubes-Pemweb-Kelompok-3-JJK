@@ -27,7 +27,7 @@ $leaderboard = getLeaderboard(5);
     --border: rgba(107,33,232,0.2);
     --border-gold: rgba(240,192,64,0.2);
     --card-bg: rgba(10,8,20,0.8);
-    --nav-h: 72px;
+    --nav-h: 80px;
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -47,123 +47,39 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
 
 /* NAVBAR */
-.navbar {
-    position: fixed; top: 0; left: 0; right: 0;
-    height: var(--nav-h);
-    z-index: 100;
-    display: flex; align-items: center;
-    padding: 0 40px;
-    background: rgba(3,2,10,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    transition: all 0.3s;
-}
 
-.navbar.scrolled {
-    background: rgba(3,2,10,0.95);
-    box-shadow: 0 4px 30px rgba(107,33,232,0.15);
-}
 
-.nav-logo {
-    display: flex; align-items: center; gap: 12px;
-    text-decoration: none;
-    flex: 1;
-}
 
-.logo-symbol {
-    font-size: 1.8rem;
-    background: linear-gradient(135deg, var(--purple-glow), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px rgba(107,33,232,0.5));
-}
 
-.logo-text {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1rem;
-    color: var(--text);
-    line-height: 1.1;
-}
 
-.logo-sub {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.5rem;
-    color: var(--text-muted);
-    letter-spacing: 3px;
-    display: block;
-}
 
-.nav-links {
-    display: flex; align-items: center; gap: 8px;
-    list-style: none;
-}
 
-.nav-links a {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 2px;
-    transition: all 0.3s;
-    text-transform: uppercase;
-}
 
-.nav-links a:hover, .nav-links a.active {
-    color: var(--text);
-    background: rgba(107,33,232,0.15);
-}
 
-.nav-actions { display:flex; align-items:center; gap:12px; margin-left:20px; }
 
-.btn-nav {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 2px;
-    padding: 8px 20px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-}
 
-.btn-nav-outline {
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    background: transparent;
-}
 
-.btn-nav-outline:hover {
-    border-color: var(--purple-glow);
-    color: var(--purple-glow);
-}
 
-.btn-nav-primary {
-    background: var(--purple);
-    border: 1px solid var(--purple);
-    color: white;
-}
 
-.btn-nav-primary:hover {
-    background: var(--purple-glow);
-    box-shadow: 0 0 20px rgba(107,33,232,0.4);
-}
 
-.user-badge {
-    display: flex; align-items: center; gap: 8px;
-    padding: 6px 14px;
-    border: 1px solid var(--border-gold);
-    border-radius: 2px;
-    background: rgba(240,192,64,0.05);
-}
 
-.user-badge-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.6rem;
-    color: var(--gold);
-    letter-spacing: 1px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* HERO */
 .hero {
@@ -225,7 +141,7 @@ body {
 
 .hero-title {
     font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2rem, 4vw, 3.5rem);
     line-height: 1.1;
     margin-bottom: 12px;
 }
@@ -239,7 +155,7 @@ body {
 
 .hero-title-jp {
     display: block;
-    font-size: 0.6em;
+    font-size: 0.55em;
     background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -249,7 +165,7 @@ body {
 
 .hero-desc {
     color: var(--text-muted);
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     line-height: 1.7;
     margin-bottom: 36px;
     max-width: 440px;
@@ -541,6 +457,9 @@ body {
 }
 
 .grade-special { background: rgba(240,192,64,0.2); border: 1px solid rgba(240,192,64,0.5); color: var(--gold); }
+.grade-semi    { background: rgba(157,77,255,0.2);  border: 1px solid rgba(157,77,255,0.5); color: #cc99ff; }
+.grade-4       { background: rgba(80,80,90,0.18);   border: 1px solid rgba(80,80,90,0.45);  color: #888898; }
+.grade-unranked{ background: rgba(60,60,70,0.15);   border: 1px solid rgba(60,60,70,0.4);   color: #777788; }
 .grade-1 { background: rgba(107,33,232,0.2); border: 1px solid rgba(107,33,232,0.5); color: var(--purple-glow); }
 .grade-2 { background: rgba(0,150,255,0.15); border: 1px solid rgba(0,150,255,0.4); color: #4dc8ff; }
 .grade-3 { background: rgba(100,100,120,0.2); border: 1px solid rgba(100,100,120,0.5); color: #aaa8c0; }
@@ -663,8 +582,8 @@ footer {
     .hero-right { display: none; }
     .story-grid { grid-template-columns: 1fr; }
     .characters-grid { grid-template-columns: repeat(2, 1fr); }
-    .navbar { padding: 0 20px; }
-    .nav-links { display: none; }
+    
+    
     .section { padding: 60px 20px; }
 }
 
@@ -681,45 +600,158 @@ footer {
     80% { opacity: 0.2; }
     100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
 }
+
+/* ========== WORLD & JUJUTSU SECTION ========== */
+.world-jujutsu-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, transparent, rgba(107,33,232,.02), transparent);
+}
+.wj-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.wj-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all .4s;
+    display: flex;
+    flex-direction: column;
+}
+.wj-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(107,33,232,.2);
+    border-color: var(--purple-glow);
+}
+.wj-card-header {
+    height: 160px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.wj-world   { background: linear-gradient(135deg, rgba(0,100,180,.3) 0%, rgba(107,33,232,.2) 100%); }
+.wj-jujutsu { background: linear-gradient(135deg, rgba(107,33,232,.35) 0%, rgba(157,77,255,.2) 100%); }
+.wj-story   { background: linear-gradient(135deg, rgba(204,34,51,.3) 0%, rgba(107,33,232,.2) 100%); }
+.wj-card-bg-symbols {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+}
+.wj-sym {
+    position: absolute;
+    font-size: 5rem;
+    opacity: .07;
+    font-family: 'Cinzel Decorative', serif;
+}
+.wj-sym-2 { right: 10%; bottom: 5%; font-size: 3.5rem; opacity: .05; }
+.wj-sym-3 { left: 5%; top: 10%; font-size: 2.5rem; opacity: .06; }
+.wj-card-icon {
+    font-size: 3.5rem;
+    position: relative; z-index: 1;
+    filter: drop-shadow(0 4px 20px rgba(0,0,0,.5));
+    margin-bottom: 8px;
+    animation: wjFloat 3s ease-in-out infinite;
+}
+.wj-card:nth-child(2) .wj-card-icon { animation-delay: .5s; }
+.wj-card:nth-child(3) .wj-card-icon { animation-delay: 1s; }
+@keyframes wjFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+.wj-card-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: .55rem;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,.5);
+    position: relative; z-index: 1;
+}
+.wj-card-body {
+    padding: 22px 24px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.wj-card-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+.wj-card-desc {
+    color: var(--text-muted);
+    font-size: .9rem;
+    line-height: 1.7;
+    margin-bottom: 18px;
+    flex: 1;
+}
+.wj-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-bottom: 20px;
+}
+.wj-feature {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .82rem;
+    color: var(--text-muted);
+}
+.wj-feat-icon { font-size: 1rem; flex-shrink: 0; }
+.wj-btn {
+    display: block;
+    width: 100%;
+    padding: 11px 0;
+    text-align: center;
+    background: linear-gradient(135deg, var(--purple), #8b30ff);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: all .3s;
+    margin-top: auto;
+}
+.wj-btn:hover {
+    box-shadow: 0 0 25px rgba(107,33,232,.5);
+    transform: translateY(-1px);
+}
+.wj-btn-gold {
+    background: linear-gradient(135deg, #b8860b, var(--gold));
+    color: #0a0810;
+}
+.wj-btn-gold:hover { box-shadow: 0 0 25px rgba(240,192,64,.4); }
+.wj-btn-red {
+    background: linear-gradient(135deg, var(--red), #ff3355);
+}
+.wj-btn-red:hover { box-shadow: 0 0 25px rgba(204,34,51,.4); }
+
+@media(max-width:900px) {
+    .wj-grid { grid-template-columns: 1fr; }
+}
+@media(max-width:600px) {
+    .wj-features { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-    <a href="index.php" class="nav-logo">
-        <span class="logo-symbol">呪</span>
-        <div>
-            <span class="logo-text">JJK Universe</span>
-            <span class="logo-sub">Cursed Energy Portal</span>
-        </div>
-    </a>
-    
-    <ul class="nav-links">
-        <li><a href="index.php" class="active">Home</a></li>
-        <li><a href="pages/characters.php">Characters</a></li>
-        <li><a href="pages/story.php">Story Arc</a></li>
-        <li><a href="game/index.php">Mini Game</a></li>
-        <?php if (isLoggedIn()): ?>
-        <li><a href="pages/leaderboard.php">Leaderboard</a></li>
-        <?php if (isAdmin()): ?>
-        <li><a href="admin/dashboard.php" style="color:var(--gold)">Admin</a></li>
-        <?php endif; ?>
-        <?php endif; ?>
-    </ul>
-    
-    <div class="nav-actions">
-        <?php if (isLoggedIn()): ?>
-        <div class="user-badge">
-            <span class="user-badge-name">⚡ <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
-        </div>
-        <a href="pages/logout.php" class="btn-nav btn-nav-outline">Logout</a>
-        <?php else: ?>
-        <a href="pages/login.php" class="btn-nav btn-nav-outline">Login</a>
-        <a href="pages/register.php" class="btn-nav btn-nav-pr  ary">Register</a>
-        <?php endif; ?>
-    </div>
-</nav>
+<?php
+$currentPage = 'home';
+$basePath    = '';
+require_once __DIR__ . '/includes/navbar.php';
+?>
 
 <!-- HERO SECTION -->
 <section class="hero">
@@ -831,13 +863,13 @@ footer {
         '🔥','🌑','👁️','🗡️'
         ];
         $charColors = [
-            'Special Grade' => ['bg' => 'linear-gradient(...gold...)', 'class' => 'grade-special'],
-            'Semi-Grade 1'  => ['bg' => 'linear-gradient(...purple...)', 'class' => 'grade-1'],
-            'Grade 1'       => ['bg' => 'linear-gradient(...purple...)', 'class' => 'grade-1'],
-            'Grade 2'       => ['bg' => 'linear-gradient(...blue...)', 'class' => 'grade-2'],
-            'Grade 3'       => ['bg' => 'linear-gradient(...gray...)', 'class' => 'grade-3'],
-            'Grade 4'       => ['bg' => 'linear-gradient(135deg,rgba(80,80,80,.15),rgba(80,80,80,.03))', 'class' => 'grade-3'],
-            'Unranked'      => ['bg' => 'linear-gradient(135deg,rgba(60,60,60,.12),rgba(60,60,60,.02))', 'class' => 'grade-3'],
+            'Special Grade' => ['bg' => 'linear-gradient(135deg,rgba(240,192,64,.18),rgba(240,192,64,.04))', 'class' => 'grade-special'],
+            'Semi-Grade 1'  => ['bg' => 'linear-gradient(135deg,rgba(157,77,255,.16),rgba(157,77,255,.03))', 'class' => 'grade-semi'],
+            'Grade 1'       => ['bg' => 'linear-gradient(135deg,rgba(107,33,232,.15),rgba(107,33,232,.03))', 'class' => 'grade-1'],
+            'Grade 2'       => ['bg' => 'linear-gradient(135deg,rgba(0,150,255,.12),rgba(0,150,255,.02))',   'class' => 'grade-2'],
+            'Grade 3'       => ['bg' => 'linear-gradient(135deg,rgba(100,100,120,.14),rgba(100,100,120,.03))','class' => 'grade-3'],
+            'Grade 4'       => ['bg' => 'linear-gradient(135deg,rgba(80,80,90,.12),rgba(80,80,90,.02))',     'class' => 'grade-4'],
+            'Unranked'      => ['bg' => 'linear-gradient(135deg,rgba(60,60,70,.10),rgba(60,60,70,.02))',     'class' => 'grade-unranked'],
         ];
         
         foreach ($characters as $i => $char):
@@ -888,6 +920,98 @@ footer {
     
     <div style="text-align:center; margin-top:40px;">
         <a href="pages/characters.php" class="btn-hero-secondary">Lihat Semua Karakter →</a>
+    </div>
+</div>
+</section>
+
+<!-- WORLD & JUJUTSU PREVIEW SECTION -->
+<section class="world-jujutsu-section fade-in">
+<div class="section">
+    <div class="section-header">
+        <span class="section-tag">Pelajari Lebih Dalam</span>
+        <h2 class="section-title">Dunia & Sistem Jujutsu</h2>
+        <p class="section-subtitle">Pahami dunia tersembunyi di balik realita, dari asal kutukan hingga teknik para sorcerer.</p>
+    </div>
+    <div class="wj-grid">
+
+        <!-- WORLD CARD -->
+        <div class="wj-card">
+            <div class="wj-card-header wj-world">
+                <div class="wj-card-bg-symbols">
+                    <span class="wj-sym">🌍</span>
+                    <span class="wj-sym wj-sym-2">💀</span>
+                    <span class="wj-sym wj-sym-3">🌑</span>
+                </div>
+                <div class="wj-card-icon">🌍</div>
+                <div class="wj-card-label">DUNIA</div>
+            </div>
+            <div class="wj-card-body">
+                <h3 class="wj-card-title">World of Cursed Energy</h3>
+                <p class="wj-card-desc">Dunia Jujutsu Kaisen tampak seperti dunia modern biasa, namun di balik itu tersembunyi realita gelap penuh roh kutukan yang lahir dari emosi negatif manusia.</p>
+                <div class="wj-features">
+                    <div class="wj-feature"><span class="wj-feat-icon">🌐</span><span>Dunia Tersembunyi</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">👻</span><span>Cursed Spirits</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">🏫</span><span>Jujutsu Schools</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">⚔️</span><span>Klan Sorcerer</span></div>
+                </div>
+                <a href="pages/world.php" class="wj-btn">
+                    Jelajahi Dunia →
+                </a>
+            </div>
+        </div>
+
+        <!-- JUJUTSU CARD -->
+        <div class="wj-card">
+            <div class="wj-card-header wj-jujutsu">
+                <div class="wj-card-bg-symbols">
+                    <span class="wj-sym">呪</span>
+                    <span class="wj-sym wj-sym-2">術</span>
+                    <span class="wj-sym wj-sym-3">廻</span>
+                </div>
+                <div class="wj-card-icon">⚡</div>
+                <div class="wj-card-label">SISTEM</div>
+            </div>
+            <div class="wj-card-body">
+                <h3 class="wj-card-title">Sistem Jujutsu</h3>
+                <p class="wj-card-desc">Pelajari sistem energi kutukan, teknik-teknik berbahaya, Domain Expansion, dan hierarki grade para sorcerer dalam dunia Jujutsu Kaisen.</p>
+                <div class="wj-features">
+                    <div class="wj-feature"><span class="wj-feat-icon">🔮</span><span>Cursed Energy</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">🌀</span><span>Domain Expansion</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">📊</span><span>Grade System</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">💠</span><span>Cursed Techniques</span></div>
+                </div>
+                <a href="pages/jujutsu.php" class="wj-btn wj-btn-gold">
+                    Pelajari Jujutsu →
+                </a>
+            </div>
+        </div>
+
+        <!-- STORY CARD -->
+        <div class="wj-card">
+            <div class="wj-card-header wj-story">
+                <div class="wj-card-bg-symbols">
+                    <span class="wj-sym">📖</span>
+                    <span class="wj-sym wj-sym-2">⚔</span>
+                    <span class="wj-sym wj-sym-3">🔥</span>
+                </div>
+                <div class="wj-card-icon">📖</div>
+                <div class="wj-card-label">CERITA</div>
+            </div>
+            <div class="wj-card-body">
+                <h3 class="wj-card-title">Alur Cerita</h3>
+                <p class="wj-card-desc">Ikuti perjalanan epik Yuji Itadori dari siswa biasa menjadi sorcerer terkuat, melewati pertempuran, kehilangan, dan pengorbanan yang tak terbayangkan.</p>
+                <div class="wj-features">
+                    <div class="wj-feature"><span class="wj-feat-icon">👊</span><span>Cursed Womb Arc</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">🏆</span><span>Kyoto Goodwill</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">🌆</span><span>Shibuya Incident</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon">🎲</span><span>Culling Game</span></div>
+                </div>
+                <a href="pages/story.php" class="wj-btn wj-btn-red">
+                    Baca Story Arc →
+                </a>
+            </div>
+        </div>
+
     </div>
 </div>
 </section>

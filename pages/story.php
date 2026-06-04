@@ -7,26 +7,26 @@
 <title>Story Arc — JJK Universe</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--red:#cc2233;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--border-gold:rgba(240,192,64,.2);--card-bg:rgba(10,8,20,.85);--nav-h:72px;}
+:root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--red:#cc2233;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--border-gold:rgba(240,192,64,.2);--card-bg:rgba(10,8,20,.85);--nav-h:80px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:#08060f;} ::-webkit-scrollbar-thumb{background:#3a0d7a;}
-.navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;display:flex;align-items:center;padding:0 40px;background:rgba(3,2,10,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex:1;}
-.logo-symbol{font-size:1.8rem;background:linear-gradient(135deg,var(--purple-glow),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.logo-text{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--text);}
-.logo-sub{font-family:'Orbitron',sans-serif;font-size:.5rem;color:var(--text-muted);letter-spacing:3px;display:block;}
-.nav-links{display:flex;align-items:center;gap:8px;list-style:none;}
-.nav-links a{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:2px;color:var(--text-muted);text-decoration:none;padding:8px 16px;border-radius:2px;transition:all .3s;text-transform:uppercase;}
-.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(107,33,232,.15);}
-.nav-actions{display:flex;align-items:center;gap:12px;margin-left:20px;}
-.btn-nav{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;padding:8px 20px;border-radius:2px;cursor:pointer;transition:all .3s;text-decoration:none;}
-.btn-nav-outline{border:1px solid var(--border);color:var(--text-muted);background:transparent;}
-.btn-nav-primary{background:var(--purple);border:1px solid var(--purple);color:white;}
-.user-badge{display:flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--border-gold);border-radius:2px;background:rgba(240,192,64,.05);}
-.user-badge-name{font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--gold);}
 
-.page-hero{padding-top:calc(var(--nav-h)+60px);padding-bottom:60px;text-align:center;position:relative;overflow:hidden;padding-left:40px;padding-right:40px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.page-hero{padding-top:calc(var(--nav-h) + 80px);padding-bottom:60px;text-align:center;position:relative;overflow:hidden;padding-left:40px;padding-right:40px;}
 .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(204,34,51,.1) 0%,transparent 60%);pointer-events:none;}
 .page-tag{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:4px;color:var(--red);text-transform:uppercase;margin-bottom:16px;display:block;}
 .page-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,4vw,3rem);background:linear-gradient(135deg,var(--text),#ff5566);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;}
@@ -75,32 +75,16 @@ footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
 .footer-logo{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);}
 .footer-sub{font-size:.75rem;color:var(--text-muted);margin-top:6px;}
 
-@media(max-width:768px){.lore-cards{grid-template-columns:1fr;}.timeline-wrap,.lore-cards{padding-left:20px;padding-right:20px;}.navbar{padding:0 20px;}.nav-links{display:none;}}
+@media(max-width:768px){.lore-cards{grid-template-columns:1fr;}.timeline-wrap,.lore-cards{padding-left:20px;padding-right:20px;}}
 </style>
 </head>
 <body>
 
-<nav class="navbar">
-    <a href="../index.php" class="nav-logo">
-        <span class="logo-symbol">呪</span>
-        <div><span class="logo-text">JJK Universe</span><span class="logo-sub">Cursed Energy Portal</span></div>
-    </a>
-    <ul class="nav-links">
-        <li><a href="../index.php">Home</a></li>
-        <li><a href="characters.php">Characters</a></li>
-        <li><a href="story.php" class="active">Story Arc</a></li>
-        <li><a href="../game/index.php">Mini Game</a></li>
-    </ul>
-    <div class="nav-actions">
-        <?php if(isLoggedIn()):?>
-        <div class="user-badge"><span class="user-badge-name">⚡ <?=htmlspecialchars($_SESSION['username'] ?? '')?></span></div>
-        <a href="logout.php" class="btn-nav btn-nav-outline">Logout</a>
-        <?php else:?>
-        <a href="login.php" class="btn-nav btn-nav-outline">Login</a>
-        <a href="register.php" class="btn-nav btn-nav-primary">Register</a>
-        <?php endif;?>
-    </div>
-</nav>
+<?php
+$currentPage = 'story';
+$basePath    = '../';
+require_once __DIR__ . '/../includes/navbar.php';
+?>
 
 <div class="page-hero">
     <span class="page-tag">Story Arc</span>

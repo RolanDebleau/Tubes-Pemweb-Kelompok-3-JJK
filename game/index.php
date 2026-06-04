@@ -27,7 +27,7 @@ $playable = $db->query("SELECT * FROM characters WHERE is_playable = 1 ORDER BY 
 <title>Cursed Spirit Slayer — JJK Universe</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--red:#cc2233;--green:#00cc66;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--nav-h:72px;}
+:root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--red:#cc2233;--green:#00cc66;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--nav-h:80px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;overflow:hidden;height:100vh;}
 ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:#08060f;} ::-webkit-scrollbar-thumb{background:#3a0d7a;}
@@ -36,7 +36,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:200;display:flex;align-items:center;padding:0 24px;background:rgba(3,2,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:1;}
 .logo-symbol{font-size:1.5rem;background:linear-gradient(135deg,var(--purple-glow),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.logo-text{font-family:'Cinzel Decorative',serif;font-size:.9rem;color:var(--text);}
+.logo-text{font-family:'Cinzel Decorative',serif;font-size:.9rem;color:var(--text);white-space:nowrap;}
 .nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
 .nav-links a{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;color:var(--text-muted);text-decoration:none;padding:6px 12px;border-radius:2px;transition:all .3s;text-transform:uppercase;}
 .nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(107,33,232,.15);}
@@ -48,22 +48,31 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .game-container{position:fixed;inset:0;top:var(--nav-h);display:flex;flex-direction:column;}
 
 /* CHARACTER SELECT SCREEN */
-.select-screen{position:absolute;inset:0;background:linear-gradient(180deg,#03020a,#080520);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;padding:20px;}
-.select-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4vw,2.5rem);text-align:center;margin-bottom:8px;}
+.select-screen{position:absolute;inset:0;background:linear-gradient(180deg,#03020a,#080520);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;z-index:100;padding:80px 20px 40px;overflow-y:auto;}
+.select-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,4vw,2.8rem);text-align:center;margin-bottom:10px;margin-top:0;}
 .select-title span{background:linear-gradient(135deg,var(--gold),var(--purple-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.select-sub{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:3px;color:var(--text-muted);text-align:center;margin-bottom:40px;}
-.char-grid{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:900px;}
-.char-select-card{width:160px;background:rgba(10,8,20,.9);border:1px solid var(--border);border-radius:4px;padding:20px;cursor:pointer;transition:all .3s;text-align:center;position:relative;}
-.char-select-card:hover,.char-select-card.selected{border-color:var(--purple-glow);transform:translateY(-6px);box-shadow:0 15px 40px rgba(107,33,232,.3);}
-.char-select-card.selected{border-color:var(--gold);box-shadow:0 15px 40px rgba(240,192,64,.2);}
-.char-select-emoji{font-size:3.5rem;margin-bottom:10px;display:block;filter:drop-shadow(0 4px 15px rgba(0,0,0,.5));}
-.char-select-name{font-family:'Cinzel Decorative',serif;font-size:.75rem;color:var(--text);margin-bottom:6px;line-height:1.3;}
-.char-select-stats{display:flex;flex-direction:column;gap:3px;margin-top:10px;}
-.cstat{font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:1px;color:var(--text-muted);display:flex;justify-content:space-between;}
+.select-sub{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:4px;color:var(--text-muted);text-align:center;margin-bottom:36px;}
+.char-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:1100px;}
+.char-select-card{width:200px;background:rgba(10,8,20,.95);border:1px solid var(--border);border-radius:6px;padding:0;cursor:pointer;transition:all .35s;text-align:center;position:relative;overflow:hidden;}
+.char-select-card:hover,.char-select-card.selected{border-color:var(--purple-glow);transform:translateY(-8px);box-shadow:0 20px 50px rgba(107,33,232,.35);}
+.char-select-card.selected{border-color:var(--gold);box-shadow:0 20px 50px rgba(240,192,64,.25);}
+.char-select-portrait{width:100%;height:160px;position:relative;overflow:hidden;background:rgba(107,33,232,.08);}
+.char-select-portrait img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .4s;}
+.char-select-card:hover .char-select-portrait img{transform:scale(1.06);}
+.char-select-emoji{font-size:4rem;line-height:1;display:flex;align-items:center;justify-content:center;width:100%;height:100%;filter:drop-shadow(0 4px 20px rgba(0,0,0,.6));}
+.char-select-info{padding:14px 16px 16px;}
+.char-select-name{font-family:'Cinzel Decorative',serif;font-size:.78rem;color:var(--text);margin-bottom:10px;line-height:1.3;}
+.char-select-stats{display:flex;flex-direction:column;gap:5px;margin-top:8px;}
+.cstat{font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.cstat-bar-wrap{flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.cstat-bar{height:100%;border-radius:2px;}
+.cstat-atk{background:linear-gradient(90deg,#cc2233,#ff3355);}
+.cstat-def{background:linear-gradient(90deg,#6b21e8,#9d4dff);}
+.cstat-spd{background:linear-gradient(90deg,#0088ff,#44ccff);}
 .cstat span:last-child{color:var(--purple-glow);}
 .selected-badge{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--black);font-family:'Orbitron',sans-serif;font-size:.45rem;padding:2px 6px;border-radius:1px;letter-spacing:1px;}
 
-.btn-start{margin-top:32px;padding:16px 50px;background:linear-gradient(135deg,var(--purple),#8b30ff);border:none;border-radius:2px;color:white;font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:4px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.btn-start{margin-top:32px;padding:16px 60px;background:linear-gradient(135deg,var(--purple),#8b30ff);border:none;border-radius:2px;color:white;font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:4px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
 .btn-start::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s;}
 .btn-start:hover::before{left:100%;}
 .btn-start:hover{box-shadow:0 0 40px rgba(107,33,232,.6);transform:translateY(-2px);}
@@ -130,6 +139,9 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
     <ul class="nav-links">
         <li><a href="../index.php">Home</a></li>
         <li><a href="../pages/characters.php">Characters</a></li>
+        <li><a href="../pages/world.php">World</a></li>
+        <li><a href="../pages/jujutsu.php">Jujutsu</a></li>
+        <li><a href="../pages/story.php">Story Arc</a></li>
         <li><a href="index.php" class="active">🎮 Mini Game</a></li>
         <li><a href="../pages/leaderboard.php">Leaderboard</a></li>
     </ul>
@@ -163,12 +175,35 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
                  data-emoji="<?=$em?>"
                  onclick="selectChar(this)">
                 <?php if($preSelected):?><div class="selected-badge">SELECTED</div><?php endif;?>
-                <span class="char-select-emoji"><?=$em?></span>
+                <div class="char-select-portrait">
+                    <?php if(!empty($p['image_url'])): ?>
+                    <img src="../asset/<?=htmlspecialchars($p['image_url'])?>" 
+                         alt="<?=htmlspecialchars($p['name'])?>"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <span class="char-select-emoji" style="display:none"><?=$em?></span>
+                    <?php else: ?>
+                    <span class="char-select-emoji"><?=$em?></span>
+                    <?php endif; ?>
+                </div>
+                <div class="char-select-info">
                 <div class="char-select-name"><?=htmlspecialchars($p['name'])?></div>
                 <div class="char-select-stats">
-                    <div class="cstat"><span>ATK</span><span><?=$p['attack_power']?></span></div>
-                    <div class="cstat"><span>DEF</span><span><?=$p['defense_power']?></span></div>
-                    <div class="cstat"><span>SPD</span><span><?=$p['speed_power']?></span></div>
+                    <div class="cstat">
+                        <span>ATK</span>
+                        <div class="cstat-bar-wrap"><div class="cstat-bar cstat-atk" style="width:<?=$p['attack_power']?>%"></div></div>
+                        <span style="color:#ff5566;min-width:22px;text-align:right"><?=$p['attack_power']?></span>
+                    </div>
+                    <div class="cstat">
+                        <span>DEF</span>
+                        <div class="cstat-bar-wrap"><div class="cstat-bar cstat-def" style="width:<?=$p['defense_power']?>%"></div></div>
+                        <span style="color:#9d4dff;min-width:22px;text-align:right"><?=$p['defense_power']?></span>
+                    </div>
+                    <div class="cstat">
+                        <span>SPD</span>
+                        <div class="cstat-bar-wrap"><div class="cstat-bar cstat-spd" style="width:<?=$p['speed_power']?>%"></div></div>
+                        <span style="color:#44ccff;min-width:22px;text-align:right"><?=$p['speed_power']?></span>
+                    </div>
+                </div>
                 </div>
             </div>
             <?php endforeach; ?>
