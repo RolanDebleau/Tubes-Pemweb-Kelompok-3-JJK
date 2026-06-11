@@ -81,6 +81,20 @@ function navActive(string $page, string $current): string {
     background: var(--purple-glow);
     border-color: var(--purple-glow);
 }
+/* BACKSOUND BTN */
+.sound-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(107,33,232,.15);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .3s; flex-shrink: 0;
+    position: relative; overflow: hidden;
+}
+.sound-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(240,192,64,.1); }
+.sound-btn.playing { border-color: var(--purple-glow); color: var(--purple-glow); animation: soundPulse 2s infinite; }
+@keyframes soundPulse { 0%,100%{box-shadow:0 0 0 0 rgba(157,77,255,.4);} 50%{box-shadow:0 0 0 6px rgba(157,77,255,.0);} }
 .user-badge {
     display: flex; align-items: center; gap: 8px;
     padding: 6px 14px;
@@ -96,6 +110,53 @@ function navActive(string $page, string $current): string {
     .nav-links { display: none; }
 }
 </style>
+<script>
+(function() {
+    const KEY = 'jjkSoundOn';
+    let soundOn = localStorage.getItem(KEY) === 'true';
+    
+    function initSound() {
+        const audio = document.getElementById('jjkBgm');
+        const btn   = document.getElementById('soundBtn');
+        if (!audio || !btn) return;
+        
+        audio.volume = 0.25;
+        
+        function updateUI() {
+            btn.textContent = soundOn ? '🔊' : '🔇';
+            btn.classList.toggle('playing', soundOn);
+        }
+        updateUI();
+        
+        if (soundOn) {
+            audio.play().catch(() => {
+                // Autoplay blocked — wait for interaction
+                document.addEventListener('click', function playOnce() {
+                    if (soundOn) audio.play();
+                    document.removeEventListener('click', playOnce);
+                }, { once: true });
+            });
+        }
+        
+        window.toggleSound = function() {
+            soundOn = !soundOn;
+            localStorage.setItem(KEY, soundOn);
+            if (soundOn) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+            updateUI();
+        };
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSound);
+    } else {
+        initSound();
+    }
+})();
+</script>
 
 <nav class="navbar">
     <a href="<?= $basePath ?>index.php" class="nav-logo">
@@ -121,7 +182,14 @@ function navActive(string $page, string $current): string {
         <?php endif; ?>
     </ul>
 
+    <!-- BACKSOUND -->
+    <audio id="jjkBgm" loop preload="auto">
+        <!-- Uses a free loopable dark ambient track via CDN -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="nav-actions">
+        <button class="sound-btn" id="soundBtn" onclick="toggleSound()" title="Toggle Backsound">🔇</button>
         <?php if (isLoggedIn()): ?>
         <div class="user-badge">
             <span class="user-badge-name">⚡ <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>

@@ -73,6 +73,8 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .tc-user{font-family:'Orbitron',sans-serif;font-size:.52rem;letter-spacing:2px;color:var(--gold);margin-bottom:10px;}
 .tc-desc{font-size:.85rem;color:var(--text-muted);line-height:1.7;}
 .tc-tag{display:inline-block;margin-top:10px;font-family:'Orbitron',sans-serif;font-size:.48rem;letter-spacing:1px;padding:3px 8px;border:1px solid var(--border);border-radius:2px;color:var(--text-muted);}
+.tc-detail-btn{display:inline-block;margin-top:10px;margin-left:6px;font-family:'Orbitron',sans-serif;font-size:.48rem;letter-spacing:1px;padding:3px 10px;border:1px solid rgba(157,77,255,.4);border-radius:2px;color:var(--purple-glow);text-decoration:none;transition:all .3s;}
+.tc-detail-btn:hover{background:rgba(107,33,232,.15);border-color:var(--purple-glow);}
 
 /* DOMAIN TABLE */
 .domain-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
@@ -238,6 +240,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div class="tc-user">Satoru Gojo · Klan Gojo</div>
         <p class="tc-desc">Memanipulasi ruang di tingkat atom. Infinity secara otomatis melambatkan semua yang mendekati Gojo hingga tidak pernah benar-benar menyentuhnya. Varian ofensif: Blue (притяжение), Red (tolakan), dan Purple (penghapusan materi).</p>
         <span class="tc-tag">Innate · Klan Gojo</span>
+        <a href="jujutsu_detail.php?id=limitless" class="tc-detail-btn">Lihat Detail →</a>
       </div>
       <div class="tech-card">
         <span class="tc-icon">🌑</span>
@@ -245,6 +248,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div class="tc-user">Megumi Fushiguro · Klan Zenin</div>
         <p class="tc-desc">Memanggil hingga 10 shikigami menggunakan bayangan sebagai medium. Setiap shikigami memiliki kemampuan unik. Mahoraga — shikigami ke-8 yang belum pernah ditaklukkan — mampu beradaptasi terhadap teknik apa pun dalam satu kali paparan.</p>
         <span class="tc-tag">Innate · Warisan Klan</span>
+        <a href="jujutsu_detail.php?id=ten-shadows" class="tc-detail-btn">Lihat Detail →</a>
       </div>
       <div class="tech-card">
         <span class="tc-icon">🩸</span>
@@ -252,6 +256,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div class="tc-user">Choso · Klan Kamo</div>
         <p class="tc-desc">Mengontrol darah — baik milik sendiri maupun darah yang sudah keluar dari tubuh. Memungkinkan penciptaan proyektil darah berkecepatan tinggi, solidifikasi darah sebagai senjata, dan bahkan memperlambat aliran darah lawan.</p>
         <span class="tc-tag">Innate · Warisan Klan Kamo</span>
+        <a href="jujutsu_detail.php?id=blood-manipulation" class="tc-detail-btn">Lihat Detail →</a>
       </div>
       <div class="tech-card">
         <span class="tc-icon">💀</span>
@@ -259,6 +264,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div class="tc-user">Ryomen Sukuna</div>
         <p class="tc-desc">Dismantle: serangan sayatan acak dengan energi tetap — efektif untuk benda mati. Cleave: menyesuaikan kekuatan secara otomatis dengan ketangguhan target hingga memastikan kehancuran. Tidak ada pertahanan yang bisa menahan Cleave jika Sukuna menargetkan seseorang.</p>
         <span class="tc-tag">Innate · Raja Kutukan</span>
+        <a href="jujutsu_detail.php?id=dismantle" class="tc-detail-btn">Lihat Detail →</a>
       </div>
       <div class="tech-card">
         <span class="tc-icon">🔥</span>
@@ -266,9 +272,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div class="tc-user">Jogo · Cursed Spirit</div>
         <p class="tc-desc">Jogo, roh kutukan bertema gunung berapi, dapat menghasilkan api dan magma dengan skala dahsyat. Satu serangan mampu menghanguskan seluruh stasiun kereta bawah tanah. Domain Expansion-nya — Coffin of the Iron Mountain — menciptakan lingkungan gunung berapi yang membakar segalanya.</p>
         <span class="tc-tag">Innate · Cursed Spirit</span>
-      </div>
-      <div class="tech-card">
-        <span class="tc-icon">🪆</span>
+        <a href="jujutsu_detail.php?id=idle-transfiguration" class="tc-detail-btn">Lihat Detail →</a>
         <div class="tc-name">Idle Transfiguration — 無為転変</div>
         <div class="tc-user">Mahito · Cursed Spirit</div>
         <p class="tc-desc">Mahito mampu menyentuh dan mengubah bentuk jiwa (soul) secara langsung. Karena jiwa mendefinisikan tubuh, bukan sebaliknya, setiap perubahan pada jiwa secara otomatis mengubah bentuk fisik. Teknik ini membuat Mahito sangat sulit dilawan karena serangan fisik biasa tidak efektif.</p>

@@ -43,6 +43,25 @@ $charColors = [
 ];
 $gd = $charColors[$char['grade']] ?? $charColors['Grade 3'];
 $accentHex = $gd['accent'];
+
+// Find full body image
+$fullBodyImg = null;
+if (!empty($char['image_url'])) {
+    $base = pathinfo($char['image_url'], PATHINFO_FILENAME);
+    foreach(['webp','jpg','jpeg','png'] as $ext) {
+        $path = __DIR__ . '/../asset/Full/' . $base . '_Full.' . $ext;
+        if (file_exists($path)) {
+            $fullBodyImg = '../asset/Full/' . $base . '_Full.' . $ext;
+            break;
+        }
+        // Try without _Full suffix  
+        $path2 = __DIR__ . '/../asset/Full/' . $base . '.' . $ext;
+        if (file_exists($path2)) {
+            $fullBodyImg = '../asset/Full/' . $base . '.' . $ext;
+            break;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -377,17 +396,37 @@ require_once __DIR__ . '/../includes/navbar.php';
     <div class="infobox">
       <div class="infobox-title"><?=htmlspecialchars($char['name'])?></div>
 
-      <!-- Portrait with tabs -->
+      <!-- Portrait with TABS (Character / Full Body) -->
       <div class="infobox-portrait" id="portraitBox">
         <div class="portrait-aura"></div>
         <div class="portrait-grid"></div>
 
+        <?php if(!empty($char['image_url']) || $fullBodyImg): ?>
+        <!-- Tab switcher -->
+        <div class="portrait-tabs" id="portraitTabs">
+          <button class="ptab active" onclick="switchPortrait('normal',this)">Character</button>
+          <?php if($fullBodyImg): ?>
+          <button class="ptab" onclick="switchPortrait('full',this)">Full Body</button>
+          <?php endif; ?>
+        </div>
+
+        <!-- Normal portrait -->
         <?php if(!empty($char['image_url'])): ?>
-        <img class="portrait-img"
-             id="portraitImg"
+        <img class="portrait-img" id="portraitNormal"
              src="../asset/<?=htmlspecialchars($char['image_url'])?>"
              alt="<?=htmlspecialchars($char['name'])?>"
              onerror="this.style.display='none';document.getElementById('portraitFallback').style.display='block';">
+        <?php endif; ?>
+
+        <!-- Full body portrait -->
+        <?php if($fullBodyImg): ?>
+        <img class="portrait-img" id="portraitFull"
+             src="<?=$fullBodyImg?>"
+             alt="<?=htmlspecialchars($char['name'])?> Full Body"
+             style="display:none;"
+             onerror="this.style.display='none';">
+        <?php endif; ?>
+
         <div class="portrait-emoji-fallback" id="portraitFallback" style="display:none"><?=$charEmoji?></div>
         <?php else: ?>
         <div class="portrait-emoji-fallback" id="portraitFallback"><?=$charEmoji?></div>
@@ -476,6 +515,31 @@ function setRating(val) {
   document.querySelectorAll('.rating-btn').forEach((btn, i) => {
     btn.classList.toggle('active', i < val);
   });
+}
+
+// Portrait tab switcher
+function switchPortrait(mode, btn) {
+  const normal = document.getElementById('portraitNormal');
+  const full   = document.getElementById('portraitFull');
+  const fallback = document.getElementById('portraitFallback');
+
+  document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  if (mode === 'full' && full) {
+    if (normal) normal.style.display = 'none';
+    full.style.display = 'block';
+    full.style.objectFit = 'contain';
+    full.style.objectPosition = 'center center';
+    if (fallback) fallback.style.display = 'none';
+    // Taller portrait for full body
+    document.getElementById('portraitBox').style.minHeight = '520px';
+  } else {
+    if (normal) { normal.style.display = 'block'; }
+    if (full)   { full.style.display = 'none'; }
+    if (!normal && fallback) fallback.style.display = 'block';
+    document.getElementById('portraitBox').style.minHeight = '380px';
+  }
 }
 </script>
 </body>

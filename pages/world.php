@@ -70,10 +70,20 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .faction-members{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
 .member-badge{font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:1px;padding:4px 10px;border:1px solid var(--border);border-radius:2px;color:var(--text-muted);}
 
-/* LOCATIONS */
-.locations-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
-.location-card{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:22px;display:flex;gap:18px;align-items:flex-start;transition:border-color .3s;}
-.location-card:hover{border-color:rgba(107,33,232,.5);}
+/* LOCATIONS — Horizontal scroll slider */
+.locations-scroll-wrap{position:relative;overflow:hidden;}
+.locations-scroll-track{display:flex;gap:20px;overflow-x:auto;scroll-behavior:smooth;padding-bottom:16px;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;}
+.locations-scroll-track::-webkit-scrollbar{display:none;}
+.locations-scroll-track.grabbing{cursor:grabbing;}
+.location-card{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:22px;display:flex;gap:18px;align-items:flex-start;transition:all .3s;flex:0 0 340px;text-decoration:none;color:inherit;}
+.location-card:hover{border-color:rgba(107,33,232,.6);transform:translateY(-4px);box-shadow:0 12px 40px rgba(107,33,232,.2);cursor:pointer;}
+.scroll-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(10,8,20,.9);border:1px solid var(--border);color:var(--text);font-size:1.2rem;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.scroll-btn:hover{border-color:var(--purple-glow);color:var(--purple-glow);}
+.scroll-btn-left{left:0;}
+.scroll-btn-right{right:0;}
+.scroll-indicator{display:flex;justify-content:center;gap:6px;margin-top:16px;}
+.scroll-dot{width:24px;height:3px;border-radius:2px;background:rgba(107,33,232,.25);transition:background .3s;}
+.scroll-dot.active{background:var(--purple-glow);}
 .loc-icon{font-size:2.2rem;flex-shrink:0;margin-top:2px;}
 .loc-name{font-family:'Cinzel Decorative',serif;font-size:.9rem;color:var(--text);margin-bottom:6px;}
 .loc-text{font-size:.88rem;color:var(--text-muted);line-height:1.7;}
@@ -244,7 +254,9 @@ require_once __DIR__ . '/../includes/navbar.php';
     <div class="section-eyebrow">Locations</div>
     <h2 class="section-title">Lokasi Penting</h2>
     <div class="section-divider"></div>
-    <div class="locations-grid">
+    <div class="locations-scroll-wrap">
+    <button class="scroll-btn scroll-btn-left" onclick="scrollLoc(-1)">‹</button>
+    <div class="locations-scroll-track" id="locTrack">
       <div class="location-card">
         <span class="loc-icon">🏫</span>
         <div>
@@ -385,5 +397,52 @@ require_once __DIR__ . '/../includes/navbar.php';
   <p class="foot-text" style="margin-top:4px;">Dibuat untuk keperluan Tugas Praktikum Pemrograman Web 2026</p>
 </footer>
 
+<script>
+// Horizontal scroll
+const track = document.getElementById('locTrack');
+const cards = track ? track.querySelectorAll('.location-card') : [];
+const dotsContainer = document.getElementById('locDots');
+
+// Create dots
+if (dotsContainer && cards.length) {
+    cards.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'scroll-dot' + (i===0?' active':'');
+        d.onclick = () => track.scrollTo({ left: cards[i].offsetLeft - 20, behavior:'smooth' });
+        dotsContainer.appendChild(d);
+    });
+}
+
+function scrollLoc(dir) {
+    if (!track) return;
+    track.scrollBy({ left: dir * 360, behavior: 'smooth' });
+}
+
+// Update dots on scroll
+if (track) {
+    track.addEventListener('scroll', () => {
+        const dots = document.querySelectorAll('.scroll-dot');
+        cards.forEach((card, i) => {
+            const inView = card.offsetLeft - track.scrollLeft < track.offsetWidth/2;
+            if (dots[i]) dots[i].classList.toggle('active', inView);
+        });
+    });
+
+    // Drag to scroll
+    let isDown=false, startX, scrollLeft;
+    track.addEventListener('mousedown', e => { isDown=true; track.classList.add('grabbing'); startX=e.pageX-track.offsetLeft; scrollLeft=track.scrollLeft; });
+    track.addEventListener('mouseleave', () => { isDown=false; track.classList.remove('grabbing'); });
+    track.addEventListener('mouseup', () => { isDown=false; track.classList.remove('grabbing'); });
+    track.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); const x=e.pageX-track.offsetLeft; track.scrollLeft=scrollLeft-(x-startX)*1.5; });
+}
+
+// Make location cards navigate to this page with hash (or just themselves)
+document.querySelectorAll('.location-card[data-target]').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+        window.location.href = card.dataset.target;
+    });
+});
+</script>
 </body>
 </html>

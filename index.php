@@ -110,9 +110,10 @@ body {
 
 .hero-content {
     position: relative; z-index: 2;
-    max-width: 1200px; margin: 0 auto;
+    max-width: 1300px; margin: 0 auto;
     padding: 0 40px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center;
+    overflow: hidden;
 }
 
 .hero-left {}
@@ -237,79 +238,157 @@ body {
 }
 
 /* HERO RIGHT - Character Showcase */
+/* HERO RIGHT — HoloNight-style zigzag character cards */
 .hero-right {
     display: flex; align-items: center; justify-content: center;
     position: relative;
+    overflow: hidden;
+    min-height: 500px;
 }
 
-.char-showcase {
-    position: relative; width: 400px; height: 500px;
+/* ===== HCS = Hero Char Stack ===== */
+.hero-chars-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    padding: 20px 0 40px;
 }
 
-.char-orbit {
-    position: absolute; inset: 0;
-    border-radius: 50%;
-    border: 1px solid rgba(107,33,232,0.15);
-    animation: orbitSpin 20s linear infinite;
-}
-
-.char-orbit-2 {
-    inset: 30px;
-    animation: orbitSpin 15s linear infinite reverse;
-    border-color: rgba(240,192,64,0.1);
-}
-
-@keyframes orbitSpin { to { transform: rotate(360deg); } }
-
-.char-center {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 240px; height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(107,33,232,0.3) 0%, rgba(107,33,232,0.05) 60%, transparent 100%);
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(107,33,232,0.3);
-    box-shadow: 0 0 60px rgba(107,33,232,0.2), inset 0 0 60px rgba(107,33,232,0.05);
-}
-
-.char-emoji-main { font-size: 5rem; animation: charFloat 3s ease-in-out infinite; }
-@keyframes charFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
-
-.char-dot {
-    position: absolute;
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-.char-dot:hover {
-    transform: scale(1.2);
-    border-color: var(--purple-glow);
-    box-shadow: 0 0 20px rgba(107,33,232,0.4);
-}
-
-.char-dot:nth-child(3) { top: 5%; left: 50%; transform: translateX(-50%); }
-.char-dot:nth-child(4) { top: 25%; right: 5%; }
-.char-dot:nth-child(5) { bottom: 25%; right: 5%; }
-.char-dot:nth-child(6) { bottom: 5%; left: 50%; transform: translateX(-50%); }
-.char-dot:nth-child(7) { bottom: 25%; left: 5%; }
-.char-dot:nth-child(8) { top: 25%; left: 5%; }
-
-.power-bar-glow {
-    position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);
-    font-family: 'Orbitron', sans-serif; font-size: 0.55rem; letter-spacing: 3px;
-    color: var(--purple-glow); white-space: nowrap;
-    text-shadow: 0 0 20px var(--purple-glow);
+.hcs-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.52rem;
+    letter-spacing: 4px;
+    color: var(--purple-glow);
+    text-transform: uppercase;
+    opacity: 0.8;
     animation: textGlow 2s ease-in-out infinite;
+    margin-bottom: 4px;
 }
 
-@keyframes textGlow { 0%,100%{opacity:0.7;} 50%{opacity:1;} }
+@keyframes textGlow { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+
+.hcs-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 40px 10px;  /* ruang buat naik/turun card */
+}
+
+/* Individual card */
+.hcs-card {
+    width: 90px;
+    height: 140px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    border: 1px solid rgba(107,33,232,0.3);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    transition: transform 0.35s cubic-bezier(.25,.46,.45,.94),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+    /* zigzag offset + tilt via CSS variable */
+    transform: translateY(var(--ty, 0px)) rotate(var(--rot, 0deg));
+    /* float animation offset per card */
+    animation: hcsFloat var(--float-dur, 3s) ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+}
+
+/* Alternating float directions */
+.hcs-card.hcs-up   { --float-dur: 3.2s; }
+.hcs-card.hcs-down { --float-dur: 3.6s; }
+
+@keyframes hcsFloat {
+    0%,100% { transform: translateY(var(--ty, 0px)) rotate(var(--rot, 0deg)); }
+    50%     { transform: translateY(calc(var(--ty, 0px) - 10px)) rotate(var(--rot, 0deg)); }
+}
+
+.hcs-card.hcs-down {
+    animation-name: hcsFloatDown;
+}
+
+@keyframes hcsFloatDown {
+    0%,100% { transform: translateY(var(--ty, 0px)) rotate(var(--rot, 0deg)); }
+    50%     { transform: translateY(calc(var(--ty, 0px) + 10px)) rotate(var(--rot, 0deg)); }
+}
+
+.hcs-card:hover {
+    transform: translateY(calc(var(--ty, 0px) - 12px)) rotate(var(--rot, 0deg)) scale(1.05) !important;
+    border-color: var(--glow, var(--purple-glow));
+    box-shadow: 0 0 32px var(--glow, rgba(157,77,255,0.5)),
+                0 16px 40px rgba(0,0,0,0.6);
+    z-index: 10;
+    animation-play-state: paused;
+}
+
+.hcs-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.hcs-card-inner img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: brightness(0.9);
+    transition: filter 0.35s ease;
+}
+
+.hcs-card:hover .hcs-card-inner img {
+    filter: brightness(1.05);
+}
+
+.hcs-emoji-fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, rgba(107,33,232,0.2), rgba(10,8,20,0.9));
+}
+
+.hcs-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px 8px 8px;
+    background: linear-gradient(to top, rgba(3,2,10,0.95) 0%, transparent 100%);
+}
+
+.hcs-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.55rem;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 2px;
+}
+
+.hcs-grade {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.42rem;
+    letter-spacing: 1px;
+    color: var(--glow, var(--purple-glow));
+    text-transform: uppercase;
+}
+
+/* Glow border bottom line on hover */
+.hcs-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, transparent, var(--glow, var(--purple-glow)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.hcs-card:hover::after { opacity: 1; }
 
 /* SECTIONS */
 .section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
@@ -789,19 +868,62 @@ require_once __DIR__ . '/includes/navbar.php';
         </div>
         
         <div class="hero-right">
-            <div class="char-showcase">
-                <div class="char-orbit"></div>
-                <div class="char-orbit char-orbit-2"></div>
-                <div class="char-center">
-                    <div class="char-emoji-main">⚡</div>
+            <div class="hero-chars-stack">
+                <div class="hcs-label">CURSED ENERGY DETECTED</div>
+                <div class="hcs-row">
+                    <?php
+                    // Show up to 6 characters from the list
+                    $heroChars = array_slice($characters, 0, 6);
+                    $heroEmojis = ['👊','🌑','🔮','💀','🌸','🗡'];
+                    $heroGradeColors = [
+                        'Special Grade' => '#f0c040',
+                        'Semi-Grade 1'  => '#cc99ff',
+                        'Grade 1'       => '#9d4dff',
+                        'Grade 2'       => '#4dc8ff',
+                        'Grade 3'       => '#aaaacc',
+                        'Grade 4'       => '#888888',
+                        'Unranked'      => '#666666',
+                    ];
+                    foreach($heroChars as $hIdx => $hChar):
+                        $isUp = ($hIdx % 2 === 0); // even = up, odd = down
+                        $rotDeg = $isUp ? -4 : 4;
+                        $translateY = $isUp ? '-28px' : '28px';
+                        $glowColor = $heroGradeColors[$hChar['grade']] ?? '#9d4dff';
+                        // Find image
+                        $halfImg = null;
+                        if(!empty($hChar['image_url'])) {
+                            $base = pathinfo($hChar['image_url'], PATHINFO_FILENAME);
+                            foreach(['webp','jpg','png'] as $ext) {
+                                if(file_exists(__DIR__.'/asset/Half/'.$base.'.'.$ext)) {
+                                    $halfImg = 'asset/Half/'.$base.'.'.$ext;
+                                    break;
+                                }
+                            }
+                            if(!$halfImg) $halfImg = 'asset/'.$hChar['image_url'];
+                        }
+                    ?>
+                    <?php $floatDelay = round($hIdx * 0.4, 1); ?>
+                    <a href="pages/character_detail.php?id=<?= $hChar['id'] ?>"
+                       class="hcs-card <?= $isUp ? 'hcs-up' : 'hcs-down' ?>"
+                       style="--rot:<?= $rotDeg ?>deg; --ty:<?= $translateY ?>; --glow:<?= $glowColor ?>; --float-delay:<?= $floatDelay ?>s;"
+                       data-up="<?= $isUp ? 1 : 0 ?>">
+                        <div class="hcs-card-inner">
+                            <?php if($halfImg): ?>
+                            <img src="<?= htmlspecialchars($halfImg) ?>"
+                                 alt="<?= htmlspecialchars($hChar['name']) ?>"
+                                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                            <div class="hcs-emoji-fallback" style="display:none"><?= $heroEmojis[$hIdx] ?></div>
+                            <?php else: ?>
+                            <div class="hcs-emoji-fallback"><?= $heroEmojis[$hIdx] ?></div>
+                            <?php endif; ?>
+                            <div class="hcs-overlay">
+                                <div class="hcs-name"><?= htmlspecialchars($hChar['name']) ?></div>
+                                <div class="hcs-grade"><?= htmlspecialchars($hChar['grade']) ?></div>
+                            </div>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
                 </div>
-                <div class="char-dot">👊</div>
-                <div class="char-dot">🌑</div>
-                <div class="char-dot">🔮</div>
-                <div class="char-dot">💀</div>
-                <div class="char-dot">🌸</div>
-                <div class="char-dot">🗡</div>
-                <div class="power-bar-glow">CURSED ENERGY DETECTED</div>
             </div>
         </div>
     </div>
