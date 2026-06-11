@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Inter";
+}
+
+@media screen and (max-width: 576px) {
+	html {
+		font-size: 8px;
+	}
+}
+@media screen and (min-width: 576px) {
+	html {
+		font-size: 8px;
+	}
+}
+@media screen and (min-width: 768px) {
+	html {
+		font-size: 10px;
+	}
+}
+@media screen and (min-width: 992px) {
+	html {
+		font-size: 12px;
+	}	
+}
+@media screen and (min-width: 1200px) {
+	html {
+		font-size: 14px;
+	}
+}
+@media screen and (min-width: 1400px) {
+	html {
+		font-size: 16px;
+	}
+}
