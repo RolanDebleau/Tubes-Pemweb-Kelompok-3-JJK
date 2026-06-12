@@ -551,3 +551,169 @@ INSERT INTO game_scores (user_id, character_used, score, enemies_defeated) VALUE
 (2, 'Nobara Kugisaki',   9600, 18),
 (3, 'Satoru Gojo',      18900, 31),
 (4, 'Yuji Itadori',     13200, 24);
+
+
+-- TABLE: cursed_techniques
+CREATE TABLE IF NOT EXISTS cursed_techniques (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    name            VARCHAR(150) NOT NULL,
+    name_jp         VARCHAR(150),
+    type            ENUM('Innate Technique','Non-Innate','Domain Expansion','Special Ability','Shikigami') NOT NULL DEFAULT 'Innate Technique',
+    user_name       VARCHAR(150),
+    affiliation     VARCHAR(150),
+    description     TEXT,
+    lore            TEXT,
+    image_url       VARCHAR(255),
+    power_level     INT DEFAULT 50,
+    difficulty      INT DEFAULT 50,
+    is_domain       BOOLEAN DEFAULT FALSE,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- TABLE: world_locations
+CREATE TABLE IF NOT EXISTS world_locations (
+    id                  INT AUTO_INCREMENT PRIMARY KEY,
+    name                VARCHAR(150) NOT NULL,
+    name_jp             VARCHAR(150),
+    type                ENUM('School','City','Battlefield','Landmark','Clan Compound','Hidden','Colony','Dimension') NOT NULL DEFAULT 'Landmark',
+    region              VARCHAR(100),
+    description         TEXT,
+    lore                TEXT,
+    image_url           VARCHAR(255),
+    significance_level  INT DEFAULT 50,
+    created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+-- SEED: cursed_techniques
+INSERT INTO cursed_techniques (name, name_jp, type, user_name, affiliation, description, lore, power_level, difficulty, is_domain) VALUES
+
+('Limitless','無下限呪術','Innate Technique','Satoru Gojo','Tokyo Jujutsu High',
+'Teknik bawaan Klan Gojo yang memanipulasi ruang di tingkat atom. Infinity melindungi penggunanya dengan membuat semua yang mendekati mereka melambat hingga tidak pernah benar-benar menyentuh.',
+'Limitless adalah teknik yang diwariskan turun-temurun dalam Klan Gojo. Dikombinasikan dengan Six Eyes, teknik ini mencapai potensi absolutnya. Varian ofensif meliputi Blue (引力), Red (斥力), dan Purple (虚式). Hanya Satoru Gojo yang mampu menggunakan ketiganya secara simultan.',
+100, 95, FALSE),
+
+('Unlimited Void','無量空処','Domain Expansion','Satoru Gojo','Tokyo Jujutsu High',
+'Domain Expansion terkuat yang diketahui. Membuka koneksi lawan ke alam semesta yang tak terbatas — membombardir mereka dengan informasi dan stimulasi tak terbatas hingga lumpuh total.',
+'Di dalam Unlimited Void, setiap neuron lawan bekerja sepenuhnya namun tidak dapat memproses informasi yang terus mengalir tanpa henti. Lawan tidak bisa bergerak, berpikir, atau bahkan merasakan — semuanya terjadi secara bersamaan. Gojo mampu mengaktifkan domain dalam skala microsecond untuk efisiensi energi.',
+100, 98, TRUE),
+
+('Ten Shadows Technique','十種影法術','Innate Technique','Megumi Fushiguro','Tokyo Jujutsu High',
+'Memanggil hingga 10 shikigami berbeda menggunakan bayangan sebagai medium. Setiap shikigami memiliki kemampuan unik yang saling melengkapi dalam pertarungan.',
+'Teknik warisan Klan Zenin ini memungkinkan pengguna memanggil shikigami dari bayangan. Shikigami yang pernah dikalahkan menjadi milik permanen penggunanya. Puncaknya adalah Mahoraga — shikigami yang belum pernah ditaklukkan sepanjang sejarah, memiliki kemampuan adaptasi sempurna terhadap teknik apa pun.',
+85, 80, FALSE),
+
+('Chimera Shadow Garden','嵌合暗翳庭','Domain Expansion','Megumi Fushiguro','Tokyo Jujutsu High',
+'Domain yang menciptakan dimensi bayangan cair yang luas. Seluruh shikigami dapat dipanggil dari segala penjuru bayangan dengan kekuatan penuh.',
+'Chimera Shadow Garden masih dalam tahap pengembangan saat pertama digunakan Megumi. Domain ini tidak memiliki sure-hit effect sepenuhnya, namun kompleksitas dimensi bayangan membuatnya sangat sulit dinavigasi oleh lawan. Setiap sudut bisa menjadi pintu masuk serangan shikigami.',
+82, 85, TRUE),
+
+('Straw Doll Technique','藁人形呪法','Innate Technique','Nobara Kugisaki','Tokyo Jujutsu High',
+'Menggunakan boneka jerami dan paku sebagai medium kutukan. Resonance mengirimkan kerusakan langsung ke target yang terhubung secara kutukan.',
+'Teknik unik yang sangat efektif melawan kutukan yang mengoperasikan satu jiwa dalam dua tubuh terpisah. Saat paku ditancapkan ke boneka, kerusakan dikirim langsung ke jiwa target. Teknik ini nyaris tak bisa dielak karena bersifat remote dan menghantam di tingkat jiwa.',
+72, 65, FALSE),
+
+('Idle Transfiguration','無為転変','Innate Technique','Mahito','Cursed Spirit Alliance',
+'Menyentuh dan mengubah jiwa secara langsung. Karena jiwa mendefinisikan tubuh, setiap perubahan pada jiwa secara otomatis mengubah bentuk fisik.',
+'Teknik Mahito yang paling mengerikan — ia tidak menyerang tubuh, melainkan jiwa itu sendiri. Korban yang tersentuh dapat diubah bentuknya menjadi apa saja sesuka Mahito. Teknik ini juga memungkinkan Mahito menciptakan pasukan transfigured humans dari manusia biasa.',
+88, 70, FALSE),
+
+('Self-Embodiment of Perfection','癈人〇蔵〇皮膚と癈人','Domain Expansion','Mahito','Cursed Spirit Alliance',
+'Domain Mahito yang memungkinkannya menyentuh jiwa lawan secara langsung dalam area domain. Sure-hit effect berupa Idle Transfiguration yang tidak bisa dielak.',
+'Di dalam domain ini, setiap kontak dengan Mahito langsung mengaktifkan Idle Transfiguration. Tidak ada pertahanan fisik yang berarti karena serangan ditargetkan pada jiwa, bukan tubuh. Domain ini menjadi mimpi buruk bagi siapa pun yang tidak memiliki perlindungan jiwa khusus.',
+85, 75, TRUE),
+
+('Dismantle & Cleave','解・捌','Innate Technique','Ryomen Sukuna','Independent',
+'Dismantle: serangan sayatan acak dengan energi tetap, efektif untuk benda mati. Cleave: menyesuaikan kekuatan secara presisi dengan ketangguhan target untuk memastikan kehancuran.',
+'Dua teknik sayatan utama Sukuna yang saling melengkapi. Cleave secara otomatis mengkalkulasi kekuatan yang dibutuhkan untuk menghancurkan target — tidak ada pertahanan yang bisa menahannya. Dikombinasikan dengan Malevolent Shrine, keduanya menjadi jurus pemusnahan massal.',
+100, 90, FALSE),
+
+('Malevolent Shrine','伏魔御廚子','Domain Expansion','Ryomen Sukuna','Independent',
+'Domain tanpa barrier — alih-alih menjebak lawan dalam ruang tertutup, domain ini memperluas diri ke dunia nyata dalam radius 200 meter, menghancurkan segalanya.',
+'Malevolent Shrine adalah anomali dalam sistem Domain Expansion karena tidak memiliki barrier konvensional. Ini membuatnya tidak bisa ditangkal dengan domain counter biasa. Seluruh area radius 200 meter dihujani Dismantle dan Cleave secara bersamaan. Tanda-tanda kuil kuno bermunculan saat domain aktif.',
+100, 99, TRUE),
+
+('Ratio Technique','十劃呪法','Innate Technique','Kento Nanami','Tokyo Jujutsu High',
+'Membagi setiap objek menjadi 10 bagian dan menyerang titik 7:3 — titik terlemah yang secara inheren dimiliki setiap makhluk dan benda.',
+'Teknik profesional Nanami yang mencerminkan pendekatannya yang efisien. Tidak ada makhluk yang kebal selama memiliki titik lemah struktural. Nanami memanfaatkan ini dengan senjata tumpul yang dibungkus kutukan, memberikan kerusakan maksimal di titik paling rentan.',
+82, 60, FALSE),
+
+('Blood Manipulation','赤血操術','Innate Technique','Choso / Noritoshi Kamo','Independent / Kyoto Jujutsu High',
+'Mengontrol darah — baik milik sendiri maupun darah yang sudah keluar dari tubuh. Memungkinkan proyektil darah berkecepatan tinggi, solidifikasi darah, dan manipulasi aliran darah lawan.',
+'Teknik warisan Klan Kamo yang telah berkembang pesat di tangan Choso. Sebagai setengah kutukan, Choso memiliki volume darah tak terbatas dan mampu menggunakannya tanpa batas. Teknik Piercing Blood miliknya mampu menembus hampir semua pertahanan dengan kecepatan supersonik.',
+80, 70, FALSE),
+
+('Disaster Flames','炎','Innate Technique','Jogo','Cursed Spirit Alliance',
+'Menghasilkan api dan magma dengan skala dahsyat. Satu serangan mampu menghanguskan seluruh stasiun kereta bawah tanah.',
+'Jogo adalah roh kutukan bertema gunung berapi dengan kekuatan destruktif luar biasa. Api yang dihasilkannya tidak bisa dipadamkan dengan cara biasa karena bersifat kutukan. Namun bahkan dengan kekuatan ini, Jogo tetap tidak bisa menandingi Gojo Satoru.',
+88, 55, FALSE),
+
+('Coffin of the Iron Mountain','蓋棺鉄囲山','Domain Expansion','Jogo','Cursed Spirit Alliance',
+'Domain bertema gunung berapi yang menciptakan lingkungan ekstrem dengan lava dan api di seluruh penjuru. Suhu di dalam domain mencapai titik ekstrem.',
+'Domain Jogo yang memanfaatkan kekuatan temanya secara maksimal. Di dalam Coffin of the Iron Mountain, api Jogo mendapat amplifikasi drastis. Hanya sorcerer dengan pertahanan luar biasa atau kemampuan seperti Infinity Gojo yang bisa bertahan di dalamnya.',
+85, 65, TRUE),
+
+('Heavenly Restriction','天与呪縛','Special Ability','Toji Fushiguro / Maki Zenin','Independent',
+'Bukan teknik yang dipelajari — kondisi bawaan lahir yang menghapus cursed energy sepenuhnya sebagai imbalan untuk tubuh yang melampaui batas manusia normal.',
+'Heavenly Restriction adalah "kontrak dengan surga" yang terjadi saat kelahiran. Toji Fushiguro tidak memiliki cursed energy sama sekali, namun kecepatan, kekuatan, dan instingnya melampaui penyihir kelas khusus mana pun. Ia menggunakan Inventory Curse — roh kecil yang bisa menelan senjata apa pun.',
+95, 0, FALSE),
+
+('Reverse Cursed Technique','反転術式','Special Ability','Satoru Gojo / Yuta Okkotsu','Multiple',
+'Mengalikan dua aliran cursed energy negatif menghasilkan energi positif. Digunakan untuk penyembuhan atau serangan dengan prinsip "negatif × negatif = positif".',
+'Kemampuan langka yang hanya dikuasai segelintir sorcerer terpilih. Shoko Ieiri menggunakannya murni untuk penyembuhan medis. Gojo dan Yuta menggunakannya untuk regenerasi dan meningkatkan kekuatan teknik mereka. Sukuna juga menguasainya pada level yang memungkinkan regenerasi instan.',
+90, 92, FALSE);
+
+-- SEED: world_locations
+INSERT INTO world_locations (name, name_jp, type, region, description, lore, significance_level) VALUES
+
+('Tokyo Jujutsu High','東京都立呪術高等専門学校','School','Tokyo, Jepang',
+'Sekolah teknik jujutsu metropolitan Tokyo — institusi paling terkemuka dalam dunia penyihir modern. Melatih penyihir baru sambil menangani misi pembersihan kutukan.',
+'Berdiri di atas tanah yang kaya cursed energy, Tokyo Jujutsu High dilindungi oleh barrier permanen yang menyembunyikannya dari pandangan sipil. Fasilitas mencakup ruang latihan, rumah sakit khusus sorcerer, dan penjara bawah tanah untuk artefak kutukan berbahaya. Gojo Satoru, Nanami Kento, dan para sorcerer terkuat generasi ini tumbuh di sini.',
+95),
+
+('Kyoto Jujutsu High','京都府立呪術高等専門学校','School','Kyoto, Jepang',
+'Sekolah teknik jujutsu metropolitan Kyoto — rival historis Tokyo. Lebih konservatif dan menjunjung tinggi tradisi klan sorcerer.',
+'Berlokasi di kota bersejarah Kyoto, sekolah ini memiliki hubungan erat dengan keluarga-keluarga sorcerer berpengaruh seperti Kamo dan Zenin. Principal Yoshinobu Gakuganji menjalankan institusi ini dengan pendekatan tradisional. Goodwill Event antara Tokyo dan Kyoto diadakan setahun sekali di sini.',
+80),
+
+('Shibuya','渋谷','Battlefield','Tokyo, Jepang',
+'Distrik perbelanjaan tersibuk Tokyo yang menjadi lokasi insiden paling berdarah dalam sejarah modern jujutsu — Shibuya Incident.',
+'Pada malam Shibuya Incident, Kenjaku dan aliansi kutukan mengaktifkan barrier raksasa yang menjebak ribuan sipil. Gojo Satoru berhasil dijebak dalam Prison Realm di persimpangan Shibuya. Sukuna dilepaskan sepenuhnya dan menghancurkan sebagian distrik. Malam itu mengubah keseimbangan kekuatan dunia jujutsu selamanya.',
+100),
+
+('Zenin Clan Compound','禅院家の屋敷','Clan Compound','Jepang',
+'Kediaman resmi Klan Zenin — salah satu dari Tiga Klan Besar yang paling berpengaruh dan paling kontroversial dalam dunia jujutsu.',
+'Klan Zenin dikenal sebagai lingkungan yang sangat hierarkis dan kejam. Anggota yang tidak memiliki cursed energy yang cukup diperlakukan sebagai warga kelas dua. Maki dan Mai Zenin tumbuh di bawah tekanan ekstrem di sini. Tempat ini kemudian menjadi lokasi pertempuran berdarah ketika Maki kembali dengan kekuatan Heavenly Restriction penuh.',
+75),
+
+('Jujutsu Headquarters','呪術総本山','Hidden','Jepang',
+'Markas administratif para tetua jujutsu tempat kebijakan dan hukum dunia sorcerer diputuskan — termasuk hukuman mati.',
+'Birokrasi jujutsu yang korup berpusat di sini, jauh dari medan pertempuran nyata. Para tetua yang tidak pernah turun ke lapangan membuat keputusan hidup mati para penyihir muda. Eksekusi Yuji Itadori diputuskan di sini. Satoru Gojo adalah duri terbesar bagi institusi ini.',
+70),
+
+('Prison Realm','獄界封印・裏','Dimension','Dimensi Terpisah',
+'Artefak kutukan berbentuk kotak yang bisa memenjarakan siapa pun yang berdiri di hadapannya — termasuk sorcerer terkuat sekalipun.',
+'Prison Realm adalah kutukan khusus tingkat tinggi yang diciptakan ribuan tahun lalu. Di dalamnya, waktu berhenti sepenuhnya — penghuni tidak lapar, tidak haus, tidak mati, namun tidak bisa bergerak atau menggunakan teknik. Kenjaku menggunakannya untuk menjebak Gojo Satoru selama Shibuya Incident.',
+90),
+
+('Cursed Womb: Death Paintings Site','呪胎九相図','Landmark','Tokyo',
+'Lokasi tersimpannya artefak kutukan Death Painting Womb — embrio kutukan setengah manusia yang berisi kesadaran anak-anak Noritoshi Kamo yang terdeformasi.',
+'Death Painting Womb adalah salah satu kutukan paling unik dalam sejarah — mereka bukan kutukan murni maupun manusia murni. Tiga dari sembilan embrio berhasil dibebaskan: Choso, Eso, dan Kechizu. Mereka memiliki ikatan darah langsung dengan Yuji Itadori, menciptakan komplikasi yang tidak terduga.',
+65),
+
+('Gojo Family Estate','五条家の屋敷','Clan Compound','Jepang',
+'Kediaman Klan Gojo — salah satu dari Tiga Klan Besar dengan warisan teknik Limitless dan Six Eyes.',
+'Klan Gojo adalah satu-satunya klan yang menghasilkan penyihir dengan Limitless dan Six Eyes — kombinasi yang hanya muncul bersamaan sekali per abad. Satoru Gojo lahir di sini dan merupakan yang pertama dalam 400 tahun yang memiliki keduanya secara bersamaan, mengubahnya menjadi penyihir terkuat dalam sejarah.',
+70),
+
+('Culling Game Colonies','コロニー','Colony','Seluruh Jepang',
+'Area-area terisolasi yang dibungkus Barrier Kenjaku sebagai arena Culling Game — permainan pembantaian dengan aturan kejam.',
+'Kenjaku mengaktifkan Culling Game setelah Shibuya Incident. Koloni tersebar di seluruh Jepang, masing-masing berisi sorcerer dari berbagai era yang dibangkitkan kembali. Aturan permainan: bunuh lawan untuk mendapat poin, kumpulkan poin untuk mengubah aturan. Meninggalkan koloni tanpa poin yang cukup hampir mustahil.',
+85),
+
+('Tombs of the Star Corridor','星の回廊の墓所','Hidden','Dimensi Tersembunyi',
+'Kediaman Master Tengen — penyihir abadi yang menjaga barrier pelindung seluruh Jepang dari serangan kutukan skala besar.',
+'Master Tengen telah hidup selama ribuan tahun, memperbarui tubuhnya melalui ritual Star Plasma Vessel setiap 500 tahun. Namun kali ini ritual gagal, dan Tengen mulai berevolusi menjadi sesuatu yang melampaui kemanusiaan. Ia mengelola ribuan barrier yang melindungi sekolah jujutsu dan fasilitas penting dari serangan kutukan.',
+80);
