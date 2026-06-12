@@ -1,0 +1,263 @@
+:root {
+  --bg-color: #030712; /* Dibuat sedikit kebiruan gelap agar glow lebih menyatu */
+  --primary-blue: #0613a6;
+  --primary-glow: #4f46e5;
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --text-white: #ffffff;
+  --text-gray: #9ca3af;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  font-family: "Inter-SemiBold", Helvetica, sans-serif;
+}
+
+/* Base Canvas Fixed */
+.login-container {
+  position: relative;
+  width: 100vw; 
+  height: 100vh; 
+  margin: 0 auto; 
+  background-color: var(--bg-color);
+  overflow: hidden;
+}
+
+/* --- ANIMASI GLOWING BACKGROUND --- */
+@keyframes floatAnimation {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.glow-effect {
+  position: absolute;
+  background-color: var(--primary-glow);
+  border-radius: 50%;
+  filter: blur(150px);
+  opacity: 0.5;
+  animation: floatAnimation 15s ease-in-out infinite;
+}
+
+.ellipse-1 { top: 15%; left: 70%; width: 50rem; height: 30rem; animation-delay: 0s; }
+.ellipse-2 { top: -10%; left: 20%; width: 40rem; height: 30rem; animation-delay: -5s; background-color: var(--primary-blue); }
+.ellipse-3 { top: 60%; left: 30%; width: 60rem; height: 20rem; animation-delay: -10s; }
+
+/* --- LEFT VISUAL SECTION --- */
+.visual-section {
+  position: absolute;
+  top: 2rem;
+  bottom: 2rem;
+  left: 2rem; 
+  width: 50%; 
+  background-color: var(--bg-color);
+  border-radius: 2rem; 
+  overflow: hidden;
+  box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.visual-image {
+  width: 100%; 
+  height: 100%;
+  object-fit: cover;
+}
+
+.visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(6, 19, 166, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+/* --- NAVIGATION --- */
+.back-link {
+  position: absolute;
+  top: 3rem; 
+  right: 4rem; 
+  color: var(--text-gray);
+  font-size: 1rem; 
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 10;
+  transition: color 0.3s;
+}
+
+.back-link:hover { color: var(--text-white); }
+
+/* --- RIGHT FORM SECTION (GLASSMORPHISM) --- */
+.form-section {
+  position: absolute;
+  top: 50%; 
+  right: 8%; 
+  transform: translateY(-50%);
+  width: 32rem; 
+  z-index: 10;
+}
+
+/* Panel Kaca */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.5rem;
+  padding: 3.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.form-title {
+  color: var(--text-white);
+  font-size: 3rem; 
+  font-weight: 700;
+  margin: 0 0 2.5rem 0; 
+  background: linear-gradient(to right, #ffffff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Form Groups */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; 
+}
+
+.form-group label {
+  color: var(--text-gray);
+  font-size: 0.95rem; 
+  font-weight: 500;
+}
+
+/* Modern Input Fields */
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] {
+  width: 100%;
+  height: 3rem; 
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem; 
+  padding: 0 1rem; 
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text-white);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.form-group input::placeholder { 
+  color: rgba(255, 255, 255, 0.2); 
+}
+
+/* FOKUS YANG LEBIH PROFESIONAL (TANPA GLOW) */
+.form-group input:focus {
+  outline: none;
+  /* Cukup ubah warna border menjadi sedikit lebih terang saat diklik */
+  border-color: rgba(255, 255, 255, 0.3);
+  /* Sedikit perubahan latar agar tahu field mana yang aktif */
+  background-color: rgba(255, 255, 255, 0.05);
+  /* HAPUS BOX-SHADOW (GLOW) AGAR TIDAK FLASHY */
+  box-shadow: none;
+}
+
+/* Checkbox */
+.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.checkbox-group label {
+  color: var(--text-gray);
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+  background-color: var(--primary-glow);
+  border-color: var(--primary-glow);
+}
+
+.checkbox-group input[type="checkbox"]:checked::after {
+  content: "✔";
+  position: absolute;
+  color: white;
+  font-size: 0.8rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Submit Button */
+.btn-submit {
+  width: 100%;
+  height: 3rem; /* Matches the input height for a symmetrical look */
+  background-color: #0613a6; /* Solid, flat color (no gradient) */
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  color: var(--text-white);
+  font-size: 1rem; 
+  font-weight: 500; /* Slightly lighter weight for a refined feel */
+  transition: background-color 0.2s ease;
+  box-shadow: none; /* No shadow */
+}
+
+.btn-submit:hover {
+  background-color: #0817c7; /* Subtle color shift instead of jumping/lifting */
+  box-shadow: none;
+}
+
+.btn-submit:active {
+  transform: translateY(0); /* Remove click jump */
+}
+
+/* Kredensial */
+.test-note {
+  margin-top: 2rem;
+  font-size: 0.75rem; /* Ukuran font kecil */
+  color: rgba(255, 255, 255, 0.2); /* Warna sangat pudar */
+  text-align: center;
+  letter-spacing: 0.05rem;
+}
+
+.test-note code {
+  color: rgba(255, 255, 255, 0.4); /* Kode sedikit lebih jelas dari teks utama */
+  font-family: monospace;
+}
+
+/* Bawah Form */
+.login-prompt {
+  color: var(--text-gray);
+  font-size: 0.95rem; 
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-prompt a {
+  color: #a5b4fc;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.login-prompt a:hover { color: #ffffff; }

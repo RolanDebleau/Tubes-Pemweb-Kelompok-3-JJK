@@ -1,38 +1,88 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 * {
-    padding: 0;
-    margin: 0;
-    font-family: "Inter";
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
 }
 
-@media screen and (max-width: 576px) {
-	html {
-		font-size: 8px;
-	}
+html,
+body {
+  margin: 0px;
+  width: 100%;
+  height: 100vh;      /* Kunci tinggi pas satu layar penuh */
+  max-height: 100vh;
+  overflow: hidden;   /* Matikan scroll global browser */
 }
-@media screen and (min-width: 576px) {
-	html {
-		font-size: 8px;
-	}
+
+/* Mengunci container utama aplikasi agar mengalirkan 
+   navbar di atas dan konten di bawah menggunakan Flexbox */
+.app-global-container {
+  width: 100%;
+  height: 100vh; 
+  max-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Inter', Helvetica, Arial, sans-serif !important;
 }
-@media screen and (min-width: 768px) {
-	html {
-		font-size: 10px;
-	}
+
+/* a blue color as a generic focus style */
+button:focus-visible {
+  outline: 2px solid #4a90e2 !important;
+  outline: -webkit-focus-ring-color auto 5px !important;
 }
-@media screen and (min-width: 992px) {
-	html {
-		font-size: 12px;
-	}	
+
+a {
+  text-decoration: none;
 }
-@media screen and (min-width: 1200px) {
-	html {
-		font-size: 14px;
-	}
+
+/* @FONTWARNING[{"type": "restricted", "family": "Inter-SemiBold", "weight": "600", "style": "normal", "allowsCrossOrigin": false}] */
+@font-face {
+  font-family: "Inter-SemiBold";
+  src: local("Inter-SemiBold");
 }
-@media screen and (min-width: 1400px) {
-	html {
-		font-size: 16px;
-	}
+
+/* @FONTWARNING[{"type": "restricted", "family": "Inter-Medium", "weight": "500", "style": "normal", "allowsCrossOrigin": false}] */
+@font-face {
+  font-family: "Inter-Medium";
+  src: local("Inter-Medium");
+}
+
+/* @FONTWARNING[{"type": "restricted", "family": "Inter-Regular", "weight": "400", "style": "normal", "allowsCrossOrigin": false}] */
+@font-face {
+  font-family: "Inter-Regular";
+  src: local("Inter-Regular");
+}
+
+/* 1. Laptop Layar Lebar / High-Res (Rentang 1440px - 1919px) 
+      Contoh: MacBook Pro 15", Laptop Premium, Monitor Desktop 2K downscaled */
+@media screen and (max-width: 1919px) {
+  html {
+    font-size: 14px; /* Menurunkan base font-size agar elemen rem mengecil proporsional */
+  }
+}
+
+/* 2. Laptop Standar / Monitor PC Medium (Rentang 1280px - 1439px)
+      Contoh: Laptop ASUS/Acer/HP standar, MacBook Air 13", ThinkPad */
+@media screen and (max-width: 1439px) {
+  html {
+    font-size: 12px; /* Diturunkan lagi ke 12px agar panel kanan tidak meluber keluar */
+  }
+}
+
+/* 3. Laptop Kecil / Notebook / Tablet Landscape (Rentang 1024px - 1279px)
+      Contoh: iPad Pro Landscape, Netbook lama, monitor kasir */
+@media screen and (max-width: 1279px) {
+  html {
+    font-size: 10px; /* Ukuran paling aman untuk layar laptop ultra-kecil */
+  }
+  
+  /* Opsional: Di resolusi sekecil ini, kamu bisa mengubah padding luar 
+     agar ruang di tengah layar tetap luas dan tidak menjepit kartu */
+  .main-grid {
+    padding: 3rem 4rem 3rem 8rem !important;
+  }
 }

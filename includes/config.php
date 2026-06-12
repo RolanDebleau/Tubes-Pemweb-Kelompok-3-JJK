@@ -8,7 +8,7 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'jjk_web');
 define('SITE_NAME', 'Jujutsu Kaisen Universe');
-define('SITE_URL', 'http://localhost/jjk-web');
+define('SITE_URL', 'http://localhost');
 
 // Start session jika belum
 if (session_status() === PHP_SESSION_NONE) {
@@ -42,7 +42,7 @@ function isAdmin() {
 
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: ' . SITE_URL . '/pages/login.php');
+        header('Location: ' . SITE_URL . '/pages/proto-tipes/welcome.php');
         exit;
     }
 }
@@ -97,7 +97,7 @@ function registerUser($username, $email, $password) {
 
 function logoutUser() {
     session_destroy();
-    header('Location: ' . SITE_URL . '/pages/login.php');
+    header('Location: ' . SITE_URL . '/pages/welcome.php');
     exit;
 }
 

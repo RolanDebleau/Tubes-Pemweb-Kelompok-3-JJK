@@ -1,0 +1,78 @@
+/* Header Navbar */
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5.71rem; /* 80px */
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Kontainer Utama Di Dalam Navbar */
+.nav-container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* MEMASTIKAN MENU UTAMA MATI DI TENGAH LAYAR */
+    position: relative;     /* Menjadi acuan koordinat untuk elemen absolut di dalamnya */
+}
+
+/* Nav Links Menu Utama */
+.nav-links {
+    display: flex;
+    gap: 2.85rem; /* Jarak antar item menu (40px) */
+}
+
+.nav-item {
+    font-size: 1.14rem; /* ~16px */
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: #0613a6;
+}
+
+/* Area User Profile di Pojok Kanan Atas */
+.nav-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.28rem;
+    
+    /* MENGUNCI POSISI DI POJOK KANAN TANPA MERUSAK KESEIMBANGAN TENGAH */
+    position: absolute;
+    right: 0; 
+}
+
+/* Style Tulisan Username */
+.nav-username {
+    font-size: 1.07rem; /* ~15px */
+    color: #8a99ad;
+}
+
+.nav-username strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Style Tombol Logout */
+.btn-logout {
+    font-size: 1rem; /* ~14px */
+    font-weight: 600;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+    padding: 0.5rem 1.14rem;
+    border-radius: 0.35rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease, color  0.1s ease;
+}
+
+.btn-logout:hover {
+    color: #fff;
+    background-color: #b91c1c;
+}

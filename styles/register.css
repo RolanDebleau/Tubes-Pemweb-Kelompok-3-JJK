@@ -1,0 +1,247 @@
+:root {
+  --bg-color: #000000;
+  --primary-blue: #0613a6;
+  --input-bg: #d0cfcf;
+  --text-white: #ffffff;
+  --text-black: #000000;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  font-family: "Inter-SemiBold", Helvetica, sans-serif;
+}
+
+/* Base Canvas Fixed 1920x1080 */
+.register-container {
+  position: relative;
+  width: 100vw; /* 1920px */
+  height: 100vh; /* 1080px */
+  margin: 0 auto; 
+  background-color: var(--bg-color);
+  overflow: hidden;
+}
+
+/* Background Effects */
+.glow-effect {
+  position: absolute;
+  background-color: var(--primary-blue);
+  border-radius: 50%;
+  filter: blur(9.375rem); /* 150px */
+}
+.ellipse-1 {
+  top: 15.4375rem; /* 247px */
+  left: 90.125rem; /* 1442px */
+  width: 53.3125rem; /* 853px */
+  height: 14rem; /* 224px */
+}
+.ellipse-2 {
+  top: -3.25rem; /* -52px */
+  left: 27.5625rem; /* 441px */
+  width: 53.3125rem;
+  height: 14rem;
+  filter: blur(7.8125rem); /* 125px */
+}
+.ellipse-3 {
+  top: 53.5rem; /* 856px */
+  left: 29.0625rem; /* 465px */
+  width: 53.3125rem;
+  height: 14rem;
+  filter: blur(10.9375rem); /* 175px */
+}
+
+/* Left Visual Section */
+.visual-section {
+  position: absolute;
+  top: 0;
+  left: -4.25rem; /* -68px */
+  width: 66.625rem; /* 1066px */
+  height: 100%; /* 1080px */
+  background-color: var(--bg-color);
+  border-radius: 5rem; /* 80px */
+  overflow: hidden;
+}
+
+.visual-image {
+  position: absolute;
+  top: 0;
+  left: 4.25rem; /* 68px */
+  width: 62.375rem; /* 998px */
+  height: 100%;
+  object-fit: cover;
+}
+
+.visual-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Transparansi untuk efek #0000004c */
+  border-radius: 4.9375rem; /* 79px */
+}
+
+/* Navigation */
+.back-link {
+  position: absolute;
+  top: 2.4375rem; /* 39px */
+  left: 110.625rem; /* 1770px */
+  color: var(--text-white);
+  font-size: 1.1rem; /* 17.6px */
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.back-link:hover {
+  opacity: 0.9;
+}
+
+/* Right Form Section */
+.form-section {
+  position: absolute;
+  top: 12.125rem; /* 194px */
+  left: 68.875rem; /* 1102px */
+  width: 34.9375rem; /* 559px */
+  z-index: 10;
+}
+
+.form-title {
+  color: var(--text-white);
+  font-size: 3.85rem; /* 61.6px */
+  font-weight: 600;
+  margin: 0 0 3.5rem 0; /* Jarak ke input pertama */
+  line-height: normal;
+}
+
+/* Refactored Form menggunakan Flexbox */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Jarak antar grup form */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; /* Jarak antara label dan input */
+}
+
+.form-group label {
+  color: var(--text-white);
+  font-size: 1.12rem; /* ~17.9px */
+  font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] {
+  width: 100%;
+  height: 2.5rem; /* 40px */
+  background-color: var(--input-bg);
+  border: none;
+  border-radius: 0.4375rem; /* 7px */
+  padding: 0 0.75rem; /* 12px */
+  font-family: inherit;
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: var(--text-black);
+  outline: none;
+}
+
+.form-group input::placeholder {
+  color: var(--text-black);
+  opacity: 0.6;
+}
+
+.form-group input:focus-visible,
+.back-link:focus-visible {
+  outline: 0.125rem solid var(--text-white) !important;
+  outline-offset: 0.125rem;
+}
+
+/* Checkbox Khusus */
+.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+  font-family: "Inter-Medium", Helvetica, sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.4375rem; /* 23px */
+  height: 1.4375rem; /* 23px */
+  border: 0.09rem solid var(--text-white); /* 1.44px */
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+}
+
+.checkbox-group input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 0.1875rem; /* 3px */
+  left: 0.4375rem; /* 7px */
+  width: 0.3125rem; /* 5px */
+  height: 0.6875rem; /* 11px */
+  border: solid var(--text-white);
+  border-width: 0 0.125rem 0.125rem 0; /* 2px */
+  transform: rotate(45deg);
+}
+
+.checkbox-group input[type="checkbox"]:focus-visible {
+  outline: 0.125rem solid var(--text-white) !important;
+  outline-offset: 0.125rem;
+}
+
+/* Tombol Submit */
+.btn-submit {
+  width: 100%;
+  height: 3.9375rem; /* 63px */
+  background-color: var(--primary-blue);
+  border-radius: 2.5rem; /* 40px */
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  padding: 0;
+}
+
+.btn-submit:hover {
+  opacity: 0.92;
+}
+
+.btn-submit span {
+  color: var(--text-white);
+  font-size: 1.46rem; /* ~23.4px */
+  font-weight: 600;
+}
+
+.btn-submit:focus-visible {
+  outline: 0.125rem solid var(--text-white) !important;
+  outline-offset: 0.125rem;
+}
+
+/* Teks Bawah */
+.login-prompt {
+  color: var(--text-white);
+  font-family: "Inter-Regular", Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 0.73rem; /* 11.7px */
+  margin: 0;
+}
