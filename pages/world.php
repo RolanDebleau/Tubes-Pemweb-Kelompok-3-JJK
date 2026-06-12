@@ -33,7 +33,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .search-wrap{flex:1;min-width:220px;position:relative;}
 .search-wrap input{width:100%;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.95rem;padding:10px 14px 10px 38px;outline:none;transition:border-color .3s;}
 .search-wrap input:focus{border-color:var(--gold);}
-.search-wrap::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.8rem;}
+.search-wrap::before{content:'';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.8rem;}
 .filter-select{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text-muted);font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:1px;padding:10px 14px;outline:none;cursor:pointer;transition:border-color .3s;}
 .filter-select:focus{border-color:var(--gold);}
 .results-count{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;color:var(--text-muted);}
@@ -47,6 +47,11 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .basara-card:hover{transform:rotate(0deg) translateY(-16px) scale(1.04)!important;z-index:20;box-shadow:0 24px 60px rgba(240,192,64,.2),0 0 0 1px rgba(240,192,64,.4);}
 .card-inner{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .35s;}
 .basara-card:hover .card-inner{border-color:var(--gold);}
+/* Per-type subtle borders for world locations */
+.basara-card[data-type="School"] .card-inner{border-color:rgba(56,189,248,.2);}
+.basara-card[data-type="City"] .card-inner{border-color:rgba(107,33,232,.2);}
+.basara-card[data-type="Battlefield"] .card-inner{border-color:rgba(204,34,51,.2);}
+.basara-card[data-type="Colony"] .card-inner, .basara-card[data-type="Dimension"] .card-inner{border-color:rgba(240,192,64,.2);}
 .card-art{height:180px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .card-art-img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
 .basara-card:hover .card-art-img{transform:scale(1.08);}
@@ -110,10 +115,10 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 
 <div class="basara-grid">
 <?php if(empty($locations)): ?>
-<div class="empty-state"><span style="font-size:3rem;display:block;margin-bottom:16px">🌏</span><p>Tidak ada lokasi yang ditemukan.</p></div>
+<div class="empty-state"><span style="font-size:3rem;display:block;margin-bottom:16px"></span><p>Tidak ada lokasi yang ditemukan.</p></div>
 <?php else: ?>
 <?php
-$typeIcons=['School'=>'🏫','City'=>'🏙️','Battlefield'=>'⚔️','Landmark'=>'🏛️','Clan Compound'=>'⚜️','Hidden'=>'🔒','Colony'=>'🎯','Dimension'=>'🌀'];
+$typeIcons=['School'=>'','City'=>'','Battlefield'=>'','Landmark'=>'','Clan Compound'=>'','Hidden'=>'','Colony'=>'','Dimension'=>''];
 $typeCss=['School'=>'tb-school','City'=>'tb-city','Battlefield'=>'tb-battlefield','Landmark'=>'tb-landmark','Clan Compound'=>'tb-clan','Hidden'=>'tb-hidden','Colony'=>'tb-colony','Dimension'=>'tb-dimension'];
 $artBg=['School'=>'bg-school','City'=>'bg-city','Battlefield'=>'bg-battlefield','Landmark'=>'bg-landmark','Clan Compound'=>'bg-clan','Hidden'=>'bg-hidden','Colony'=>'bg-colony','Dimension'=>'bg-dimension'];
 foreach($locations as $loc):
@@ -122,12 +127,12 @@ foreach($locations as $loc):
   $abg=$artBg[$loc['type']]??'bg-landmark';
   $sigDots=round($loc['significance_level']/20);
 ?>
-<a href="world_detail.php?id=<?=$loc['id']?>" class="basara-card">
+<a href="world_detail.php?id=<?=$loc['id']?>" class="basara-card" data-type="<?=htmlspecialchars($loc['type'])?>">
   <div class="card-inner">
     <div class="card-art">
       <div class="card-art-bg <?=$abg?>"></div>
       <?php if(!empty($loc['image_url'])): ?>
-      <img class="card-art-img" src="../asset/world/<?=htmlspecialchars($loc['image_url'])?>"
+      <img class="card-art-img" src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>"
            alt="<?=htmlspecialchars($loc['name'])?>"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
       <div class="card-art-emoji" style="display:none"><?=$icon?></div>
@@ -143,7 +148,7 @@ foreach($locations as $loc):
     <div class="card-body">
       <div class="card-name"><?=htmlspecialchars($loc['name'])?></div>
       <div class="card-jp"><?=htmlspecialchars($loc['name_jp']??'')?></div>
-      <div class="card-region">📍 <?=htmlspecialchars($loc['region']??'Unknown')?></div>
+      <div class="card-region"> <?=htmlspecialchars($loc['region']??'Unknown')?></div>
       <div class="card-desc"><?=htmlspecialchars($loc['description']??'')?></div>
       <span class="card-cta">JELAJAHI LOKASI →</span>
     </div>

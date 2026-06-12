@@ -874,7 +874,7 @@ require_once __DIR__ . '/includes/navbar.php';
                     <?php
                     // Show up to 6 characters from the list
                     $heroChars = array_slice($characters, 0, 6);
-                    $heroEmojis = ['👊','🌑','🔮','💀','🌸','🗡'];
+                    $heroEmojis = ['','','','','',''];
                     $heroGradeColors = [
                         'Special Grade' => '#f0c040',
                         'Semi-Grade 1'  => '#cc99ff',
@@ -1060,21 +1060,21 @@ require_once __DIR__ . '/includes/navbar.php';
         <div class="wj-card">
             <div class="wj-card-header wj-world">
                 <div class="wj-card-bg-symbols">
-                    <span class="wj-sym">🌍</span>
-                    <span class="wj-sym wj-sym-2">💀</span>
-                    <span class="wj-sym wj-sym-3">🌑</span>
+                    <span class="wj-sym"></span>
+                    <span class="wj-sym wj-sym-2"></span>
+                    <span class="wj-sym wj-sym-3"></span>
                 </div>
-                <div class="wj-card-icon">🌍</div>
+                <div class="wj-card-icon"></div>
                 <div class="wj-card-label">DUNIA</div>
             </div>
             <div class="wj-card-body">
                 <h3 class="wj-card-title">World of Cursed Energy</h3>
                 <p class="wj-card-desc">Dunia Jujutsu Kaisen tampak seperti dunia modern biasa, namun di balik itu tersembunyi realita gelap penuh roh kutukan yang lahir dari emosi negatif manusia.</p>
                 <div class="wj-features">
-                    <div class="wj-feature"><span class="wj-feat-icon">🌐</span><span>Dunia Tersembunyi</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">👻</span><span>Cursed Spirits</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">🏫</span><span>Jujutsu Schools</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">⚔️</span><span>Klan Sorcerer</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Dunia Tersembunyi</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Cursed Spirits</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Jujutsu Schools</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Klan Sorcerer</span></div>
                 </div>
                 <a href="pages/world.php" class="wj-btn">
                     Jelajahi Dunia →
@@ -1090,17 +1090,17 @@ require_once __DIR__ . '/includes/navbar.php';
                     <span class="wj-sym wj-sym-2">術</span>
                     <span class="wj-sym wj-sym-3">廻</span>
                 </div>
-                <div class="wj-card-icon">⚡</div>
+                <div class="wj-card-icon"></div>
                 <div class="wj-card-label">SISTEM</div>
             </div>
             <div class="wj-card-body">
                 <h3 class="wj-card-title">Sistem Jujutsu</h3>
                 <p class="wj-card-desc">Pelajari sistem energi kutukan, teknik-teknik berbahaya, Domain Expansion, dan hierarki grade para sorcerer dalam dunia Jujutsu Kaisen.</p>
                 <div class="wj-features">
-                    <div class="wj-feature"><span class="wj-feat-icon">🔮</span><span>Cursed Energy</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">🌀</span><span>Domain Expansion</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">📊</span><span>Grade System</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">💠</span><span>Cursed Techniques</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Cursed Energy</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Domain Expansion</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Grade System</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Cursed Techniques</span></div>
                 </div>
                 <a href="pages/jujutsu.php" class="wj-btn wj-btn-gold">
                     Pelajari Jujutsu →
@@ -1112,21 +1112,21 @@ require_once __DIR__ . '/includes/navbar.php';
         <div class="wj-card">
             <div class="wj-card-header wj-story">
                 <div class="wj-card-bg-symbols">
-                    <span class="wj-sym">📖</span>
-                    <span class="wj-sym wj-sym-2">⚔</span>
-                    <span class="wj-sym wj-sym-3">🔥</span>
+                    <span class="wj-sym"></span>
+                    <span class="wj-sym wj-sym-2"></span>
+                    <span class="wj-sym wj-sym-3"></span>
                 </div>
-                <div class="wj-card-icon">📖</div>
+                <div class="wj-card-icon"></div>
                 <div class="wj-card-label">CERITA</div>
             </div>
             <div class="wj-card-body">
                 <h3 class="wj-card-title">Alur Cerita</h3>
                 <p class="wj-card-desc">Ikuti perjalanan epik Yuji Itadori dari siswa biasa menjadi sorcerer terkuat, melewati pertempuran, kehilangan, dan pengorbanan yang tak terbayangkan.</p>
                 <div class="wj-features">
-                    <div class="wj-feature"><span class="wj-feat-icon">👊</span><span>Cursed Womb Arc</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">🏆</span><span>Kyoto Goodwill</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">🌆</span><span>Shibuya Incident</span></div>
-                    <div class="wj-feature"><span class="wj-feat-icon">🎲</span><span>Culling Game</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Cursed Womb Arc</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Kyoto Goodwill</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Shibuya Incident</span></div>
+                    <div class="wj-feature"><span class="wj-feat-icon"></span><span>Culling Game</span></div>
                 </div>
                 <a href="pages/story.php" class="wj-btn wj-btn-red">
                     Baca Story Arc →
@@ -1170,7 +1170,7 @@ require_once __DIR__ . '/includes/navbar.php';
         <?php foreach ($leaderboard as $i => $row): ?>
         <div class="lb-row">
             <span class="lb-rank <?= $i === 0 ? 'rank-1' : ($i === 1 ? 'rank-2' : ($i === 2 ? 'rank-3' : 'rank-other')) ?>">
-                <?= $i === 0 ? '👑' : ($i+1) ?>
+                <?= $i === 0 ? '' : ($i+1) ?>
             </span>
             <div class="lb-user">
                 <div class="lb-username"><?= htmlspecialchars($row['username']) ?></div>

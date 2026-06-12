@@ -200,4 +200,119 @@ function csrfToken() {
 function verifyCsrf($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
-?>
+
+// CRUD CURSED TECHNIQUES (Function 3)
+
+function getAllTechniques($limit = null, $search = '', $type = '') {
+    $db = getDB();
+    $sql = "SELECT * FROM cursed_techniques WHERE 1=1";
+    $params = []; $types = '';
+    if (!empty($search)) {
+        $sql .= " AND (name LIKE ? OR user_name LIKE ?)";
+        $s = "%$search%"; $params = [$s, $s]; $types = 'ss';
+    }
+    if (!empty($type)) {
+        $sql .= " AND type = ?"; $params[] = $type; $types .= 's';
+    }
+    $sql .= " ORDER BY power_level DESC";
+    if ($limit) $sql .= " LIMIT $limit";
+    $stmt = $db->prepare($sql);
+    if (!empty($params)) $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function getTechniqueById($id) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM cursed_techniques WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+function createTechnique($data) {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO cursed_techniques (name, name_jp, type, user_name, affiliation, description, lore, image_url, power_level, difficulty, is_domain) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssiib",
+        $data['name'], $data['name_jp'], $data['type'], $data['user_name'],
+        $data['affiliation'], $data['description'], $data['lore'],
+        $data['image_url'], $data['power_level'], $data['difficulty'], $data['is_domain']
+    );
+    return $stmt->execute();
+}
+
+function updateTechnique($id, $data) {
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE cursed_techniques SET name=?, name_jp=?, type=?, user_name=?, affiliation=?, description=?, lore=?, image_url=?, power_level=?, difficulty=?, is_domain=? WHERE id=?");
+    $stmt->bind_param("ssssssssiibi",
+        $data['name'], $data['name_jp'], $data['type'], $data['user_name'],
+        $data['affiliation'], $data['description'], $data['lore'],
+        $data['image_url'], $data['power_level'], $data['difficulty'], $data['is_domain'], $id
+    );
+    return $stmt->execute();
+}
+
+function deleteTechnique($id) {
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM cursed_techniques WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+
+// CRUD WORLD LOCATIONS (Function 4)
+
+function getAllLocations($limit = null, $search = '', $type = '') {
+    $db = getDB();
+    $sql = "SELECT * FROM world_locations WHERE 1=1";
+    $params = []; $types = '';
+    if (!empty($search)) {
+        $sql .= " AND (name LIKE ? OR region LIKE ?)";
+        $s = "%$search%"; $params = [$s, $s]; $types = 'ss';
+    }
+    if (!empty($type)) {
+        $sql .= " AND type = ?"; $params[] = $type; $types .= 's';
+    }
+    $sql .= " ORDER BY significance_level DESC";
+    if ($limit) $sql .= " LIMIT $limit";
+    $stmt = $db->prepare($sql);
+    if (!empty($params)) $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function getLocationById($id) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM world_locations WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+function createLocation($data) {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO world_locations (name, name_jp, type, region, description, lore, image_url, significance_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssi",
+        $data['name'], $data['name_jp'], $data['type'], $data['region'],
+        $data['description'], $data['lore'], $data['image_url'], $data['significance_level']
+    );
+    return $stmt->execute();
+}
+
+function updateLocation($id, $data) {
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE world_locations SET name=?, name_jp=?, type=?, region=?, description=?, lore=?, image_url=?, significance_level=? WHERE id=?");
+    $stmt->bind_param("sssssssii",
+        $data['name'], $data['name_jp'], $data['type'], $data['region'],
+        $data['description'], $data['lore'], $data['image_url'], $data['significance_level'], $id
+    );
+    return $stmt->execute();
+}
+
+function deleteLocation($id) {
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM world_locations WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+?><?php
+// tambahan CRUD sudah ada di file ini, append via heredoc tidak aman, gunakan str_replace

@@ -249,7 +249,7 @@ require_once __DIR__ . '/../includes/navbar.php';
   </div>
   <h1 class="page-title"><?=htmlspecialchars($char['name'])?></h1>
   <div class="page-title-jp"><?=htmlspecialchars($char['affiliation'] ?? 'Unknown Affiliation')?></div>
-  <span class="grade-chip">⭐ <?=htmlspecialchars($char['grade'])?></span>
+  <span class="grade-chip"> <?=htmlspecialchars($char['grade'])?></span>
 </div>
 
 <!-- WIKI BODY -->
@@ -262,7 +262,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
     <!-- DESKRIPSI -->
     <div class="wiki-section">
-      <h2 class="ws-title"><span class="ws-title-icon">📖</span> Deskripsi</h2>
+      <h2 class="ws-title"><span class="ws-title-icon"></span> Deskripsi</h2>
       <div class="ws-text">
         <p><?=nl2br(htmlspecialchars($char['description']))?></p>
       </div>
@@ -271,7 +271,7 @@ require_once __DIR__ . '/../includes/navbar.php';
     <!-- LORE / BACKSTORY -->
     <?php if(!empty($char['lore'])): ?>
     <div class="wiki-section">
-      <h2 class="ws-title"><span class="ws-title-icon">🗂️</span> Latar Belakang & Lore</h2>
+      <h2 class="ws-title"><span class="ws-title-icon"></span> Latar Belakang & Lore</h2>
       <div class="ws-text">
         <?php
         // Split lore into paragraphs
@@ -287,7 +287,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
     <!-- CURSED TECHNIQUE -->
     <div class="wiki-section">
-      <h2 class="ws-title"><span class="ws-title-icon">⚡</span> Kemampuan & Teknik Kutukan</h2>
+      <h2 class="ws-title"><span class="ws-title-icon"></span> Kemampuan & Teknik Kutukan</h2>
       <div class="tech-highlight">
         <div class="tech-hl-label">Innate Cursed Technique</div>
         <div class="tech-hl-name">🔮 <?=htmlspecialchars($char['cursed_technique'])?></div>
@@ -304,7 +304,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
     <!-- KEKUATAN -->
     <div class="wiki-section">
-      <h2 class="ws-title"><span class="ws-title-icon">📊</span> Power Rating</h2>
+      <h2 class="ws-title"><span class="ws-title-icon"></span> Power Rating</h2>
       <div class="ws-text" style="margin-bottom:16px;">
         <p>Berdasarkan penilaian institusi jujutsu dan rekam jejak pertempuran, berikut adalah rating kekuatan <?=htmlspecialchars($char['name'])?> dalam tiga parameter utama.</p>
       </div>
@@ -331,7 +331,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
     <!-- TRIVIA -->
     <div class="wiki-section">
-      <h2 class="ws-title"><span class="ws-title-icon">💡</span> Trivia</h2>
+      <h2 class="ws-title"><span class="ws-title-icon"></span> Trivia</h2>
       <ul class="trivia-list">
         <li>Nama <?=htmlspecialchars($char['name'])?> berasal dari kanji Jepang yang memiliki makna mendalam terkait dengan kekuatan dan takdir karakter ini dalam dunia jujutsu.</li>
         <li>Afiliasi: <?=htmlspecialchars($char['affiliation'] ?? 'Unknown')?> — tempat di mana karakter ini berkembang dan membentuk identitasnya sebagai penyihir.</li>
@@ -344,7 +344,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
     <!-- COMMENTS -->
     <div class="comments-section">
-      <h2 class="section-title-cmnt">💬 Komentar (<?=count($comments)?>)</h2>
+      <h2 class="section-title-cmnt"> Komentar (<?=count($comments)?>)</h2>
 
       <?php if(isLoggedIn()):?>
       <div class="comment-form">
@@ -357,7 +357,7 @@ require_once __DIR__ . '/../includes/navbar.php';
           <label class="form-label">Rating</label>
           <div class="rating-group" id="ratingGroup">
             <?php for($r=1;$r<=5;$r++):?>
-            <button type="button" class="rating-btn <?=$r==5?'active':''?>" data-val="<?=$r?>" onclick="setRating(<?=$r?>)">⭐</button>
+            <button type="button" class="rating-btn <?=$r==5?'active':''?>" data-val="<?=$r?>" onclick="setRating(<?=$r?>)"></button>
             <?php endfor;?>
           </div>
           <div style="margin-top:14px;">
@@ -375,15 +375,15 @@ require_once __DIR__ . '/../includes/navbar.php';
       <?php endif;?>
 
       <?php if(empty($comments)):?>
-      <div class="no-comments">💭 Belum ada komentar. Jadilah yang pertama!</div>
+      <div class="no-comments"> Belum ada komentar. Jadilah yang pertama!</div>
       <?php else:?>
       <?php foreach($comments as $cm):?>
       <div class="comment-item">
         <div class="comment-header">
-          <span class="comment-user">⚡ <?=htmlspecialchars($cm['username'])?></span>
+          <span class="comment-user"> <?=htmlspecialchars($cm['username'])?></span>
           <span class="comment-date"><?=date('d M Y', strtotime($cm['created_at']))?></span>
         </div>
-        <div class="comment-rating"><?=str_repeat('⭐',$cm['rating'])?></div>
+        <div class="comment-rating"><?=str_repeat('',$cm['rating'])?></div>
         <div class="comment-content"><?=htmlspecialchars($cm['content'])?></div>
       </div>
       <?php endforeach;?>
@@ -484,9 +484,9 @@ require_once __DIR__ . '/../includes/navbar.php';
     <div style="margin-top:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:16px;">
       <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;">Navigasi Cepat</div>
       <a href="characters.php" style="display:block;font-size:.88rem;color:var(--text-muted);text-decoration:none;padding:8px 0;border-bottom:1px solid rgba(107,33,232,.1);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">← Semua Karakter</a>
-      <a href="world.php" style="display:block;font-size:.88rem;color:var(--text-muted);text-decoration:none;padding:8px 0;border-bottom:1px solid rgba(107,33,232,.1);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">🌏 Dunia JJK</a>
-      <a href="jujutsu.php" style="display:block;font-size:.88rem;color:var(--text-muted);text-decoration:none;padding:8px 0;border-bottom:1px solid rgba(107,33,232,.1);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">⚡ Sistem Jujutsu</a>
-      <a href="story.php" style="display:block;font-size:.88rem;color:var(--text-muted);text-decoration:none;padding:8px 0;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">📜 Story Arc</a>
+      <a href="world.php" style="display:block;font-size:.88rem;color:var(--text-muted);text-decoration:none;padding:8px 0;border-bottom:1px solid rgba(107,33,232,.1);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Dunia JJK</a>
+      <a href="jujutsu.php" style="display:block;font-size:.88rem;color:var(--text-muted);text-decoration:none;padding:8px 0;border-bottom:1px solid rgba(107,33,232,.1);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Sistem Jujutsu</a>
+      <a href="story.php" style="display:block;font-size:.88rem;color:var(--text-muted);text-decoration:none;padding:8px 0;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Story Arc</a>
     </div>
 
   </div><!-- /wiki-sidebar -->

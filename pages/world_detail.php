@@ -5,8 +5,8 @@ $loc=getLocationById($id);
 if(!$loc){header('Location: world.php');exit;}
 $typeColors=['School'=>['a'=>'#38bdf8','bg'=>'rgba(56,189,248,.1)','glow'=>'rgba(56,189,248,.25)'],'City'=>['a'=>'#9d4dff','bg'=>'rgba(107,33,232,.1)','glow'=>'rgba(107,33,232,.25)'],'Battlefield'=>['a'=>'#ff6677','bg'=>'rgba(204,34,51,.1)','glow'=>'rgba(204,34,51,.25)'],'Landmark'=>['a'=>'#34d399','bg'=>'rgba(16,185,129,.1)','glow'=>'rgba(16,185,129,.25)'],'Clan Compound'=>['a'=>'#fcd34d','bg'=>'rgba(245,158,11,.1)','glow'=>'rgba(245,158,11,.25)'],'Hidden'=>['a'=>'#a5b4fc','bg'=>'rgba(99,102,241,.1)','glow'=>'rgba(99,102,241,.25)'],'Colony'=>['a'=>'#f0c040','bg'=>'rgba(240,192,64,.1)','glow'=>'rgba(240,192,64,.25)'],'Dimension'=>['a'=>'#f0c040','bg'=>'rgba(240,192,64,.08)','glow'=>'rgba(240,192,64,.2)']];
 $tc=$typeColors[$loc['type']]??$typeColors['Landmark'];
-$typeIcons=['School'=>'🏫','City'=>'🏙️','Battlefield'=>'⚔️','Landmark'=>'🏛️','Clan Compound'=>'⚜️','Hidden'=>'🔒','Colony'=>'🎯','Dimension'=>'🌀'];
-$icon=$typeIcons[$loc['type']]??'🗺️';
+$typeIcons=['School'=>'','City'=>'','Battlefield'=>'','Landmark'=>'','Clan Compound'=>'','Hidden'=>'','Colony'=>'','Dimension'=>''];
+$icon=$typeIcons[$loc['type']]??'';
 $sigDots=round($loc['significance_level']/20);
 ?><!DOCTYPE html>
 <html lang="id">
@@ -71,7 +71,7 @@ $sigDots=round($loc['significance_level']/20);
   </div>
   <h1 class="page-title"><?=htmlspecialchars($loc['name'])?></h1>
   <div class="page-jp"><?=htmlspecialchars($loc['name_jp']??'')?></div>
-  <div class="page-region">📍 <?=htmlspecialchars($loc['region']??'Unknown Location')?></div>
+  <div class="page-region"> <?=htmlspecialchars($loc['region']??'Unknown Location')?></div>
   <span class="type-chip"><?=$icon?> <?=htmlspecialchars($loc['type'])?></span>
 </div>
 
@@ -79,17 +79,17 @@ $sigDots=round($loc['significance_level']/20);
   <div class="wiki-main">
     <a href="world.php" class="back-btn">← Kembali ke World</a>
     <div class="ws-sec">
-      <h2 class="ws-title">🗺️ Deskripsi</h2>
+      <h2 class="ws-title">Deskripsi</h2>
       <div class="ws-text"><p><?=nl2br(htmlspecialchars($loc['description']??''))?></p></div>
     </div>
     <?php if(!empty($loc['lore'])): ?>
     <div class="ws-sec">
-      <h2 class="ws-title">📜 Sejarah & Lore</h2>
+      <h2 class="ws-title">Sejarah & Lore</h2>
       <div class="ws-text"><?php foreach(array_filter(explode("\n",$loc['lore'])) as $p): ?><p><?=htmlspecialchars(trim($p))?></p><?php endforeach; ?></div>
     </div>
     <?php endif; ?>
     <div class="ws-sec">
-      <h2 class="ws-title">⭐ Kepentingan Lokasi</h2>
+      <h2 class="ws-title">Kepentingan Lokasi</h2>
       <div class="hl-box">
         <div class="hl-label">Significance Level</div>
         <div style="display:flex;gap:6px;margin:8px 0"><?php for($d=1;$d<=5;$d++): ?><div class="sig-dot <?=$d<=$sigDots?'active':''?>" style="width:12px;height:12px;border-radius:50%;background:<?=$d<=$sigDots?$tc['a']:'rgba(255,255,255,.1)'?>"></div><?php endfor; ?></div>
@@ -104,7 +104,7 @@ $sigDots=round($loc['significance_level']/20);
       <div class="infobox-art">
         <div class="infobox-art-aura"></div>
         <?php if(!empty($loc['image_url'])): ?>
-        <img src="../asset/world/<?=htmlspecialchars($loc['image_url'])?>" alt="<?=htmlspecialchars($loc['name'])?>"
+        <img src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>" alt="<?=htmlspecialchars($loc['name'])?>"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
         <div class="infobox-art-emoji" style="display:none"><?=$icon?></div>
         <?php else: ?>
@@ -119,11 +119,11 @@ $sigDots=round($loc['significance_level']/20);
     </div>
     <div class="quick-nav">
       <div class="qn-title">Navigasi</div>
-      <a href="../index.php" class="qn-link">🏠 Home</a>
-      <a href="world.php" class="qn-link">🌏 Semua Lokasi</a>
-      <a href="characters.php" class="qn-link">👤 Characters</a>
-      <a href="jujutsu.php" class="qn-link">⚡ Jujutsu</a>
-      <a href="story.php" class="qn-link">📜 Story Arc</a>
+      <a href="../index.php" class="qn-link">Home</a>
+      <a href="world.php" class="qn-link">Semua Lokasi</a>
+      <a href="characters.php" class="qn-link">Characters</a>
+      <a href="jujutsu.php" class="qn-link">Jujutsu</a>
+      <a href="story.php" class="qn-link">Story Arc</a>
     </div>
   </div>
 </div>

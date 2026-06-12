@@ -12,6 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $action = $_POST['action'] ?? '';
         
+        // Handle image upload if file was provided
+        $uploadedImageUrl = trim($_POST['image_url'] ?? '');
+        if (!empty($_FILES['image_file']['tmp_name'])) {
+            $allowedExts = ['jpg','jpeg','png','webp','gif'];
+            $ext = strtolower(pathinfo($_FILES['image_file']['name'], PATHINFO_EXTENSION));
+            if (in_array($ext, $allowedExts)) {
+                $targetDir = __DIR__ . '/../asset/';
+                $safeName = preg_replace('/[^a-zA-Z0-9_\-.]/', '_', basename($_FILES['image_file']['name']));
+                if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetDir . $safeName)) {
+                    $uploadedImageUrl = $safeName;
+                }
+            }
+        }
+
         if ($action === 'create') {
             $data = [
                 'name' => trim($_POST['name']),
@@ -20,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'cursed_technique' => trim($_POST['cursed_technique']),
                 'description' => trim($_POST['description']),
                 'lore' => trim($_POST['lore']),
-                'image_url' => trim($_POST['image_url']),
+                'image_url' => $uploadedImageUrl,
                 'attack_power' => (int)$_POST['attack_power'],
                 'defense_power' => (int)$_POST['defense_power'],
                 'speed_power' => (int)$_POST['speed_power'],
@@ -39,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'cursed_technique' => trim($_POST['cursed_technique']),
                 'description' => trim($_POST['description']),
                 'lore' => trim($_POST['lore']),
-                'image_url' => trim($_POST['image_url']),
+                'image_url' => $uploadedImageUrl,
                 'attack_power' => (int)$_POST['attack_power'],
                 'defense_power' => (int)$_POST['defense_power'],
                 'speed_power' => (int)$_POST['speed_power'],
@@ -54,19 +68,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (deleteCharacter($id)) { $msg = 'Karakter berhasil dihapus!'; $msgType = 'success'; }
             else { $msg = 'Gagal menghapus karakter.'; $msgType = 'error'; }
         }
+
+        // === JUJUTSU CRUD ===
+        if ($action === 'create_technique') {
+            $data = [
+                'name'        => trim($_POST['name']),
+                'name_jp'     => trim($_POST['name_jp'] ?? ''),
+                'type'        => $_POST['tech_type'],
+                'user_name'   => trim($_POST['user_name']),
+                'affiliation' => trim($_POST['affiliation']),
+                'description' => trim($_POST['description']),
+                'lore'        => trim($_POST['lore']),
+                'image_url'   => $uploadedImageUrl,
+                'power_level' => (int)$_POST['power_level'],
+                'difficulty'  => (int)$_POST['difficulty'],
+                'is_domain'   => isset($_POST['is_domain']) ? 1 : 0,
+            ];
+            if (createTechnique($data)) { $msg = 'Teknik berhasil ditambahkan!'; $msgType = 'success'; }
+            else { $msg = 'Gagal menambahkan teknik.'; $msgType = 'error'; }
+        }
+        if ($action === 'update_technique') {
+            $id = (int)$_POST['tech_id'];
+            $data = [
+                'name'        => trim($_POST['name']),
+                'name_jp'     => trim($_POST['name_jp'] ?? ''),
+                'type'        => $_POST['tech_type'],
+                'user_name'   => trim($_POST['user_name']),
+                'affiliation' => trim($_POST['affiliation']),
+                'description' => trim($_POST['description']),
+                'lore'        => trim($_POST['lore']),
+                'image_url'   => $uploadedImageUrl,
+                'power_level' => (int)$_POST['power_level'],
+                'difficulty'  => (int)$_POST['difficulty'],
+                'is_domain'   => isset($_POST['is_domain']) ? 1 : 0,
+            ];
+            if (updateTechnique($id, $data)) { $msg = 'Teknik berhasil diperbarui!'; $msgType = 'success'; }
+            else { $msg = 'Gagal memperbarui teknik.'; $msgType = 'error'; }
+        }
+        if ($action === 'delete_technique') {
+            $id = (int)$_POST['tech_id'];
+            if (deleteTechnique($id)) { $msg = 'Teknik berhasil dihapus!'; $msgType = 'success'; }
+            else { $msg = 'Gagal menghapus teknik.'; $msgType = 'error'; }
+        }
+
+        // === WORLD CRUD ===
+        if ($action === 'create_location') {
+            $data = [
+                'name'               => trim($_POST['name']),
+                'name_jp'            => trim($_POST['name_jp'] ?? ''),
+                'type'               => $_POST['loc_type'],
+                'region'             => trim($_POST['region']),
+                'description'        => trim($_POST['description']),
+                'lore'               => trim($_POST['lore']),
+                'image_url'          => $uploadedImageUrl,
+                'significance_level' => (int)$_POST['significance_level'],
+            ];
+            if (createLocation($data)) { $msg = 'Lokasi berhasil ditambahkan!'; $msgType = 'success'; }
+            else { $msg = 'Gagal menambahkan lokasi.'; $msgType = 'error'; }
+        }
+        if ($action === 'update_location') {
+            $id = (int)$_POST['loc_id'];
+            $data = [
+                'name'               => trim($_POST['name']),
+                'name_jp'            => trim($_POST['name_jp'] ?? ''),
+                'type'               => $_POST['loc_type'],
+                'region'             => trim($_POST['region']),
+                'description'        => trim($_POST['description']),
+                'lore'               => trim($_POST['lore']),
+                'image_url'          => $uploadedImageUrl,
+                'significance_level' => (int)$_POST['significance_level'],
+            ];
+            if (updateLocation($id, $data)) { $msg = 'Lokasi berhasil diperbarui!'; $msgType = 'success'; }
+            else { $msg = 'Gagal memperbarui lokasi.'; $msgType = 'error'; }
+        }
+        if ($action === 'delete_location') {
+            $id = (int)$_POST['loc_id'];
+            if (deleteLocation($id)) { $msg = 'Lokasi berhasil dihapus!'; $msgType = 'success'; }
+            else { $msg = 'Gagal menghapus lokasi.'; $msgType = 'error'; }
+        }
     }
 }
 
 $characters = getAllCharacters();
+$techniques  = getAllTechniques();
+$locations   = getAllLocations();
 $db = getDB();
-$userCount = $db->query("SELECT COUNT(*) FROM users")->fetch_row()[0];
+$userCount    = $db->query("SELECT COUNT(*) FROM users")->fetch_row()[0];
 $commentCount = $db->query("SELECT COUNT(*) FROM comments")->fetch_row()[0];
-$scoreCount = $db->query("SELECT COUNT(*) FROM game_scores")->fetch_row()[0];
-$topScore = $db->query("SELECT MAX(score) FROM game_scores")->fetch_row()[0] ?? 0;
+$scoreCount   = $db->query("SELECT COUNT(*) FROM game_scores")->fetch_row()[0];
+$topScore     = $db->query("SELECT MAX(score) FROM game_scores")->fetch_row()[0] ?? 0;
+$techCount    = count($techniques);
+$locCount     = count($locations);
 
 $editChar = null;
 if (isset($_GET['edit'])) {
     $editChar = getCharacterById((int)$_GET['edit']);
+}
+$editTech = null;
+if (isset($_GET['edit_tech'])) {
+    $editTech = getTechniqueById((int)$_GET['edit_tech']);
+}
+$editLoc = null;
+if (isset($_GET['edit_loc'])) {
+    $editLoc = getLocationById((int)$_GET['edit_loc']);
 }
 ?>
 <!DOCTYPE html>
@@ -164,6 +268,18 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .form-card-title{font-family:'Cinzel Decorative',serif;font-size:1.1rem;color:var(--text);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .form-group{margin-bottom:16px;}
+/* DRAG-DROP UPLOAD */
+.drop-zone{border:2px dashed var(--border);border-radius:4px;padding:24px;text-align:center;cursor:pointer;transition:all .3s;position:relative;background:rgba(107,33,232,.03);}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--purple-glow);background:rgba(107,33,232,.08);}
+.drop-zone-icon{font-size:2rem;margin-bottom:8px;display:block;}
+.drop-zone-text{font-size:.85rem;color:var(--text-muted);}
+.drop-zone-text strong{color:var(--purple-glow);}
+.drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.drop-preview{margin-top:10px;display:none;align-items:center;gap:10px;}
+.drop-preview img,.drop-preview video{width:60px;height:60px;object-fit:cover;border-radius:3px;border:1px solid var(--border);}
+.drop-preview-name{font-size:.82rem;color:var(--text-muted);}
+.or-divider{display:flex;align-items:center;gap:8px;margin:10px 0;color:var(--text-muted);font-size:.78rem;}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border);}
 .form-group.full{grid-column:1/-1;}
 .form-label{display:block;font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:2px;color:var(--purple-glow);text-transform:uppercase;margin-bottom:7px;}
 .form-input,.form-select,.form-textarea{width:100%;background:rgba(107,33,232,.05);border:1px solid var(--border);border-radius:2px;padding:10px 14px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;transition:all .3s;}
@@ -229,7 +345,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
     </a>
     <div class="topbar-badge">ADMIN PANEL</div>
     <div class="topbar-spacer"></div>
-    <span class="topbar-user">👑 <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
+    <span class="topbar-user"> <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
     <a href="../index.php" class="btn-topbar">← Site</a>
     <a href="../pages/logout.php" class="btn-topbar">Logout</a>
 </div>
@@ -237,7 +353,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 <!-- CONFIRM MODAL -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-box">
-        <div class="modal-icon">⚠️</div>
+        <div class="modal-icon"></div>
         <div class="modal-title">Hapus Karakter?</div>
         <div class="modal-sub">Tindakan ini tidak dapat dibatalkan. Data karakter akan dihapus permanen.</div>
         <form method="POST" id="deleteForm">
@@ -258,28 +374,48 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
         <div class="sidebar-section">
             <span class="sidebar-label">Navigation</span>
             <button class="sidebar-item active" id="nav-dashboard" onclick="showPanel('dashboard')">
-                <span class="sidebar-icon">📊</span> Dashboard
+                <span class="sidebar-icon"></span> Dashboard
             </button>
             <button class="sidebar-item" id="nav-characters" onclick="showPanel('characters')">
-                <span class="sidebar-icon">⚔</span> Characters
+                <span class="sidebar-icon"></span> Characters
                 <span class="sidebar-count"><?= count($characters) ?></span>
             </button>
             <button class="sidebar-item" id="nav-add-char" onclick="showPanel('add-char')">
-                <span class="sidebar-icon">➕</span> Tambah Karakter
+                <span class="sidebar-icon"></span> Tambah Karakter
+            </button>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">Jujutsu</span>
+            <button class="sidebar-item" id="nav-techniques" onclick="showPanel('techniques')">
+                <span class="sidebar-icon"></span> Cursed Techniques
+                <span class="sidebar-count"><?= $techCount ?></span>
+            </button>
+            <button class="sidebar-item" id="nav-add-tech" onclick="showPanel('add-tech')">
+                <span class="sidebar-icon"></span> Tambah Teknik
+            </button>
+        </div>
+        <div class="sidebar-section">
+            <span class="sidebar-label">World</span>
+            <button class="sidebar-item" id="nav-locations" onclick="showPanel('locations')">
+                <span class="sidebar-icon"></span> Locations
+                <span class="sidebar-count"><?= $locCount ?></span>
+            </button>
+            <button class="sidebar-item" id="nav-add-loc" onclick="showPanel('add-loc')">
+                <span class="sidebar-icon"></span> Tambah Lokasi
             </button>
         </div>
         <div class="sidebar-section">
             <span class="sidebar-label">Data</span>
             <button class="sidebar-item" id="nav-users" onclick="showPanel('users')">
-                <span class="sidebar-icon">👥</span> Users
+                <span class="sidebar-icon"></span> Users
                 <span class="sidebar-count"><?= $userCount ?></span>
             </button>
             <button class="sidebar-item" id="nav-scores" onclick="showPanel('scores')">
-                <span class="sidebar-icon">🏆</span> Leaderboard
+                <span class="sidebar-icon"></span> Leaderboard
                 <span class="sidebar-count"><?= $scoreCount ?></span>
             </button>
             <button class="sidebar-item" id="nav-comments" onclick="showPanel('comments')">
-                <span class="sidebar-icon">💬</span> Komentar
+                <span class="sidebar-icon"></span> Komentar
                 <span class="sidebar-count"><?= $commentCount ?></span>
             </button>
         </div>
@@ -310,17 +446,17 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
                     <span class="stat-label">Total Karakter</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-icon">👥</span>
+                    <span class="stat-icon"></span>
                     <span class="stat-num"><?= $userCount ?></span>
                     <span class="stat-label">Total Users</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-icon">🎮</span>
+                    <span class="stat-icon"></span>
                     <span class="stat-num"><?= $scoreCount ?></span>
                     <span class="stat-label">Game Sessions</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-icon">🏆</span>
+                    <span class="stat-icon"></span>
                     <span class="stat-num"><?= number_format($topScore) ?></span>
                     <span class="stat-label">Top Score</span>
                 </div>
@@ -328,7 +464,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
             
             <!-- Recent scores -->
             <div class="form-card">
-                <div class="form-card-title">📈 5 Game Score Terbaru</div>
+                <div class="form-card-title"> 5 Game Score Terbaru</div>
                 <?php
                 $recent = $db->query("SELECT gs.*, u.username FROM game_scores gs JOIN users u ON gs.user_id = u.id ORDER BY gs.played_at DESC LIMIT 5")->fetch_all(MYSQLI_ASSOC);
                 ?>
@@ -407,7 +543,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
             </div>
             
             <div class="form-card">
-                <form method="POST" id="charForm">
+                <form method="POST" id="charForm" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                     <input type="hidden" name="action" value="create" id="formAction">
                     <input type="hidden" name="char_id" id="formCharId" value="">
@@ -444,8 +580,21 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
                             <textarea name="lore" class="form-textarea" style="min-height:130px" placeholder="Cerita latar belakang karakter..." id="fn_lore"></textarea>
                         </div>
                         <div class="form-group full">
-                            <label class="form-label">URL Gambar (opsional)</label>
-                            <input type="text" name="image_url" class="form-input" placeholder="karakter.png" id="fn_image">
+                            <label class="form-label">Gambar Karakter (opsional)</label>
+                            <!-- Drag & Drop Upload Zone -->
+                            <div class="drop-zone" id="dropZone">
+                                <span class="drop-zone-icon"></span>
+                                <p class="drop-zone-text"><strong>Drag & drop gambar ke sini</strong><br>atau klik untuk pilih file</p>
+                                <input type="file" name="image_file" id="imageFileInput" accept="image/*">
+                            </div>
+                            <div class="drop-preview" id="dropPreview">
+                                <img id="previewImg" src="" alt="preview" style="display:none">
+                                <span class="drop-preview-name" id="previewName"></span>
+                                <button type="button" onclick="clearImageUpload()" style="margin-left:auto;background:rgba(204,34,51,.1);border:1px solid rgba(204,34,51,.3);color:#ff6677;border-radius:2px;padding:4px 10px;font-size:.75rem;cursor:pointer;">✕ Hapus</button>
+                            </div>
+                            <div class="or-divider">ATAU gunakan nama file yang sudah ada</div>
+                            <input type="text" name="image_url" class="form-input" placeholder="contoh: Satoru_Gojo.webp" id="fn_image">
+                            <div style="font-size:.75rem;color:var(--text-muted);margin-top:6px;"> File yang diupload akan tersimpan di folder <code style="color:var(--purple-glow)">/asset/</code> secara otomatis.</div>
                         </div>
                         
                         <div class="form-group">
@@ -476,7 +625,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
                     </div>
                     
                     <div class="form-actions">
-                        <button type="submit" class="btn-save">💾 SIMPAN KARAKTER</button>
+                        <button type="submit" class="btn-save"> SIMPAN KARAKTER</button>
                         <button type="button" class="btn-cancel" onclick="resetForm()">✕ RESET</button>
                     </div>
                 </form>
@@ -570,6 +719,229 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
             </table>
         </div>
 
+    <!-- ==================== PANEL: TECHNIQUES ==================== -->
+    <div class="panel" id="panel-techniques">
+        <div class="page-header">
+            <div>
+                <div class="page-title"> Cursed Techniques</div>
+                <div class="page-sub">Kelola semua teknik kutukan</div>
+            </div>
+            <button class="btn-add" onclick="showPanel('add-tech')">+ Tambah Teknik</button>
+        </div>
+        <table class="data-table">
+            <thead><tr><th>Nama</th><th>Tipe</th><th>Pengguna</th><th>Power</th><th>Domain</th><th>Aksi</th></tr></thead>
+            <tbody>
+            <?php foreach ($techniques as $t): ?>
+            <tr>
+                <td><strong><?= htmlspecialchars($t['name']) ?></strong><br><span style="color:var(--text-muted);font-size:.8rem"><?= htmlspecialchars($t['name_jp'] ?? '') ?></span></td>
+                <td><span class="grade-badge grade-1"><?= htmlspecialchars($t['type']) ?></span></td>
+                <td style="color:var(--gold)"><?= htmlspecialchars($t['user_name'] ?? '-') ?></td>
+                <td><?= $t['power_level'] ?>/100</td>
+                <td><?= $t['is_domain'] ? '<span class="playable-badge playable-yes">YA</span>' : '<span class="playable-badge playable-no">Tidak</span>' ?></td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn-edit" onclick="editTech(<?= $t['id'] ?>)">Edit</button>
+                        <button class="btn-delete" onclick="confirmDeleteTech(<?= $t['id'] ?>, '<?= htmlspecialchars(addslashes($t['name'])) ?>')">Hapus</button>
+                    </div>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== PANEL: ADD/EDIT TECHNIQUE ==================== -->
+    <div class="panel" id="panel-add-tech">
+        <div class="form-card">
+            <div class="form-card-title" id="techFormTitle"> Tambah Teknik Baru</div>
+            <?php if($msg && (isset($_POST['action']) && str_contains($_POST['action'],'technique'))): ?>
+            <div class="msg msg-<?= $msgType ?>"><?= htmlspecialchars($msg) ?></div>
+            <?php endif; ?>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                <input type="hidden" name="action" value="create_technique" id="techFormAction">
+                <input type="hidden" name="tech_id" id="techFormId" value="">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nama Teknik *</label>
+                        <input class="form-input" type="text" name="name" id="tf_name" required placeholder="cth: Limitless" value="<?= htmlspecialchars($editTech['name'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Jepang</label>
+                        <input class="form-input" type="text" name="name_jp" id="tf_name_jp" placeholder="cth: 無下限呪術" value="<?= htmlspecialchars($editTech['name_jp'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipe *</label>
+                        <select class="form-input" name="tech_type" id="tf_type">
+                            <?php foreach(['Innate Technique','Non-Innate','Domain Expansion','Special Ability','Shikigami'] as $tp): ?>
+                            <option value="<?= $tp ?>" <?= ($editTech['type'] ?? '') === $tp ? 'selected' : '' ?>><?= $tp ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pengguna</label>
+                        <input class="form-input" type="text" name="user_name" id="tf_user" placeholder="cth: Satoru Gojo" value="<?= htmlspecialchars($editTech['user_name'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Afiliasi</label>
+                        <input class="form-input" type="text" name="affiliation" id="tf_affiliation" placeholder="cth: Tokyo Jujutsu High" value="<?= htmlspecialchars($editTech['affiliation'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Image URL / Nama File</label>
+                        <input class="form-input" type="text" name="image_url" id="tf_image" placeholder="cth: Limitless.mp4" value="<?= htmlspecialchars($editTech['image_url'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Power Level (0-100)</label>
+                        <input class="form-input" type="number" name="power_level" id="tf_power" min="0" max="100" value="<?= $editTech['power_level'] ?? 50 ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Difficulty (0-100)</label>
+                        <input class="form-input" type="number" name="difficulty" id="tf_difficulty" min="0" max="100" value="<?= $editTech['difficulty'] ?? 50 ?>">
+                    </div>
+                </div>
+                <div class="form-group" style="grid-column:1/-1">
+                    <label class="form-label">Deskripsi *</label>
+                    <textarea class="form-input" name="description" id="tf_description" rows="3" required placeholder="Deskripsi singkat teknik..."><?= htmlspecialchars($editTech['description'] ?? '') ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lore / Detail</label>
+                    <textarea class="form-input" name="lore" id="tf_lore" rows="4" placeholder="Lore mendalam..."><?= htmlspecialchars($editTech['lore'] ?? '') ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--gold)">
+                        <input type="checkbox" name="is_domain" id="tf_domain" <?= !empty($editTech['is_domain']) ? 'checked' : '' ?>>
+                        Ini adalah Domain Expansion
+                    </label>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:8px">
+                    <button type="submit" class="btn-add">💾 Simpan Teknik</button>
+                    <button type="button" class="btn-modal-cancel" onclick="resetTechForm()">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== PANEL: LOCATIONS ==================== -->
+    <div class="panel" id="panel-locations">
+        <div class="page-header">
+            <div>
+                <div class="page-title"> World Locations</div>
+                <div class="page-sub">Kelola semua lokasi dunia JJK</div>
+            </div>
+            <button class="btn-add" onclick="showPanel('add-loc')">+ Tambah Lokasi</button>
+        </div>
+        <table class="data-table">
+            <thead><tr><th>Nama</th><th>Tipe</th><th>Region</th><th>Significance</th><th>Gambar</th><th>Aksi</th></tr></thead>
+            <tbody>
+            <?php foreach ($locations as $loc): ?>
+            <tr>
+                <td><strong><?= htmlspecialchars($loc['name']) ?></strong><br><span style="color:var(--text-muted);font-size:.8rem"><?= htmlspecialchars($loc['name_jp'] ?? '') ?></span></td>
+                <td><span class="grade-badge grade-2"><?= htmlspecialchars($loc['type']) ?></span></td>
+                <td style="color:var(--gold)"><?= htmlspecialchars($loc['region'] ?? '-') ?></td>
+                <td><?= $loc['significance_level'] ?>/100</td>
+                <td style="color:var(--text-muted);font-size:.8rem"><?= $loc['image_url'] ? ' '.htmlspecialchars($loc['image_url']) : ' Tidak ada' ?></td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn-edit" onclick="editLoc(<?= $loc['id'] ?>)">Edit</button>
+                        <button class="btn-delete" onclick="confirmDeleteLoc(<?= $loc['id'] ?>, '<?= htmlspecialchars(addslashes($loc['name'])) ?>')">Hapus</button>
+                    </div>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== PANEL: ADD/EDIT LOCATION ==================== -->
+    <div class="panel" id="panel-add-loc">
+        <div class="form-card">
+            <div class="form-card-title" id="locFormTitle"> Tambah Lokasi Baru</div>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                <input type="hidden" name="action" value="create_location" id="locFormAction">
+                <input type="hidden" name="loc_id" id="locFormId" value="">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nama Lokasi *</label>
+                        <input class="form-input" type="text" name="name" id="lf_name" required placeholder="cth: Shibuya" value="<?= htmlspecialchars($editLoc['name'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Jepang</label>
+                        <input class="form-input" type="text" name="name_jp" id="lf_name_jp" placeholder="cth: 渋谷" value="<?= htmlspecialchars($editLoc['name_jp'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipe *</label>
+                        <select class="form-input" name="loc_type" id="lf_type">
+                            <?php foreach(['School','City','Battlefield','Landmark','Clan Compound','Hidden','Colony','Dimension'] as $tp): ?>
+                            <option value="<?= $tp ?>" <?= ($editLoc['type'] ?? '') === $tp ? 'selected' : '' ?>><?= $tp ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Region</label>
+                        <input class="form-input" type="text" name="region" id="lf_region" placeholder="cth: Tokyo, Jepang" value="<?= htmlspecialchars($editLoc['region'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Image URL / Nama File</label>
+                        <input class="form-input" type="text" name="image_url" id="lf_image" placeholder="cth: Shibuya.webp" value="<?= htmlspecialchars($editLoc['image_url'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Significance Level (0-100)</label>
+                        <input class="form-input" type="number" name="significance_level" id="lf_sig" min="0" max="100" value="<?= $editLoc['significance_level'] ?? 50 ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Deskripsi *</label>
+                    <textarea class="form-input" name="description" id="lf_description" rows="3" required placeholder="Deskripsi singkat lokasi..."><?= htmlspecialchars($editLoc['description'] ?? '') ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lore / Detail</label>
+                    <textarea class="form-input" name="lore" id="lf_lore" rows="4" placeholder="Lore mendalam..."><?= htmlspecialchars($editLoc['lore'] ?? '') ?></textarea>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:8px">
+                    <button type="submit" class="btn-add"> Simpan Lokasi</button>
+                    <button type="button" class="btn-modal-cancel" onclick="resetLocForm()">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+<!-- Delete Tech Modal -->
+<div class="modal-overlay" id="deleteTechModal">
+    <div class="modal-box">
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">Hapus Teknik?</div>
+        <div class="modal-sub" id="deleteTechSub"></div>
+        <form method="POST" id="deleteTechForm">
+            <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+            <input type="hidden" name="action" value="delete_technique">
+            <input type="hidden" name="tech_id" id="deleteTechId">
+            <div class="modal-btns">
+                <button type="submit" class="btn-modal-confirm">YA, HAPUS</button>
+                <button type="button" class="btn-modal-cancel" onclick="document.getElementById('deleteTechModal').classList.remove('show')">BATAL</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Loc Modal -->
+<div class="modal-overlay" id="deleteLocModal">
+    <div class="modal-box">
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">Hapus Lokasi?</div>
+        <div class="modal-sub" id="deleteLocSub"></div>
+        <form method="POST" id="deleteLocForm">
+            <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+            <input type="hidden" name="action" value="delete_location">
+            <input type="hidden" name="loc_id" id="deleteLocId">
+            <div class="modal-btns">
+                <button type="submit" class="btn-modal-confirm">YA, HAPUS</button>
+                <button type="button" class="btn-modal-cancel" onclick="document.getElementById('deleteLocModal').classList.remove('show')">BATAL</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -612,6 +984,8 @@ function editChar(id) {
     document.getElementById('fn_desc').value = c.description || '';
     document.getElementById('fn_lore').value = c.lore || '';
     document.getElementById('fn_image').value = c.image_url || '';
+    // Clear uploaded file when editing
+    clearImageUpload();
     document.getElementById('fn_atk').value = c.attack_power;
     document.getElementById('fn_def').value = c.defense_power;
     document.getElementById('fn_spd').value = c.speed_power;
@@ -652,6 +1026,137 @@ editChar(<?= $editChar['id'] ?>);
 document.getElementById('deleteModal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
 });
+
+// ===== DRAG & DROP IMAGE UPLOAD =====
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('imageFileInput');
+const dropPreview = document.getElementById('dropPreview');
+const previewImg = document.getElementById('previewImg');
+const previewName = document.getElementById('previewName');
+
+['dragenter','dragover'].forEach(ev => {
+  dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+});
+['dragleave','drop'].forEach(ev => {
+  dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('drag-over'); });
+});
+dropZone.addEventListener('drop', e => {
+  const files = e.dataTransfer.files;
+  if (files.length) handleImageFile(files[0]);
+});
+fileInput.addEventListener('change', e => {
+  if (e.target.files.length) handleImageFile(e.target.files[0]);
+});
+
+function handleImageFile(file) {
+  if (!file.type.startsWith('image/')) { alert('File harus berupa gambar!'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    previewImg.src = e.target.result;
+    previewImg.style.display = 'block';
+    previewName.textContent = file.name;
+    dropPreview.style.display = 'flex';
+    dropZone.style.borderColor = 'var(--purple-glow)';
+    // Suggest filename in text input
+    document.getElementById('fn_image').value = file.name;
+    document.getElementById('fn_image').placeholder = '(akan diupload: ' + file.name + ')';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImageUpload() {
+  fileInput.value = '';
+  previewImg.src = '';
+  previewImg.style.display = 'none';
+  previewName.textContent = '';
+  dropPreview.style.display = 'none';
+  dropZone.style.borderColor = '';
+  document.getElementById('fn_image').placeholder = 'contoh: Satoru_Gojo.webp';
+}
+
+// === TECHNIQUE CRUD JS ===
+const techData = <?= json_encode(array_values($techniques)) ?>;
+const locData  = <?= json_encode(array_values($locations)) ?>;
+
+function editTech(id) {
+    const t = techData.find(x => x.id == id);
+    if (!t) return;
+    showPanel('add-tech');
+    document.getElementById('techFormTitle').textContent = 'Edit Teknik: ' + t.name;
+    document.getElementById('techFormAction').value = 'update_technique';
+    document.getElementById('techFormId').value = t.id;
+    document.getElementById('tf_name').value = t.name || '';
+    document.getElementById('tf_name_jp').value = t.name_jp || '';
+    document.getElementById('tf_type').value = t.type || 'Innate Technique';
+    document.getElementById('tf_user').value = t.user_name || '';
+    document.getElementById('tf_affiliation').value = t.affiliation || '';
+    document.getElementById('tf_image').value = t.image_url || '';
+    document.getElementById('tf_power').value = t.power_level || 50;
+    document.getElementById('tf_difficulty').value = t.difficulty || 50;
+    document.getElementById('tf_description').value = t.description || '';
+    document.getElementById('tf_lore').value = t.lore || '';
+    document.getElementById('tf_domain').checked = t.is_domain == 1;
+}
+
+function resetTechForm() {
+    document.getElementById('techFormTitle').textContent = '➕ Tambah Teknik Baru';
+    document.getElementById('techFormAction').value = 'create_technique';
+    document.getElementById('techFormId').value = '';
+    ['tf_name','tf_name_jp','tf_user','tf_affiliation','tf_image','tf_description','tf_lore'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('tf_power').value = 50;
+    document.getElementById('tf_difficulty').value = 50;
+    document.getElementById('tf_domain').checked = false;
+}
+
+function confirmDeleteTech(id, name) {
+    document.getElementById('deleteTechId').value = id;
+    document.getElementById('deleteTechSub').textContent = `Hapus teknik "${name}"? Tidak bisa dibatalkan.`;
+    document.getElementById('deleteTechModal').classList.add('show');
+}
+
+// === LOCATION CRUD JS ===
+function editLoc(id) {
+    const l = locData.find(x => x.id == id);
+    if (!l) return;
+    showPanel('add-loc');
+    document.getElementById('locFormTitle').textContent = 'Edit Lokasi: ' + l.name;
+    document.getElementById('locFormAction').value = 'update_location';
+    document.getElementById('locFormId').value = l.id;
+    document.getElementById('lf_name').value = l.name || '';
+    document.getElementById('lf_name_jp').value = l.name_jp || '';
+    document.getElementById('lf_type').value = l.type || 'Landmark';
+    document.getElementById('lf_region').value = l.region || '';
+    document.getElementById('lf_image').value = l.image_url || '';
+    document.getElementById('lf_sig').value = l.significance_level || 50;
+    document.getElementById('lf_description').value = l.description || '';
+    document.getElementById('lf_lore').value = l.lore || '';
+}
+
+function resetLocForm() {
+    document.getElementById('locFormTitle').textContent = ' Tambah Lokasi Baru';
+    document.getElementById('locFormAction').value = 'create_location';
+    document.getElementById('locFormId').value = '';
+    ['lf_name','lf_name_jp','lf_region','lf_image','lf_description','lf_lore'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('lf_sig').value = 50;
+}
+
+function confirmDeleteLoc(id, name) {
+    document.getElementById('deleteLocId').value = id;
+    document.getElementById('deleteLocSub').textContent = `Hapus lokasi "${name}"? Tidak bisa dibatalkan.`;
+    document.getElementById('deleteLocModal').classList.add('show');
+}
+
+// Auto-open edit panel if GET param set
+<?php if ($editTech): ?>
+editTech(<?= $editTech['id'] ?>);
+<?php endif; ?>
+<?php if ($editLoc): ?>
+editLoc(<?= $editLoc['id'] ?>);
+<?php endif; ?>
 </script>
 </body>
 </html>

@@ -192,7 +192,7 @@ function navActive(string $page, string $current): string {
         <button class="sound-btn" id="soundBtn" onclick="toggleSound()" title="Toggle Backsound">🔇</button>
         <?php if (isLoggedIn()): ?>
         <div class="user-badge">
-            <span class="user-badge-name">⚡ <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
+            <span class="user-badge-name"> <?= htmlspecialchars($_SESSION['username'] ?? '') ?></span>
         </div>
         <a href="<?= $basePath ?>pages/logout.php" class="btn-nav btn-nav-outline">Logout</a>
         <?php else: ?>

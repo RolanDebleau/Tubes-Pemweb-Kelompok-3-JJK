@@ -95,17 +95,17 @@ require_once __DIR__ . '/../includes/navbar.php';
 <!-- WORLD LORE -->
 <div class="lore-cards">
     <div class="lore-card">
-        <span class="lore-card-icon">👁</span>
+        <span class="lore-card-icon"></span>
         <div class="lore-card-title">Cursed Energy</div>
         <div class="lore-card-text">Energi kutukan lahir dari emosi negatif manusia — rasa takut, kebencian, dan kesedihan. Hampir semua manusia memilikinya, namun hanya sedikit yang bisa mengontrolnya sebagai senjata.</div>
     </div>
     <div class="lore-card">
-        <span class="lore-card-icon">🌑</span>
+        <span class="lore-card-icon"></span>
         <div class="lore-card-title">Cursed Spirits</div>
         <div class="lore-card-text">Roh Kutukan terbentuk dari akumulasi energi kutukan yang cukup kuat. Mereka tidak bisa dilihat oleh orang biasa dan menyerang manusia yang tak berdaya. Grade mereka ditentukan dari kekuatan curse energy yang dimiliki.</div>
     </div>
     <div class="lore-card">
-        <span class="lore-card-icon">⚔</span>
+        <span class="lore-card-icon"></span>
         <div class="lore-card-title">Jujutsu Sorcerers</div>
         <div class="lore-card-text">Para tukang sihir yang mampu menggunakan cursed energy untuk bertarung melawan Cursed Spirits. Mereka dilatih di sekolah khusus seperti Tokyo dan Kyoto Jujutsu High. Tiap sorcerer memiliki teknik kutukan unik yang diwariskan atau dikembangkan sendiri.</div>
     </div>

@@ -44,7 +44,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .search-wrap{flex:1;min-width:220px;position:relative;}
 .search-wrap input{width:100%;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.95rem;padding:10px 14px 10px 38px;outline:none;transition:border-color .3s;}
 .search-wrap input:focus{border-color:var(--purple-glow);}
-.search-wrap::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.8rem;}
+.search-wrap::before{content:'';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.8rem;}
 .filter-select{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text-muted);font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:1px;padding:10px 14px;outline:none;cursor:pointer;transition:border-color .3s;}
 .filter-select:focus{border-color:var(--purple-glow);}
 .results-count{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;color:var(--text-muted);}
@@ -63,12 +63,24 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 /* Card inner */
 .card-inner{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .35s;}
 .basara-card:hover .card-inner{border-color:var(--purple-glow);}
+/* Per-type border colors on hover */
+.basara-card[data-type="Domain Expansion"]:hover .card-inner{border-color:var(--gold);}
+.basara-card[data-type="Innate Technique"]:hover .card-inner{border-color:var(--purple-glow);}
+.basara-card[data-type="Non-Innate"]:hover .card-inner{border-color:#fca5a5;}
+.basara-card[data-type="Special Ability"]:hover .card-inner{border-color:#38bdf8;}
+/* Subtle always-on border per type */
+.basara-card[data-type="Domain Expansion"] .card-inner{border-color:rgba(240,192,64,.25);}
+.basara-card[data-type="Innate Technique"] .card-inner{border-color:rgba(107,33,232,.25);}
+.basara-card[data-type="Non-Innate"] .card-inner{border-color:rgba(239,68,68,.2);}
+.basara-card[data-type="Special Ability"] .card-inner{border-color:rgba(56,189,248,.2);}
 
 /* Art area */
 .card-art{height:200px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .card-art-img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s;}
 .basara-card:hover .card-art-img{transform:scale(1.08);}
-.card-art-emoji{font-size:4.5rem;z-index:1;position:relative;}
+.card-art-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;gap:6px;}
+.card-art-fallback-kanji{font-family:'Cinzel Decorative',serif;font-size:3.2rem;font-weight:900;color:rgba(255,255,255,.12);letter-spacing:2px;}
+.card-art-fallback-label{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:3px;color:rgba(255,255,255,.35);text-transform:uppercase;}
 .card-art-bg{position:absolute;inset:0;}
 .card-art-overlay{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,var(--card-bg),transparent);z-index:2;}
 
@@ -81,7 +93,6 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .tb-noninnate{background:rgba(239,68,68,.15);border:1px solid #ef4444;color:#fca5a5;}
 
 /* Domain star */
-.domain-star{position:absolute;top:10px;left:10px;z-index:3;font-size:.9rem;}
 
 /* Card body */
 .card-body{padding:14px 16px 16px;}
@@ -137,32 +148,60 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 
 <div class="basara-grid">
 <?php if(empty($techniques)): ?>
-  <div class="empty-state"><span class="empty-icon">⚡</span><p>Tidak ada teknik yang ditemukan.</p></div>
+  <div class="empty-state"><span class="empty-icon"></span><p>Tidak ada teknik yang ditemukan.</p></div>
 <?php else: ?>
 <?php
-$typeIcons=['Innate Technique'=>'⚡','Non-Innate'=>'🔮','Domain Expansion'=>'🌐','Special Ability'=>'⭐','Shikigami'=>'🐉'];
 $typeCss  =['Innate Technique'=>'tb-innate','Non-Innate'=>'tb-noninnate','Domain Expansion'=>'tb-domain','Special Ability'=>'tb-special','Shikigami'=>'tb-shikigami'];
 $artBg    =['Innate Technique'=>'bg-innate','Non-Innate'=>'bg-noninnate','Domain Expansion'=>'bg-domain','Special Ability'=>'bg-special','Shikigami'=>'bg-shikigami'];
 foreach($techniques as $t):
-  $icon=$typeIcons[$t['type']]??'⚡';
   $tcss=$typeCss[$t['type']]??'tb-innate';
   $abg =$artBg[$t['type']]??'bg-innate';
 ?>
-<a href="jujutsu_detail.php?id=<?=$t['id']?>" class="basara-card">
+<a href="jujutsu_detail.php?id=<?=$t['id']?>" class="basara-card" data-type="<?=htmlspecialchars($t['type'])?>">
   <div class="card-inner">
     <div class="card-art">
       <div class="card-art-bg <?=$abg?>"></div>
-      <?php if(!empty($t['image_url'])): ?>
-      <img class="card-art-img" src="../asset/techniques/<?=htmlspecialchars($t['image_url'])?>"
-           alt="<?=htmlspecialchars($t['name'])?>"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="card-art-emoji" style="display:none"><?=$icon?></div>
+      <?php
+        $jujutsuAsset = null;
+        if (!empty($t['image_url'])) {
+          $folders = ['Domain Expansions','Innate Techniques','Non-Innate Techniques'];
+          foreach ($folders as $folder) {
+            $check = __DIR__ . '/../asset/Jujutsu/' . $folder . '/' . $t['image_url'];
+            if (file_exists($check)) {
+              $jujutsuAsset = '../asset/Jujutsu/' . $folder . '/' . $t['image_url'];
+              break;
+            }
+          }
+        }
+        $isVideo = $jujutsuAsset && preg_match('/\.mp4$/i', $jujutsuAsset);
+      ?>
+      <?php if ($jujutsuAsset): ?>
+        <?php if ($isVideo): ?>
+        <video class="card-art-img" autoplay loop muted playsinline style="object-fit:cover;width:100%;height:100%;"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <source src="<?=$jujutsuAsset?>" type="video/mp4">
+        </video>
+        <div class="card-art-fallback" style="display:none">
+        <div class="card-art-fallback-kanji">術</div>
+        <div class="card-art-fallback-label"><?=htmlspecialchars($t['type'])?></div>
+      </div>
+        <?php else: ?>
+        <img class="card-art-img" src="<?=$jujutsuAsset?>"
+             alt="<?=htmlspecialchars($t['name'])?>"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="card-art-fallback" style="display:none">
+        <div class="card-art-fallback-kanji">術</div>
+        <div class="card-art-fallback-label"><?=htmlspecialchars($t['type'])?></div>
+      </div>
+        <?php endif; ?>
       <?php else: ?>
-      <div class="card-art-emoji"><?=$icon?></div>
+      <div class="card-art-fallback">
+        <div class="card-art-fallback-kanji">術</div>
+        <div class="card-art-fallback-label"><?=htmlspecialchars($t['type'])?></div>
+      </div>
       <?php endif; ?>
       <div class="card-art-overlay"></div>
       <span class="type-badge <?=$tcss?>"><?=str_replace(' ','\n',$t['type'])?></span>
-      <?php if($t['is_domain']): ?><span class="domain-star">🌐</span><?php endif; ?>
     </div>
     <div class="card-body">
       <div class="card-name"><?=htmlspecialchars($t['name'])?></div>

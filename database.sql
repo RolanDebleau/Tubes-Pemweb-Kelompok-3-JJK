@@ -666,54 +666,140 @@ INSERT INTO cursed_techniques (name, name_jp, type, user_name, affiliation, desc
 90, 92, FALSE);
 
 -- SEED: world_locations
-INSERT INTO world_locations (name, name_jp, type, region, description, lore, significance_level) VALUES
+INSERT INTO world_locations (name, name_jp, type, region, description, lore, image_url, significance_level) VALUES
 
 ('Tokyo Jujutsu High','東京都立呪術高等専門学校','School','Tokyo, Jepang',
 'Sekolah teknik jujutsu metropolitan Tokyo — institusi paling terkemuka dalam dunia penyihir modern. Melatih penyihir baru sambil menangani misi pembersihan kutukan.',
 'Berdiri di atas tanah yang kaya cursed energy, Tokyo Jujutsu High dilindungi oleh barrier permanen yang menyembunyikannya dari pandangan sipil. Fasilitas mencakup ruang latihan, rumah sakit khusus sorcerer, dan penjara bawah tanah untuk artefak kutukan berbahaya. Gojo Satoru, Nanami Kento, dan para sorcerer terkuat generasi ini tumbuh di sini.',
+'Tokyo_Metropolitan_Jujutsu_Technical_School.webp',
 95),
 
 ('Kyoto Jujutsu High','京都府立呪術高等専門学校','School','Kyoto, Jepang',
 'Sekolah teknik jujutsu metropolitan Kyoto — rival historis Tokyo. Lebih konservatif dan menjunjung tinggi tradisi klan sorcerer.',
 'Berlokasi di kota bersejarah Kyoto, sekolah ini memiliki hubungan erat dengan keluarga-keluarga sorcerer berpengaruh seperti Kamo dan Zenin. Principal Yoshinobu Gakuganji menjalankan institusi ini dengan pendekatan tradisional. Goodwill Event antara Tokyo dan Kyoto diadakan setahun sekali di sini.',
+'Kyoto_Jujutsu_High.webp',
 80),
 
 ('Shibuya','渋谷','Battlefield','Tokyo, Jepang',
 'Distrik perbelanjaan tersibuk Tokyo yang menjadi lokasi insiden paling berdarah dalam sejarah modern jujutsu — Shibuya Incident.',
 'Pada malam Shibuya Incident, Kenjaku dan aliansi kutukan mengaktifkan barrier raksasa yang menjebak ribuan sipil. Gojo Satoru berhasil dijebak dalam Prison Realm di persimpangan Shibuya. Sukuna dilepaskan sepenuhnya dan menghancurkan sebagian distrik. Malam itu mengubah keseimbangan kekuatan dunia jujutsu selamanya.',
+'Shibuya.webp',
 100),
 
 ('Zenin Clan Compound','禅院家の屋敷','Clan Compound','Jepang',
 'Kediaman resmi Klan Zenin — salah satu dari Tiga Klan Besar yang paling berpengaruh dan paling kontroversial dalam dunia jujutsu.',
 'Klan Zenin dikenal sebagai lingkungan yang sangat hierarkis dan kejam. Anggota yang tidak memiliki cursed energy yang cukup diperlakukan sebagai warga kelas dua. Maki dan Mai Zenin tumbuh di bawah tekanan ekstrem di sini. Tempat ini kemudian menjadi lokasi pertempuran berdarah ketika Maki kembali dengan kekuatan Heavenly Restriction penuh.',
+NULL,
 75),
 
 ('Jujutsu Headquarters','呪術総本山','Hidden','Jepang',
 'Markas administratif para tetua jujutsu tempat kebijakan dan hukum dunia sorcerer diputuskan — termasuk hukuman mati.',
 'Birokrasi jujutsu yang korup berpusat di sini, jauh dari medan pertempuran nyata. Para tetua yang tidak pernah turun ke lapangan membuat keputusan hidup mati para penyihir muda. Eksekusi Yuji Itadori diputuskan di sini. Satoru Gojo adalah duri terbesar bagi institusi ini.',
+NULL,
 70),
 
 ('Prison Realm','獄界封印・裏','Dimension','Dimensi Terpisah',
 'Artefak kutukan berbentuk kotak yang bisa memenjarakan siapa pun yang berdiri di hadapannya — termasuk sorcerer terkuat sekalipun.',
 'Prison Realm adalah kutukan khusus tingkat tinggi yang diciptakan ribuan tahun lalu. Di dalamnya, waktu berhenti sepenuhnya — penghuni tidak lapar, tidak haus, tidak mati, namun tidak bisa bergerak atau menggunakan teknik. Kenjaku menggunakannya untuk menjebak Gojo Satoru selama Shibuya Incident.',
+NULL,
 90),
 
 ('Cursed Womb: Death Paintings Site','呪胎九相図','Landmark','Tokyo',
 'Lokasi tersimpannya artefak kutukan Death Painting Womb — embrio kutukan setengah manusia yang berisi kesadaran anak-anak Noritoshi Kamo yang terdeformasi.',
 'Death Painting Womb adalah salah satu kutukan paling unik dalam sejarah — mereka bukan kutukan murni maupun manusia murni. Tiga dari sembilan embrio berhasil dibebaskan: Choso, Eso, dan Kechizu. Mereka memiliki ikatan darah langsung dengan Yuji Itadori, menciptakan komplikasi yang tidak terduga.',
+NULL,
 65),
 
 ('Gojo Family Estate','五条家の屋敷','Clan Compound','Jepang',
 'Kediaman Klan Gojo — salah satu dari Tiga Klan Besar dengan warisan teknik Limitless dan Six Eyes.',
 'Klan Gojo adalah satu-satunya klan yang menghasilkan penyihir dengan Limitless dan Six Eyes — kombinasi yang hanya muncul bersamaan sekali per abad. Satoru Gojo lahir di sini dan merupakan yang pertama dalam 400 tahun yang memiliki keduanya secara bersamaan, mengubahnya menjadi penyihir terkuat dalam sejarah.',
+NULL,
 70),
 
 ('Culling Game Colonies','コロニー','Colony','Seluruh Jepang',
 'Area-area terisolasi yang dibungkus Barrier Kenjaku sebagai arena Culling Game — permainan pembantaian dengan aturan kejam.',
 'Kenjaku mengaktifkan Culling Game setelah Shibuya Incident. Koloni tersebar di seluruh Jepang, masing-masing berisi sorcerer dari berbagai era yang dibangkitkan kembali. Aturan permainan: bunuh lawan untuk mendapat poin, kumpulkan poin untuk mengubah aturan. Meninggalkan koloni tanpa poin yang cukup hampir mustahil.',
+'The_Culling_Game.webp',
 85),
 
 ('Tombs of the Star Corridor','星の回廊の墓所','Hidden','Dimensi Tersembunyi',
 'Kediaman Master Tengen — penyihir abadi yang menjaga barrier pelindung seluruh Jepang dari serangan kutukan skala besar.',
 'Master Tengen telah hidup selama ribuan tahun, memperbarui tubuhnya melalui ritual Star Plasma Vessel setiap 500 tahun. Namun kali ini ritual gagal, dan Tengen mulai berevolusi menjadi sesuatu yang melampaui kemanusiaan. Ia mengelola ribuan barrier yang melindungi sekolah jujutsu dan fasilitas penting dari serangan kutukan.',
+NULL,
 80);
+
+-- ============================================================
+-- UPDATE IMAGE URLs: Cursed Techniques
+-- (Jalankan setelah INSERT seed di atas)
+-- ============================================================
+
+-- Domain Expansions
+UPDATE cursed_techniques SET image_url='Unlimited_Void.mp4'               WHERE name='Unlimited Void';
+UPDATE cursed_techniques SET image_url='Chimera_Shadow_Garden.mp4'        WHERE name='Chimera Shadow Garden';
+UPDATE cursed_techniques SET image_url='Self-Embodiment_Of_Perfection.mp4' WHERE name='Self-Embodiment of Perfection';
+UPDATE cursed_techniques SET image_url='Malevolent_Shrine.mp4'            WHERE name='Malevolent Shrine';
+UPDATE cursed_techniques SET image_url='Coffin_Of_The_Iron_Mountain.mp4'  WHERE name='Coffin of the Iron Mountain';
+
+-- Innate Techniques
+UPDATE cursed_techniques SET image_url='Limitless.mp4'                    WHERE name='Limitless';
+UPDATE cursed_techniques SET image_url='Ten_Shadows_Technique.mp4'        WHERE name='Ten Shadows Technique';
+UPDATE cursed_techniques SET image_url='Straw_Doll_Technique.mp4'         WHERE name='Straw Doll Technique';
+UPDATE cursed_techniques SET image_url='Idle_Transfiguration.mp4'         WHERE name='Idle Transfiguration';
+UPDATE cursed_techniques SET image_url='Ratio_Technique.jpeg'             WHERE name='Ratio Technique';
+UPDATE cursed_techniques SET image_url='Blood_Manipulation.mp4'           WHERE name='Blood Manipulation';
+UPDATE cursed_techniques SET image_url='Cursed_Spirit_Manipulation.mp4'   WHERE name='Cursed Spirit Manipulation';
+UPDATE cursed_techniques SET image_url='Cursed_Speech.mp4'                WHERE name='Cursed Speech';
+UPDATE cursed_techniques SET image_url='Boogie_Woogie.mp4'                WHERE name='Boogie Woogie';
+UPDATE cursed_techniques SET image_url='Disaster_Flames.mp4'              WHERE name='Disaster Flames';
+UPDATE cursed_techniques SET image_url='Black_Bird_Manipulation.mp4'      WHERE name='Bird Strike';
+
+-- Special / Non-Innate
+UPDATE cursed_techniques SET image_url='Domain_Amplification.jpeg'        WHERE name='Heavenly Restriction';
+
+-- World Locations
+UPDATE world_locations SET image_url='Tokyo_Metropolitan_Jujutsu_Technical_School.webp' WHERE name='Tokyo Jujutsu High';
+UPDATE world_locations SET image_url='Kyoto_Jujutsu_High.webp'            WHERE name='Kyoto Jujutsu High';
+UPDATE world_locations SET image_url='Shibuya.webp'                       WHERE name='Shibuya';
+UPDATE world_locations SET image_url='The_Culling_Game.webp'              WHERE name='Culling Game Colonies';
+
+
+-- ============================================================
+-- TAMBAHAN WORLD LOCATIONS (agar lebih banyak tampil)
+-- ============================================================
+INSERT INTO world_locations (name, name_jp, type, region, description, lore, image_url, significance_level) VALUES
+
+('Saitama Urami East Junior High','埼玉県立裏見東中学校','Landmark','Saitama, Jepang',
+'Sekolah menengah tempat Yuji Itadori bersekolah sebelum hidupnya berubah setelah bertemu kutukan.',
+'Di sekolah biasa inilah perjalanan luar biasa Yuji Itadori dimulai. Di sini ia pertama kali menemukan jari kutukan Sukuna dan mengambil keputusan yang mengubah hidupnya selamanya.',
+'Saitama_Urami_East_Junior_High.webp', 60),
+
+('Sugisawa High School','杉沢第三高校','Landmark','Miyagi, Jepang',
+'Sekolah menengah asal Yuji sebelum pindah ke Saitama. Tempat kenangan masa kecilnya bersama kakeknya.',
+'Sugisawa adalah sekolah pertama Yuji sebelum pindah. Kakeknya yang berpengalaman dalam dunia kutukan berpesan padanya untuk selalu menyelamatkan banyak orang dan memastikan mereka mati dengan bermartabat.',
+'Sugisawa_High.webp', 45),
+
+('Yasohachi Bridge','八十八橋','Landmark','Jepang',
+'Jembatan berhantu yang menjadi lokasi salah satu misi awal Yuji dan kawan-kawan. Kutukan kuat bersarang di sini.',
+'Yasohachi Bridge adalah jembatan tua yang dikenal sebagai tempat terkutuk. Banyak orang hilang di sana sebelum tim Yuji diutus untuk membersihkan kutukan yang bersarang.',
+'Yasohachi_Bridge.webp', 55),
+
+('Gachinko Fight Club','ガチンコファイトクラブ','Landmark','Tokyo, Jepang',
+'Tempat perkelahian bawah tanah yang dikelola Hakari Kinji, menjadi markas tidak resminya setelah diskors.',
+'Setelah diskors dari Tokyo Jujutsu High, Hakari Kinji mendirikan arena pertarungan bawah tanah ini. Di sinilah ia ditemukan oleh Yuji dan Megumi yang mencari bantuannya untuk Culling Game.',
+'Gachinko_Fight_Club.webp', 50),
+
+('Kawasaki City','川崎市','City','Kanagawa, Jepang',
+'Kota industri di pinggiran Tokyo yang menjadi lokasi beberapa misi pembersihan kutukan.',
+'Kawasaki, kota yang berbatasan langsung dengan Tokyo, menjadi salah satu area operasi para sorcerer. Kepadatan penduduk dan industri berat di kota ini menciptakan lingkungan yang subur untuk tumbuhnya kutukan.',
+'Kawasaki_City.webp', 50),
+
+('Tokyo Metro Underground','東京地下鉄','Battlefield','Tokyo, Jepang',
+'Jaringan kereta bawah tanah Tokyo yang menjadi medan pertempuran saat Shibuya Incident.',
+'Terowongan gelap dan platform sempit stasiun metro Tokyo menjadi saksi bisu pertarungan sengit selama Shibuya Incident. Ribuan warga sipil terjebak di dalam barrier saat kutukan menyerang.',
+'Tokyo_Metro_train.webp', 80),
+
+('Renchoku Girls Junior High','連獄女子中学校','Landmark','Tokyo, Jepang',
+'Sekolah putri yang menjadi salah satu lokasi misi pembersihan kutukan para sorcerer muda.',
+'Sekolah ini menjadi lokasi misi di mana para sorcerer Tokyo Jujutsu High diutus untuk membersihkan aktivitas kutukan yang mengancam para siswa.',
+'Renchoku_Girls_Junior_High.webp', 40);
+

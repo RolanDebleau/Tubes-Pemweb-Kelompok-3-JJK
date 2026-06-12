@@ -83,7 +83,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 
 .char-card {
     background: var(--card-bg);
-    border: 1px solid var(--border);
+    border: 1px solid color-mix(in srgb, var(--accent, var(--purple-glow)) 30%, transparent);
     border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
@@ -94,6 +94,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
     display: block;
     opacity: 0;
     transform: translateY(24px);
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--accent, var(--purple-glow)) 8%, transparent);
 }
 
 .char-card.visible {
@@ -104,8 +105,9 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .char-card:hover {
     border-color: var(--accent, var(--purple-glow));
     transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(107,33,232,.25),
-                0 0 0 1px var(--accent, rgba(157,77,255,.2));
+    box-shadow: 0 20px 60px color-mix(in srgb, var(--accent, var(--purple-glow)) 30%, transparent),
+                0 0 0 1px var(--accent, rgba(157,77,255,.2)),
+                0 0 30px color-mix(in srgb, var(--accent, var(--purple-glow)) 12%, transparent);
 }
 
 .char-card::before {
@@ -228,12 +230,12 @@ require_once __DIR__ . '/../includes/navbar.php';
 
 <div class="filter-bar">
     <form method="GET" style="display:contents;">
-        <input type="text" name="search" class="search-input" placeholder="🔍 Cari karakter, teknik, afiliasi..." value="<?= htmlspecialchars($search) ?>">
+        <input type="text" name="search" class="search-input" placeholder=" Cari karakter, teknik, afiliasi..." value="<?= htmlspecialchars($search) ?>">
         <button type="submit" class="filter-btn active">CARI</button>
     </form>
     <a href="characters.php" class="filter-btn <?= empty($grade_filter) ? 'active' : '' ?>">Semua</a>
-    <a href="?grade=Special+Grade" class="filter-btn grade-special-btn <?= $grade_filter==='Special Grade'?'active':'' ?>">⭐ Special</a>
-    <a href="?grade=Semi-Grade+1"  class="filter-btn <?= $grade_filter==='Semi-Grade 1'?'active':'' ?>">✦ Semi-1</a>
+    <a href="?grade=Special+Grade" class="filter-btn grade-special-btn <?= $grade_filter==='Special Grade'?'active':'' ?>"> Special</a>
+    <a href="?grade=Semi-Grade+1"  class="filter-btn <?= $grade_filter==='Semi-Grade 1'?'active':'' ?>"> Semi-1</a>
     <a href="?grade=Grade+1"       class="filter-btn <?= $grade_filter==='Grade 1'?'active':'' ?>">Grade 1</a>
     <a href="?grade=Grade+2"       class="filter-btn <?= $grade_filter==='Grade 2'?'active':'' ?>">Grade 2</a>
     <a href="?grade=Grade+3"       class="filter-btn <?= $grade_filter==='Grade 3'?'active':'' ?>">Grade 3</a>
@@ -246,7 +248,7 @@ require_once __DIR__ . '/../includes/navbar.php';
     
     <?php if (empty($characters)): ?>
     <div class="no-results">
-        <div class="no-results-icon">🔮</div>
+        <div class="no-results-icon"></div>
         <p style="font-size:1.1rem;margin-bottom:8px;">Tidak ada karakter ditemukan</p>
         <p style="font-size:.9rem;">Coba kata kunci lain atau hapus filter</p>
     </div>
@@ -287,8 +289,8 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
             <div class="char-card-info">
                 <div class="char-name"><?= htmlspecialchars($char['name']) ?></div>
-                <div class="char-affiliation">📍 <?= htmlspecialchars($char['affiliation'] ?? '-') ?></div>
-                <div class="char-technique">🔮 <?= htmlspecialchars($char['cursed_technique']) ?></div>
+                <div class="char-affiliation"> <?= htmlspecialchars($char['affiliation'] ?? '-') ?></div>
+                <div class="char-technique"> <?= htmlspecialchars($char['cursed_technique']) ?></div>
                 <div class="power-bars">
                     <div class="power-bar-row">
                         <span class="power-bar-label">ATK</span>

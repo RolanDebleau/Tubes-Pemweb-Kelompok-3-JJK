@@ -9,8 +9,6 @@ $typeColors=['Innate Technique'=>['a'=>'#9d4dff','bg'=>'rgba(107,33,232,.12)','g
   'Special Ability'=>['a'=>'#38bdf8','bg'=>'rgba(56,189,248,.1)','glow'=>'rgba(56,189,248,.25)'],
   'Shikigami'=>['a'=>'#34d399','bg'=>'rgba(16,185,129,.1)','glow'=>'rgba(16,185,129,.25)']];
 $tc=$typeColors[$t['type']]??$typeColors['Innate Technique'];
-$typeIcons=['Innate Technique'=>'⚡','Non-Innate'=>'🔮','Domain Expansion'=>'🌐','Special Ability'=>'⭐','Shikigami'=>'🐉'];
-$icon=$typeIcons[$t['type']]??'⚡';
 ?><!DOCTYPE html>
 <html lang="id">
 <head>
@@ -45,7 +43,9 @@ $icon=$typeIcons[$t['type']]??'⚡';
 .infobox-art{height:240px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,<?=$tc['bg']?>,rgba(3,2,10,1));border-bottom:1px solid var(--border);}
 .infobox-art img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
 .infobox:hover .infobox-art img{transform:scale(1.05);}
-.infobox-art-emoji{font-size:5rem;z-index:1;}
+.infobox-art-fallback{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.infobox-art-fallback-kanji{font-family:'Cinzel Decorative',serif;font-size:3.6rem;font-weight:900;color:rgba(255,255,255,.14);}
+.infobox-art-fallback-label{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;}
 .infobox-art-aura{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,<?=$tc['glow']?>,transparent 70%);pointer-events:none;}
 .infobox-art-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(107,33,232,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(107,33,232,.04) 1px,transparent 1px);background-size:24px 24px;}
 .ib-table{width:100%;}
@@ -81,24 +81,24 @@ $icon=$typeIcons[$t['type']]??'⚡';
   </div>
   <h1 class="page-title"><?=htmlspecialchars($t['name'])?></h1>
   <div class="page-jp"><?=htmlspecialchars($t['name_jp']??'')?></div>
-  <span class="type-chip"><?=$icon?> <?=htmlspecialchars($t['type'])?><?=$t['is_domain']?' · DOMAIN EXPANSION':''?></span>
+  <span class="type-chip"><?=htmlspecialchars($t['type'])?><?=$t['is_domain']?' · DOMAIN EXPANSION':''?></span>
 </div>
 
 <div class="wiki-wrap">
   <div class="wiki-main">
     <a href="jujutsu.php" class="back-btn">← Kembali ke Jujutsu</a>
     <div class="ws-sec">
-      <h2 class="ws-title">📖 Deskripsi</h2>
+      <h2 class="ws-title"> Deskripsi</h2>
       <div class="ws-text"><p><?=nl2br(htmlspecialchars($t['description']??''))?></p></div>
     </div>
     <?php if(!empty($t['lore'])): ?>
     <div class="ws-sec">
-      <h2 class="ws-title">🗂️ Lore & Detail Mendalam</h2>
+      <h2 class="ws-title"> Lore & Detail Mendalam</h2>
       <div class="ws-text"><?php foreach(array_filter(explode("\n",$t['lore'])) as $p): ?><p><?=htmlspecialchars(trim($p))?></p><?php endforeach; ?></div>
     </div>
     <?php endif; ?>
     <div class="ws-sec">
-      <h2 class="ws-title">⚡ Cara Kerja Teknik</h2>
+      <h2 class="ws-title"> Cara Kerja Teknik</h2>
       <div class="hl-box">
         <div class="hl-label">Pengguna Utama</div>
         <div style="font-family:'Cinzel Decorative',serif;font-size:.95rem;color:var(--text);margin-bottom:6px;"><?=htmlspecialchars($t['user_name']??'Unknown')?></div>
@@ -112,7 +112,7 @@ $icon=$typeIcons[$t['type']]??'⚡';
       <?php endif; ?>
     </div>
     <div class="ws-sec">
-      <h2 class="ws-title">📊 Power Rating</h2>
+      <h2 class="ws-title"> Power Rating</h2>
       <?php
       $stats=[
         ['Power Level',$t['power_level'],'#9d4dff','Kekuatan destruktif teknik dalam pertarungan.'],
@@ -140,19 +140,53 @@ $icon=$typeIcons[$t['type']]??'⚡';
       <div class="infobox-art">
         <div class="infobox-art-aura"></div>
         <div class="infobox-art-grid"></div>
-        <?php if(!empty($t['image_url'])): ?>
-        <img src="../asset/techniques/<?=htmlspecialchars($t['image_url'])?>" alt="<?=htmlspecialchars($t['name'])?>"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="infobox-art-emoji" style="display:none"><?=$icon?></div>
+        <?php
+          $jAsset = null;
+          if (!empty($t['image_url'])) {
+            $folders = ['Domain Expansions','Innate Techniques','Non-Innate Techniques'];
+            foreach ($folders as $jf) {
+              $jcheck = __DIR__ . '/../asset/Jujutsu/' . $jf . '/' . $t['image_url'];
+              if (file_exists($jcheck)) { $jAsset = '../asset/Jujutsu/' . $jf . '/' . $t['image_url']; break; }
+            }
+            // Also try direct path (if image_url already has subfolder)
+            if (!$jAsset) {
+              $jcheck2 = __DIR__ . '/../asset/Jujutsu/' . $t['image_url'];
+              if (file_exists($jcheck2)) $jAsset = '../asset/Jujutsu/' . $t['image_url'];
+            }
+          }
+          $jIsVideo = $jAsset && preg_match('/\.mp4$/i', $jAsset);
+        ?>
+        <?php if ($jAsset): ?>
+          <?php if ($jIsVideo): ?>
+          <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <source src="<?=$jAsset?>" type="video/mp4">
+          </video>
+          <div class="infobox-art-fallback" style="display:none">
+          <div class="infobox-art-fallback-kanji">術</div>
+          <div class="infobox-art-fallback-label"><?=htmlspecialchars($t['type'])?></div>
+        </div>
+          <?php else: ?>
+          <img src="<?=$jAsset?>" alt="<?=htmlspecialchars($t['name'])?>"
+               style="width:100%;height:100%;object-fit:cover;"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="infobox-art-fallback" style="display:none">
+          <div class="infobox-art-fallback-kanji">術</div>
+          <div class="infobox-art-fallback-label"><?=htmlspecialchars($t['type'])?></div>
+        </div>
+          <?php endif; ?>
         <?php else: ?>
-        <div class="infobox-art-emoji"><?=$icon?></div>
+        <div class="infobox-art-fallback">
+          <div class="infobox-art-fallback-kanji">術</div>
+          <div class="infobox-art-fallback-label"><?=htmlspecialchars($t['type'])?></div>
+        </div>
         <?php endif; ?>
       </div>
       <table class="ib-table">
         <tr><th>Tipe</th><td><span class="ib-type"><?=htmlspecialchars($t['type'])?></span></td></tr>
         <tr><th>Pengguna</th><td><?=htmlspecialchars($t['user_name']??'Unknown')?></td></tr>
         <tr><th>Afiliasi</th><td><?=htmlspecialchars($t['affiliation']??'-')?></td></tr>
-        <tr><th>Domain</th><td><?=$t['is_domain']?'<span class="domain-badge">🌐 Ya</span>':'Bukan Domain'?></td></tr>
+        <tr><th>Domain</th><td><?=$t['is_domain']?'<span class="domain-badge">Ya</span>':'Bukan Domain'?></td></tr>
         <tr><th>Power</th><td>
           <div class="mini-bar"><div class="mini-track"><div class="mini-fill" style="width:<?=$t['power_level']?>%;background:var(--accent);"></div></div><span class="mini-val"><?=$t['power_level']?></span></div>
         </td></tr>
@@ -163,11 +197,11 @@ $icon=$typeIcons[$t['type']]??'⚡';
     </div>
     <div class="quick-nav">
       <div class="qn-title">Navigasi</div>
-      <a href="../index.php" class="qn-link">🏠 Home</a>
-      <a href="characters.php" class="qn-link">👤 Characters</a>
-      <a href="jujutsu.php" class="qn-link">⚡ Semua Teknik</a>
-      <a href="world.php" class="qn-link">🌏 World</a>
-      <a href="story.php" class="qn-link">📜 Story Arc</a>
+      <a href="../index.php" class="qn-link"> Home</a>
+      <a href="characters.php" class="qn-link"> Characters</a>
+      <a href="jujutsu.php" class="qn-link"> Semua Teknik</a>
+      <a href="world.php" class="qn-link"> World</a>
+      <a href="story.php" class="qn-link"> Story Arc</a>
     </div>
   </div>
 </div>
