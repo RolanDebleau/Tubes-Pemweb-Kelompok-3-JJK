@@ -8,11 +8,12 @@ $leaderboard = getLeaderboard(20);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leaderboard — JJK Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--border-gold:rgba(240,192,64,.2);--card-bg:rgba(10,8,20,.85);--nav-h:80px;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
+body{background:transparent;color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:#08060f;} ::-webkit-scrollbar-thumb{background:#3a0d7a;}
 
 
@@ -69,13 +70,9 @@ footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
 <?php
 $currentPage = 'leaderboard';
 $basePath    = '../';
-require_once __DIR__ . '/../includes/navbar.php';
+include __DIR__ . '/../includes/navbar2.php';
 ?>
-<div class="page-hero">
-    <span class="page-tag">Top Sorcerers</span>
-    <h1 class="page-title">Papan Peringkat</h1>
-    <p class="page-sub">Siapa tukang sihir terkuat yang berhasil mengalahkan paling banyak Cursed Spirits?</p>
-</div>
+<div class="page-hero" style="padding-top:calc(var(--nav-h) + 24px);padding-bottom:20px;"></div>
 <div class="main-content">
     <?php if (!empty($leaderboard)): ?>
     <div class="top3">

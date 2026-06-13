@@ -1,0 +1,273 @@
+:root {
+  --primary-blue: #0613a6;
+  --text-white: #ffffff;
+  --bg-black: #000000;
+  --glass-bg: rgba(255, 255, 255, 0.2);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-black);
+  min-height: 100vh;
+  font-family: "Inter-SemiBold", Helvetica, sans-serif;
+}
+
+/* ==========================================================================
+   CONTAINER UTAMA (Mendukung REM Scaling Dg Benar)
+   ========================================================================== */
+.login-page {
+  position: relative;
+  width: 100%;        /* Mengikuti lebar viewport browser */
+  min-height: 100vh;  /* Fleksibel memenuhi tinggi layar monitor */
+  margin: 0 auto;
+  background-color: var(--bg-black);
+  overflow-x: hidden; /* Mencegah scrollbar horizontal merusak layout */
+}
+
+/* Efek Vignette / Tepian Hitam */
+.login-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.85) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Background Assets */
+.mask-group-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(45%); 
+}
+
+.sidebar-decoration {
+  position: absolute;
+  top: 13.375rem; 
+  left: 4.8125rem; 
+  width: 4.8125rem;
+  height: 38.625rem;
+  z-index: 3; 
+}
+
+/* --- MAIN FLEX LAYOUT SYSTEM --- */
+.main-grid {
+  position: relative;
+  display: flex; 
+  flex-direction: row; 
+  align-items: center;    /* Memastikan konten vertikal berada di tengah layar */
+  width: 100%;
+  min-height: 100vh;
+  padding: 4rem 5.625rem 4rem 14.0625rem; 
+  box-sizing: border-box;
+  z-index: 3;
+  gap: 2rem;              /* Memberikan ruang bernapas antara kolom kiri dan kanan */
+}
+
+/* ==========================================================================
+   KOLOM KIRI: HERO SECTION
+   ========================================================================== */
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  height: 54.8125rem;    /* Menyamakan tinggi dasar dengan panel kanan */
+  width: 45rem; 
+  flex-shrink: 0;         /* Mencegah kolom kiri hancur mengecil */
+}
+
+.jujutsu-title {
+  font-family: "Inter-Bold", Helvetica, sans-serif;
+  font-weight: 700;
+  color: var(--text-white);
+  font-size: 8.46875rem; 
+  line-height: 1;
+  margin: 2rem 0 0 0;
+}
+
+.site-subtitle {
+  font-family: "Inter-Regular", Helvetica, sans-serif;
+  font-weight: 400;
+  color: var(--text-white);
+  font-size: 2.575rem; 
+  margin: 1.5rem 0 0 0;
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1.5625rem;
+  margin-top: auto; 
+  margin-bottom: 3.5rem;
+}
+
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14.5rem; 
+  height: 3.9375rem; 
+  border-radius: 2.1875rem;
+  font-size: 2.2375rem;
+  font-weight: 600;
+  color: var(--text-white);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.btn-login { background-color: var(--primary-blue); }
+.btn-register { border: 0.3125rem solid var(--primary-blue); }
+.btn-nav:hover { opacity: 0.9; }
+
+.footer-meta {
+  font-family: "Inter-Light", Helvetica, sans-serif;
+  font-weight: 300;
+  color: var(--text-white);
+  font-size: 1.225rem; 
+  margin: 0 0 0 -3.75rem; 
+}
+
+/* ==========================================================================
+   KOLOM KANAN: LOGIN PANEL (Diubah Menjadi Responsif Dinamis)
+   ========================================================================== */
+.login-panel {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 1;          /* Otomatis mengambil sisa ruang layar */
+  width: 100%;
+}
+
+.panel-card {
+  position: relative;
+  width: 100%;
+  max-width: 59.4375rem;  /* Batas maksimal lebar di 1920px figma (951px) */
+  height: 54.8125rem;     /* 877px */
+  background-color: var(--glass-bg);
+  border-radius: 1.875rem; 
+  backdrop-filter: blur(2.71875rem) brightness(100%) saturate(100%);
+  -webkit-backdrop-filter: blur(2.71875rem) brightness(100%) saturate(100%);
+  box-shadow: inset 0 0.0625rem 0 rgba(255, 255, 255, 0.4),
+              inset 0.0625rem 0 0 rgba(255, 255, 255, 0.32),
+              inset 0 -0.0625rem 1.8125rem rgba(0, 0, 0, 0.2),
+              inset -0.0625rem 0 1.8125rem rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  transition: width 0.2s ease; /* Transisi halus saat mengecil */
+}
+
+/* PERBAIKAN UTAMA: Menggunakan kalkulasi persentase kontainer agar ikut menyusut */
+.panel-illustration {
+  position: absolute;
+  top: 0.6875rem; 
+  left: 0.75rem;
+  width: calc(100% - 1.5rem);  /* Otomatis memotong padding kiri-kanan secara dinamis */
+  height: calc(100% - 1.375rem); /* Otomatis memotong padding atas-bawah */
+  object-fit: cover;
+  z-index: 2;
+  border-radius: 1.5625rem; 
+  filter: brightness(45%); 
+}
+
+.panel-dots-group {
+  position: absolute;
+  top: 4.0625rem;
+  right: 5.5rem; 
+  display: flex;
+  gap: 0.9375rem;
+  z-index: 4;
+}
+
+.panel-dots-group .dot {
+  width: 1.5625rem;
+  height: 1.5625rem;
+  background-color: var(--text-white);
+  border-radius: 50%;
+}
+
+.panel-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 3.1875rem 3.4375rem 2.1875rem 3.4375rem; 
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.panel-title {
+  font-family: "Inter-Bold", Helvetica, sans-serif;
+  font-weight: 700;
+  color: var(--text-white);
+  font-size: 2.71875rem; 
+  margin: 0 0 1rem 0;
+}
+
+.panel-tags {
+  font-family: "Inter-Medium", Helvetica, sans-serif;
+  font-weight: 500;
+  color: var(--text-white);
+  font-size: 2.0375rem; 
+  margin: 0 0 2.5rem 0;
+}
+
+.panel-desc {
+  font-family: "Inter-Light", Helvetica, sans-serif;
+  font-weight: 300;
+  color: var(--text-white);
+  font-size: 1.875rem; 
+  width: 100%;            /* Mengubah ukuran kaku 462px menjadi 100% lebar boks */
+  max-width: 28.875rem;   /* Menjaga panjang baris teks agar tidak melar */
+  line-height: 1.4;
+  margin: 0;
+}
+
+.login-form {
+  width: 100%;
+  margin-top: auto; 
+}
+
+.btn-play-submit {
+  width: 100%;
+  height: 6.9375rem; 
+  background-color: var(--primary-blue);
+  border-radius: 1.8125rem;
+  border: none;
+  font-family: "Inter-Bold", Helvetica, sans-serif;
+  font-weight: 700;
+  color: var(--text-white);
+  font-size: 4.1rem; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+
+.btn-play-submit:hover { opacity: 0.92; }
+.btn-nav:focus-visible, .btn-play-submit:focus-visible {
+  outline: 0.125rem solid var(--text-white);
+  outline-offset: 0.25rem;
+}
+
+/* ==========================================================================
+   MEDIA QUERY TAMBAHAN (Mengamankan Resolusi Laptop Sangat Kecil)
+   ========================================================================== */
+@media screen and (max-width: 1300px) {
+  .main-grid {
+    padding-left: 8rem; /* Mengurangi padding luar kiri agar ruang tengah bertambah luas */
+    padding-right: 3rem;
+  }
+  .sidebar-decoration {
+    left: 2rem;        /* Menggeser hiasan dot kiri agar tidak menabrak teks judul */
+  }
+}

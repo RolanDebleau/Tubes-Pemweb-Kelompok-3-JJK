@@ -22,36 +22,27 @@ $playable = $db->query("SELECT * FROM characters WHERE is_playable = 1 ORDER BY 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cursed Spirit Slayer — JJK Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;
   --gold:#f0c040;--red:#cc2233;--green:#00cc66;
   --text:#ede8f5;--text-muted:#7a7490;
-  --border:rgba(107,33,232,.25);--nav-h:64px;
+  --border:rgba(107,33,232,.25);--nav-h:80px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:#08060f;}::-webkit-scrollbar-thumb{background:#3a0d7a;}
 
-/* NAV */
-.navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:300;display:flex;align-items:center;padding:0 20px;background:rgba(3,2,10,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;margin-right:20px;}
-.logo-symbol{font-size:1.4rem;background:linear-gradient(135deg,var(--purple-glow),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.logo-text{font-family:'Cinzel Decorative',serif;font-size:.8rem;color:var(--text);}
-.nav-links{display:flex;align-items:center;gap:2px;list-style:none;flex:1;}
-.nav-links a{font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:1.5px;color:var(--text-muted);text-decoration:none;padding:5px 10px;border-radius:2px;transition:all .2s;text-transform:uppercase;}
-.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(107,33,232,.15);}
-.nav-right{display:flex;gap:8px;align-items:center;}
-.btn-back{font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:1.5px;padding:5px 14px;border-radius:2px;border:1px solid var(--border);color:var(--text-muted);background:transparent;text-decoration:none;transition:all .2s;}
-.btn-back:hover{border-color:var(--purple-glow);color:var(--purple-glow);}
+/* NAV — styles inherited from navbar.php */
 
 /* GAME AREA */
 .game-wrap{position:fixed;inset:0;top:var(--nav-h);}
 
 /* SELECT SCREEN */
-.select-screen{position:absolute;inset:0;background:linear-gradient(180deg,#03020a 0%,#080520 60%,#0a0010 100%);display:flex;flex-direction:column;align-items:center;z-index:100;padding:40px 20px 20px;overflow-y:auto;}
+.select-screen{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,2,10,.55) 0%,rgba(8,5,32,.55) 60%,rgba(10,0,16,.6) 100%);display:flex;flex-direction:column;align-items:center;z-index:100;padding:40px 20px 20px;overflow-y:auto;}
 .select-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,3.5vw,2.5rem);text-align:center;margin-bottom:6px;}
 .select-title span{background:linear-gradient(135deg,var(--gold),var(--purple-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .select-sub{font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:4px;color:var(--text-muted);text-align:center;margin-bottom:28px;}
@@ -152,27 +143,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 </head>
 <body>
 
-<nav class="navbar">
-  <a href="../index.php" class="nav-logo">
-    <span class="logo-symbol">呪</span>
-    <span class="logo-text">JJK Universe</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="../index.php">Home</a></li>
-    <li><a href="../pages/characters.php">Characters</a></li>
-    <li><a href="../pages/world.php">World</a></li>
-    <li><a href="../pages/jujutsu.php">Jujutsu</a></li>
-    <li><a href="../pages/story.php">Story Arc</a></li>
-    <li><a href="index.php" class="active">🎮 Mini Game</a></li>
-    <li><a href="../pages/leaderboard.php">Leaderboard</a></li>
-  </ul>
-  <div class="nav-right">
-    <?php if(isLoggedIn()):?>
-    <span style="font-family:'Orbitron',sans-serif;font-size:.55rem;color:var(--gold);">⚡ <?=htmlspecialchars($_SESSION['username']??'')?></span>
-    <?php endif;?>
-    <a href="../index.php" class="btn-back">← Menu</a>
-  </div>
-</nav>
+<?php $currentPage='game'; $basePath='../'; include '../includes/navbar2.php'; ?>
 
 <div class="game-wrap">
 
@@ -207,8 +178,28 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
            onclick="selectChar(this)">
         <?php if($preSel):?><div class="sel-badge">SELECTED</div><?php endif;?>
         <div class="char-portrait">
-          <?php if(!empty($p['image_url'])):?>
-          <img src="../asset/<?=htmlspecialchars($p['image_url'])?>" alt="<?=htmlspecialchars($p['name'])?>"
+          <?php
+            $gameImg = null;
+            if (!empty($p['image_url'])) {
+              $base = pathinfo($p['image_url'], PATHINFO_FILENAME);
+              $ext  = pathinfo($p['image_url'], PATHINFO_EXTENSION);
+              // Try Half folder first (portrait crops), then root asset
+              $candidates = [
+                'Half/' . $p['image_url'],
+                'Half/' . $base . '.webp',
+                'Half/' . $base . '.jpg',
+                $p['image_url'],
+              ];
+              foreach ($candidates as $cand) {
+                if (file_exists(__DIR__ . '/../asset/' . $cand)) {
+                  $gameImg = '../asset/' . $cand;
+                  break;
+                }
+              }
+            }
+          ?>
+          <?php if($gameImg):?>
+          <img src="<?=htmlspecialchars($gameImg)?>" alt="<?=htmlspecialchars($p['name'])?>"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
           <span class="char-emoji-fallback"><?=$em?></span>
           <?php else:?>

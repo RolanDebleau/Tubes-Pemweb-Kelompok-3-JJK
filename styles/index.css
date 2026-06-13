@@ -1,0 +1,279 @@
+/* --- CONTAINER UTAMA HOME (GRID SYSTEM) --- */
+.home-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1.1fr 0.9fr;
+    gap: 3rem 5rem;
+    
+    width: 90%;
+    max-width: 120rem; 
+    margin: 5.71rem auto 0 auto; 
+    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+    
+    height: calc(100vh - 5.71rem - 3.5rem); 
+    position: relative; 
+}
+
+/* --- MANAJEMEN BACKGROUND IMAGE (MENIRU CHARACTERS) --- */
+.bg-wrapper {
+    position: fixed; /* Mengunci background di layar agar tidak bergerak */
+    /* Sengaja dilebihkan -20px untuk menyembunyikan distorsi garis putih di tepi layar akibat blur */
+    top: -20px;
+    left: -20px;
+    width: calc(100vw + 40px);
+    height: calc(100vh + 40px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.45; /* Mengatur tingkat opaque gambar */
+    filter: blur(6px); /* Mengatur tingkat blur gambar */
+}
+
+/* Layer gradasi untuk menggelapkan sudut-sudut layar (Vignette Effect) */
+.overlay-dark-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 1) 100%);
+}
+
+/* --- AREA 1: HERO CONTENT (KIRI ATAS) --- */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 5; /* Menjaga teks berada di atas background wrapper */
+}
+
+.hero-title {
+    font-size: clamp(3rem, 4vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #8a99ad 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: clamp(0.95rem, 1vw, 1.14rem);
+    color: #e5e7eb; 
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* Bayangan teks agar kontras dengan Gojo */
+}
+
+.carousel-navigation {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-arrow {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-arrow img { width: 1.28rem; height: 1.28rem; }
+.btn-arrow:hover { background-color: #0613a6; border-color: #0613a6; transform: scale(1.05); }
+
+/* --- AREA 2: HERO ARTWORK (KANAN ATAS) --- */
+.hero-artwork-frame {
+    position: relative;
+    width: 100%;
+    height: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.artwork-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.15;
+    z-index: 1;
+}
+
+.artwork-character {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    z-index: 2;
+}
+
+/* --- AREA 3: LORE & STORY (KIRI BAWAH) --- */
+.lore-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    height: 100%;
+    position: relative;
+    z-index: 5;
+}
+
+.lore-tagline {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #3b42ff; 
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+}
+
+.lore-main-title {
+    font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+}
+
+.lore-main-title .accent-text { color: #3b42ff; }
+.lore-body-block { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.lore-text-content p {
+    font-size: clamp(0.9rem, 1vw, 1.05rem);
+    line-height: 1.5;
+    color: #e5e7eb;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.lore-quote {
+    border-left: 3px solid #0613a6;
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.lore-quote p {
+    font-size: clamp(0.9rem, 1vw, 1.05rem);
+    font-style: italic;
+    color: #ffffff;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* --- AREA 4: CAROUSEL CHARACTER (KANAN BAWAH) --- */
+.carousel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%; 
+    overflow: hidden;
+    position: relative;
+    z-index: 5;
+}
+
+.carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #a3b3c6;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    margin: 0;
+}
+
+.carousel-controls { display: flex; gap: 0.75rem; }
+
+.btn-carousel-nav {
+    width: 2.2rem;
+    height: 2.2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-carousel-nav img { width: 40%; height: 40%; }
+.btn-carousel-nav:hover { background-color: rgba(255, 255, 255, 0.1); }
+.char-carousel-grid { display: flex; gap: 1.5rem; width: 100%; flex: 1; min-height: 0; }
+
+.char-card {
+    flex: 1;
+    height: 100%; 
+    border-radius: 1rem;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.char-card:hover { transform: translateY(-0.42rem); }
+.card-yuta { 
+    background-image: url('../asset/Half/Yuta_Okkotsu.jpg'); 
+}
+
+.card-takaba { 
+    background-image: url('../asset/Half/Fumihiko_Takaba.webp'); 
+}
+
+.card-toji { 
+    background-image: url('../asset/Half/Toji_Fushiguro.webp'); 
+}
+
+.card-overlay-blur {
+    position: absolute;
+    bottom: 1rem;
+    left: 5%;
+    width: 90%;
+    height: 3rem;
+    border-radius: 0.71rem;
+    background-color: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-detail-view {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-detail-view span {
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.05rem;
+}
+
+.btn-detail-view:hover span { opacity: 0.6; }
+
+.btn-arrow:focus-visible,
+.btn-carousel-nav:focus-visible,
+.btn-detail-view:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+}

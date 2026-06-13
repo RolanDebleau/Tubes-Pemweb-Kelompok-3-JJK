@@ -1,0 +1,223 @@
+/* ==========================================================================
+   1. Global & Base Layout
+   ========================================================================== */
+.characters {
+  background-color: #edecec;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background & Overlays */
+.bg-wrapper { position: absolute; inset: 0; z-index: 0; }
+.bg-image { width: 100%; height: 100%; object-fit: cover; }
+.overlay-light { position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3); }
+.overlay-dark { position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.44); }
+
+/* ==========================================================================
+   2. Navigasi
+   ========================================================================== */
+.site-nav {
+  position: relative;
+  margin-top: 4vh;
+  z-index: 20;
+  align-self: center; /* Memastikan navbar di tengah layar */
+}
+
+.nav-list { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+.nav-link { font-family: "Inter-SemiBold", Helvetica, sans-serif; font-weight: 600; font-size: 1.056rem; color: #ffffff; text-decoration: none; }
+.nav-link.active { color: #0613a6; }
+
+/* ==========================================================================
+   3. Container Gallery (Scrollable Horizontal)
+   ========================================================================== */
+.character-gallery {
+  position: relative;
+  flex: 1; 
+  width: 100%;
+  
+  /* Aktifkan area scroll pada container utama */
+  overflow-x: auto;            
+  overflow-y: hidden;          
+  z-index: 5;
+  
+  /* Menggunakan flex center vertikal untuk menengahkan wrapper pembungkus */
+  display: flex;
+  align-items: center;
+}
+
+/* Sub-kontainer baru untuk menampung deretan kartu asli + kloningan */
+.gallery-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.5vw;
+  padding: 0 5vw; /* Jarak aman di ujung */
+}
+
+/* Kustomisasi Scrollbar (Chrome, Edge, Safari) */
+.character-gallery::-webkit-scrollbar { height: 8px; }
+.character-gallery::-webkit-scrollbar-track { background: transparent; }
+.character-gallery::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.4); border-radius: 10px; }
+.character-gallery::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.8); }
+
+/* Kustomisasi Scrollbar (Chrome, Edge, Safari) */
+.character-gallery::-webkit-scrollbar { height: 8px; }
+.character-gallery::-webkit-scrollbar-track { background: transparent; }
+.character-gallery::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.4); border-radius: 10px; }
+.character-gallery::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.8); }
+
+/* ==========================================================================
+   4. Pengaturan Kartu Karakter Default (Seragam)
+   ========================================================================== */
+.card {
+  position: relative;
+  display: block; 
+  text-decoration: none; 
+  cursor: pointer;
+  width: 12vw; 
+  height: 65vh; 
+  
+  /* PENTING: Mencegah kartu gepeng jika data dari database ada sangat banyak */
+  flex-shrink: 0; 
+  
+  /* Animasi mulus saat ukuran melebar/mengecil */
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              z-index 0s;
+              
+  filter: drop-shadow(8px 10px 15px rgba(0, 0, 0, 0.4));
+}
+
+/* KOTAK PEMOTONG (Jajar Genjang Miring Kanan / /) */
+.card-inner {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff; 
+  clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+  overflow: hidden; 
+  position: relative;
+}
+
+/* Gambar Karakter Utama di Dalam Potongan */
+.character-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  object-position: top center; /* Tampilkan dari atas agar full body terlihat */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   5. Interaksi Dinamis (Style "Karakter Utama" Diaktifkan via Hover)
+   ========================================================================== */
+.card:hover {
+  width: 18vw; 
+  height: 75vh; 
+  
+  transform: translateY(-10px); /* Efek pop-out melayang sedikit */
+  z-index: 20 !important;       /* Memastikan kartu membesar di atas elemen lain */
+}
+
+/* ==========================================================================
+   6. Efek Blend/Saturation (Tetap Aman di Dalam Potongan)
+   ========================================================================== */
+.image-container {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.vector-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.saturation-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: #000000;
+  mix-blend-mode: saturation;
+  z-index: 3;
+}
+
+/* ========================================================
+   SEARCH & FILTER SECTION
+   ======================================================== */
+.search-filter-section {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    margin: 6rem auto 1rem auto; /* Sesuaikan margin top dengan navbar */
+    display: flex;
+    justify-content: center;
+}
+
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 600px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.25rem;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #4f46e5;
+}
+
+.btn-search, .btn-reset {
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-search {
+    background-color: #0613a6;
+    color: white;
+}
+
+.btn-reset {
+    background-color: #374151;
+    color: #d1d5db;
+}
+
+.empty-state {
+    color: white;
+    text-align: center;
+    width: 100%;
+    margin-top: 5rem;
+    font-family: sans-serif;
+    z-index: 10;
+}

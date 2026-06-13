@@ -1,4 +1,8 @@
-<?php require_once '../includes/config.php'; ?>
+<?php
+require_once '../includes/config.php';
+$currentPage = 'story';
+$basePath    = '../';
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,22 +13,9 @@
 <style>
 :root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--red:#cc2233;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--border-gold:rgba(240,192,64,.2);--card-bg:rgba(10,8,20,.85);--nav-h:80px;}
 *{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
-::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:#08060f;} ::-webkit-scrollbar-thumb{background:#3a0d7a;}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:#08060f;} ::-webkit-scrollbar-thumb{background:#3a0d7a;border-radius:3px;}
 
 .page-hero{padding-top:calc(var(--nav-h) + 80px);padding-bottom:60px;text-align:center;position:relative;overflow:hidden;padding-left:40px;padding-right:40px;}
 .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(204,34,51,.1) 0%,transparent 60%);pointer-events:none;}
@@ -32,28 +23,31 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .page-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,4vw,3rem);background:linear-gradient(135deg,var(--text),#ff5566);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;}
 .page-sub{color:var(--text-muted);font-size:1rem;max-width:500px;margin:0 auto;}
 
+/* WORLD LORE */
+.lore-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:60px auto 80px;padding:0 40px;}
+.lore-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:24px;transition:all .3s;}
+.lore-card:hover{border-color:var(--purple-glow);transform:translateY(-4px);box-shadow:0 16px 40px rgba(107,33,232,.15);}
+.lore-card-icon{font-size:2.5rem;margin-bottom:14px;display:block;}
+.lore-card-title{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--text);margin-bottom:10px;}
+.lore-card-text{color:var(--text-muted);font-size:.9rem;line-height:1.7;}
+
 /* TIMELINE */
 .timeline-wrap{max-width:900px;margin:0 auto;padding:0 40px 80px;}
 .arc-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:48px;}
 .arc-tab{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;padding:10px 20px;border-radius:2px;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;transition:all .3s;background:transparent;}
 .arc-tab:hover{border-color:var(--purple-glow);color:var(--purple-glow);}
 .arc-tab.active{border-color:var(--gold);color:var(--gold);background:rgba(240,192,64,.08);}
-
 .arc-content{display:none;}
 .arc-content.active{display:block;}
 
 .timeline{position:relative;padding-left:40px;}
 .timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--purple-glow),var(--gold),var(--red));border-radius:1px;}
-
 .tl-item{position:relative;margin-bottom:40px;opacity:0;transform:translateX(20px);transition:all .6s ease;}
 .tl-item.visible{opacity:1;transform:translateX(0);}
-
 .tl-dot{position:absolute;left:-32px;top:8px;width:16px;height:16px;border-radius:50%;border:2px solid var(--purple-glow);background:var(--black);box-shadow:0 0 12px rgba(107,33,232,.6);transition:all .3s;}
 .tl-item:hover .tl-dot{background:var(--purple-glow);box-shadow:0 0 20px rgba(107,33,232,.8);}
-
 .tl-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:24px;transition:all .3s;}
 .tl-card:hover{border-color:var(--purple-glow);transform:translateX(6px);}
-
 .tl-episode{font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:3px;color:var(--purple-glow);margin-bottom:8px;display:block;}
 .tl-title{font-family:'Cinzel Decorative',serif;font-size:1.1rem;color:var(--text);margin-bottom:10px;}
 .tl-desc{color:var(--text-muted);font-size:.95rem;line-height:1.8;}
@@ -63,28 +57,17 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .tag-death{background:rgba(100,100,120,.15);border:1px solid rgba(100,100,120,.4);color:#aaa8c0;}
 .tag-power{background:rgba(107,33,232,.15);border:1px solid rgba(107,33,232,.4);color:var(--purple-glow);}
 
-/* WORLD LORE CARDS */
-.lore-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:60px auto 80px;padding:0 40px;}
-.lore-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:24px;transition:all .3s;}
-.lore-card:hover{border-color:var(--purple-glow);transform:translateY(-4px);}
-.lore-card-icon{font-size:2.5rem;margin-bottom:14px;display:block;}
-.lore-card-title{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--text);margin-bottom:10px;}
-.lore-card-text{color:var(--text-muted);font-size:.9rem;line-height:1.7;}
-
 footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
 .footer-logo{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);}
 .footer-sub{font-size:.75rem;color:var(--text-muted);margin-top:6px;}
 
-@media(max-width:768px){.lore-cards{grid-template-columns:1fr;}.timeline-wrap,.lore-cards{padding-left:20px;padding-right:20px;}}
+@media(max-width:900px){.lore-cards{grid-template-columns:1fr;}.timeline-wrap,.lore-cards{padding-left:20px;padding-right:20px;}}
+@media(max-width:500px){.arc-tab{font-size:.5rem;padding:8px 12px;}}
 </style>
 </head>
 <body>
 
-<?php
-$currentPage = 'story';
-$basePath    = '../';
-require_once __DIR__ . '/../includes/navbar.php';
-?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
 
 <div class="page-hero">
     <span class="page-tag">Story Arc</span>
@@ -95,17 +78,17 @@ require_once __DIR__ . '/../includes/navbar.php';
 <!-- WORLD LORE -->
 <div class="lore-cards">
     <div class="lore-card">
-        <span class="lore-card-icon"></span>
+        <span class="lore-card-icon">⚡</span>
         <div class="lore-card-title">Cursed Energy</div>
         <div class="lore-card-text">Energi kutukan lahir dari emosi negatif manusia — rasa takut, kebencian, dan kesedihan. Hampir semua manusia memilikinya, namun hanya sedikit yang bisa mengontrolnya sebagai senjata.</div>
     </div>
     <div class="lore-card">
-        <span class="lore-card-icon"></span>
+        <span class="lore-card-icon">👻</span>
         <div class="lore-card-title">Cursed Spirits</div>
         <div class="lore-card-text">Roh Kutukan terbentuk dari akumulasi energi kutukan yang cukup kuat. Mereka tidak bisa dilihat oleh orang biasa dan menyerang manusia yang tak berdaya. Grade mereka ditentukan dari kekuatan curse energy yang dimiliki.</div>
     </div>
     <div class="lore-card">
-        <span class="lore-card-icon"></span>
+        <span class="lore-card-icon">🗡️</span>
         <div class="lore-card-title">Jujutsu Sorcerers</div>
         <div class="lore-card-text">Para tukang sihir yang mampu menggunakan cursed energy untuk bertarung melawan Cursed Spirits. Mereka dilatih di sekolah khusus seperti Tokyo dan Kyoto Jujutsu High. Tiap sorcerer memiliki teknik kutukan unik yang diwariskan atau dikembangkan sendiri.</div>
     </div>
@@ -114,9 +97,9 @@ require_once __DIR__ . '/../includes/navbar.php';
 <!-- ARC TABS -->
 <div class="timeline-wrap">
     <div class="arc-tabs">
-        <button class="arc-tab active" onclick="switchArc('arc1')">Arc 1: Cursed Womb</button>
-        <button class="arc-tab" onclick="switchArc('arc2')">Arc 2: Kyoto Goodwill</button>
-        <button class="arc-tab" onclick="switchArc('arc3')">Arc 3: Shibuya Incident</button>
+        <button class="arc-tab active" onclick="switchArc('arc1', this)">Arc 1: Cursed Womb</button>
+        <button class="arc-tab" onclick="switchArc('arc2', this)">Arc 2: Kyoto Goodwill</button>
+        <button class="arc-tab" onclick="switchArc('arc3', this)">Arc 3: Shibuya Incident</button>
     </div>
 
     <!-- ARC 1 -->
@@ -251,22 +234,20 @@ require_once __DIR__ . '/../includes/navbar.php';
 </footer>
 
 <script>
-function switchArc(id) {
+function switchArc(id, btn) {
     document.querySelectorAll('.arc-content').forEach(a => a.classList.remove('active'));
     document.querySelectorAll('.arc-tab').forEach(t => t.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    event.target.classList.add('active');
-    // Re-trigger animations
-    document.querySelectorAll('#'+id+' .tl-item').forEach((el,i) => {
+    btn.classList.add('active');
+    document.querySelectorAll('#' + id + ' .tl-item').forEach((el, i) => {
         el.classList.remove('visible');
-        setTimeout(() => el.classList.add('visible'), i*120);
+        setTimeout(() => el.classList.add('visible'), i * 120);
     });
 }
 
 const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold:.15});
-
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .15 });
 document.querySelectorAll('.tl-item').forEach(el => observer.observe(el));
 </script>
 </body>

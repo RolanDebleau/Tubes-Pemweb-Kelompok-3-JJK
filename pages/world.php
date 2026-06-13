@@ -17,11 +17,12 @@ $locations=$stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>World — Locations | JJK Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--red:#cc2233;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--border-gold:rgba(240,192,64,.2);--card-bg:rgba(10,8,20,.85);--nav-h:80px;}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
+body{background:transparent;color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#08060f;}::-webkit-scrollbar-thumb{background:#3a0d7a;border-radius:3px;}
 .page-hero{padding-top:calc(var(--nav-h)+60px);padding-bottom:52px;text-align:center;position:relative;overflow:hidden;}
 .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(240,192,64,.1),transparent 60%);pointer-events:none;}
@@ -39,7 +40,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .results-count{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;color:var(--text-muted);}
 
 /* BASARA GRID for locations */
-.basara-grid{max-width:1160px;margin:0 auto;padding:0 32px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px;align-items:start;}
+.basara-grid{max-width:1160px;margin:0 auto;padding:1rem 32px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px;align-items:start;}
 .basara-card{position:relative;cursor:pointer;text-decoration:none;color:inherit;display:block;transition:transform .35s cubic-bezier(.23,1,.32,1),box-shadow .35s;will-change:transform;}
 .basara-card:nth-child(3n+1){transform:rotate(-1.8deg) translateY(-10px);}
 .basara-card:nth-child(3n+2){transform:rotate(1.5deg) translateY(8px);}
@@ -48,14 +49,16 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .card-inner{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .35s;}
 .basara-card:hover .card-inner{border-color:var(--gold);}
 /* Per-type subtle borders for world locations */
-.basara-card[data-type="School"] .card-inner{border-color:rgba(56,189,248,.2);}
-.basara-card[data-type="City"] .card-inner{border-color:rgba(107,33,232,.2);}
-.basara-card[data-type="Battlefield"] .card-inner{border-color:rgba(204,34,51,.2);}
-.basara-card[data-type="Colony"] .card-inner, .basara-card[data-type="Dimension"] .card-inner{border-color:rgba(240,192,64,.2);}
+.basara-card[data-type="School"] .card-inner{border-width:2px;border-color:rgba(56,189,248,.5);}
+.basara-card[data-type="City"] .card-inner{border-width:2px;border-color:rgba(157,77,255,.5);}
+.basara-card[data-type="Battlefield"] .card-inner{border-width:2px;border-color:rgba(255,80,100,.5);}
+.basara-card[data-type="Colony"] .card-inner, .basara-card[data-type="Dimension"] .card-inner{border-width:2px;border-color:rgba(240,192,64,.5);}
 .card-art{height:180px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .card-art-img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
 .basara-card:hover .card-art-img{transform:scale(1.08);}
-.card-art-emoji{font-size:4rem;z-index:1;position:relative;}
+.card-art-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;gap:6px;}
+.card-art-fallback-kanji{font-family:'Cinzel Decorative',serif;font-size:3.2rem;font-weight:900;color:rgba(255,255,255,.12);letter-spacing:2px;}
+.card-art-fallback-label{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:3px;color:rgba(255,255,255,.35);text-transform:uppercase;}
 .card-art-bg{position:absolute;inset:0;}
 .card-art-overlay{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,var(--card-bg),transparent);z-index:2;}
 /* Type colors */
@@ -89,40 +92,35 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 </style>
 </head>
 <body>
-<?php $currentPage='world'; $basePath='../'; include '../includes/navbar.php'; ?>
+<?php $currentPage='world'; $basePath='../'; include '../includes/navbar2.php'; ?>
 
-<div class="page-hero">
-  <span class="hero-eyebrow">Dunia Jujutsu Kaisen</span>
-  <h1 class="hero-title">World Locations</h1>
-  <p class="hero-sub">Jelajahi setiap sudut dunia Jujutsu Kaisen — dari sekolah penyihir, kota-kota bersejarah, hingga dimensi tersembunyi.</p>
-  <div class="hero-div"></div>
-</div>
-
-<div class="filter-bar">
-  <form method="GET" style="display:contents">
-    <div class="search-wrap">
-      <input type="text" name="search" placeholder="Cari lokasi atau region..." value="<?=htmlspecialchars($search)?>">
-    </div>
-    <select name="type" class="filter-select" onchange="this.form.submit()">
-      <option value="">Semua Tipe</option>
-      <?php foreach(['School','City','Battlefield','Landmark','Clan Compound','Hidden','Colony','Dimension'] as $tp): ?>
-      <option value="<?=$tp?>" <?=$type_filter===$tp?'selected':''?>><?=$tp?></option>
-      <?php endforeach; ?>
-    </select>
+<section class="search-filter-section">
+  <form method="GET" class="search-form">
+    <input type="text" name="search" class="search-input"
+      placeholder="Cari lokasi atau region..."
+      value="<?=htmlspecialchars($search)?>">
+    <button type="submit" class="btn-search">Cari</button>
+    <?php if(!empty($search)||!empty($type_filter)): ?>
+      <a href="world.php" class="btn-reset">Reset</a>
+    <?php endif; ?>
   </form>
-  <span class="results-count"><?=count($locations)?> LOKASI DITEMUKAN</span>
-</div>
+  <div class="type-filters">
+    <a href="world.php" class="type-btn <?=empty($type_filter)?'active':''?>">Semua</a>
+    <?php foreach(['School','City','Battlefield','Landmark','Clan Compound','Hidden','Colony','Dimension'] as $tp): ?>
+    <a href="?type=<?=urlencode($tp)?><?=!empty($search)?'&search='.urlencode($search):''?>"
+       class="type-btn <?=$type_filter===$tp?'active':''?>"><?=$tp?></a>
+    <?php endforeach; ?>
+  </div>
+</section>
 
 <div class="basara-grid">
 <?php if(empty($locations)): ?>
 <div class="empty-state"><span style="font-size:3rem;display:block;margin-bottom:16px"></span><p>Tidak ada lokasi yang ditemukan.</p></div>
 <?php else: ?>
 <?php
-$typeIcons=['School'=>'','City'=>'','Battlefield'=>'','Landmark'=>'','Clan Compound'=>'','Hidden'=>'','Colony'=>'','Dimension'=>''];
 $typeCss=['School'=>'tb-school','City'=>'tb-city','Battlefield'=>'tb-battlefield','Landmark'=>'tb-landmark','Clan Compound'=>'tb-clan','Hidden'=>'tb-hidden','Colony'=>'tb-colony','Dimension'=>'tb-dimension'];
 $artBg=['School'=>'bg-school','City'=>'bg-city','Battlefield'=>'bg-battlefield','Landmark'=>'bg-landmark','Clan Compound'=>'bg-clan','Hidden'=>'bg-hidden','Colony'=>'bg-colony','Dimension'=>'bg-dimension'];
 foreach($locations as $loc):
-  $icon=$typeIcons[$loc['type']]??'🗺️';
   $tcss=$typeCss[$loc['type']]??'tb-landmark';
   $abg=$artBg[$loc['type']]??'bg-landmark';
   $sigDots=round($loc['significance_level']/20);
@@ -132,12 +130,24 @@ foreach($locations as $loc):
     <div class="card-art">
       <div class="card-art-bg <?=$abg?>"></div>
       <?php if(!empty($loc['image_url'])): ?>
-      <img class="card-art-img" src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>"
-           alt="<?=htmlspecialchars($loc['name'])?>"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <div class="card-art-emoji" style="display:none"><?=$icon?></div>
+        <?php if(isVideoFile($loc['image_url'])): ?>
+        <video class="card-art-img" autoplay loop muted playsinline
+               src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
+        <?php else: ?>
+        <img class="card-art-img" src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>"
+             alt="<?=htmlspecialchars($loc['name'])?>"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <?php endif; ?>
+      <div class="card-art-fallback" style="display:none">
+        <div class="card-art-fallback-kanji">呪</div>
+        <div class="card-art-fallback-label"><?=htmlspecialchars($loc['type'])?></div>
+      </div>
       <?php else: ?>
-      <div class="card-art-emoji"><?=$icon?></div>
+      <div class="card-art-fallback">
+        <div class="card-art-fallback-kanji">呪</div>
+        <div class="card-art-fallback-label"><?=htmlspecialchars($loc['type'])?></div>
+      </div>
       <?php endif; ?>
       <div class="card-art-overlay"></div>
       <span class="type-badge <?=$tcss?>"><?=$loc['type']?></span>

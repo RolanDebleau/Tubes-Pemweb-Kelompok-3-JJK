@@ -5,18 +5,17 @@ $loc=getLocationById($id);
 if(!$loc){header('Location: world.php');exit;}
 $typeColors=['School'=>['a'=>'#38bdf8','bg'=>'rgba(56,189,248,.1)','glow'=>'rgba(56,189,248,.25)'],'City'=>['a'=>'#9d4dff','bg'=>'rgba(107,33,232,.1)','glow'=>'rgba(107,33,232,.25)'],'Battlefield'=>['a'=>'#ff6677','bg'=>'rgba(204,34,51,.1)','glow'=>'rgba(204,34,51,.25)'],'Landmark'=>['a'=>'#34d399','bg'=>'rgba(16,185,129,.1)','glow'=>'rgba(16,185,129,.25)'],'Clan Compound'=>['a'=>'#fcd34d','bg'=>'rgba(245,158,11,.1)','glow'=>'rgba(245,158,11,.25)'],'Hidden'=>['a'=>'#a5b4fc','bg'=>'rgba(99,102,241,.1)','glow'=>'rgba(99,102,241,.25)'],'Colony'=>['a'=>'#f0c040','bg'=>'rgba(240,192,64,.1)','glow'=>'rgba(240,192,64,.25)'],'Dimension'=>['a'=>'#f0c040','bg'=>'rgba(240,192,64,.08)','glow'=>'rgba(240,192,64,.2)']];
 $tc=$typeColors[$loc['type']]??$typeColors['Landmark'];
-$typeIcons=['School'=>'','City'=>'','Battlefield'=>'','Landmark'=>'','Clan Compound'=>'','Hidden'=>'','Colony'=>'','Dimension'=>''];
-$icon=$typeIcons[$loc['type']]??'';
 $sigDots=round($loc['significance_level']/20);
 ?><!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title><?=htmlspecialchars($loc['name'])?> — JJK Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--card-bg:rgba(10,8,20,.85);--nav-h:80px;--accent:<?=$tc['a']?>;--accent-bg:<?=$tc['bg']?>;--accent-glow:<?=$tc['glow']?>;}
-*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:transparent;color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#08060f;}::-webkit-scrollbar-thumb{background:#3a0d7a;border-radius:3px;}
 .page-header{padding:calc(var(--nav-h)+44px) 60px 32px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,<?=$tc['bg']?>,transparent);position:relative;}
 .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,<?=$tc['bg']?>,transparent 70%);pointer-events:none;}
@@ -41,7 +40,10 @@ $sigDots=round($loc['significance_level']/20);
 .infobox-title{background:rgba(107,33,232,.2);border-bottom:1px solid var(--border);padding:12px 16px;font-family:'Cinzel Decorative',serif;font-size:.85rem;color:var(--text);text-align:center;}
 .infobox-art{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,<?=$tc['bg']?>,rgba(3,2,10,1));border-bottom:1px solid var(--border);}
 .infobox-art img{width:100%;height:100%;object-fit:cover;}
-.infobox-art-emoji{font-size:4.5rem;}
+.infobox-art-fallback{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.infobox-art-fallback-kanji{font-family:'Cinzel Decorative',serif;font-size:3.6rem;font-weight:900;color:rgba(255,255,255,.14);}
+.infobox-art-fallback-label{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;}
+.infobox-art video{width:100%;height:100%;object-fit:cover;}
 .infobox-art-aura{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,<?=$tc['glow']?>,transparent 70%);pointer-events:none;}
 .ib-table{width:100%;}
 .ib-table tr{border-bottom:1px solid rgba(107,33,232,.08);}
@@ -61,7 +63,7 @@ $sigDots=round($loc['significance_level']/20);
 </style>
 </head>
 <body>
-<?php $currentPage='world'; $basePath='../'; include '../includes/navbar.php'; ?>
+<?php $currentPage='world'; $basePath='../'; include '../includes/navbar2.php'; ?>
 
 <div class="page-header">
   <div class="breadcrumb">
@@ -72,7 +74,7 @@ $sigDots=round($loc['significance_level']/20);
   <h1 class="page-title"><?=htmlspecialchars($loc['name'])?></h1>
   <div class="page-jp"><?=htmlspecialchars($loc['name_jp']??'')?></div>
   <div class="page-region"> <?=htmlspecialchars($loc['region']??'Unknown Location')?></div>
-  <span class="type-chip"><?=$icon?> <?=htmlspecialchars($loc['type'])?></span>
+  <span class="type-chip"><?=htmlspecialchars($loc['type'])?></span>
 </div>
 
 <div class="wiki-wrap">
@@ -104,11 +106,23 @@ $sigDots=round($loc['significance_level']/20);
       <div class="infobox-art">
         <div class="infobox-art-aura"></div>
         <?php if(!empty($loc['image_url'])): ?>
-        <img src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>" alt="<?=htmlspecialchars($loc['name'])?>"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="infobox-art-emoji" style="display:none"><?=$icon?></div>
+          <?php if(isVideoFile($loc['image_url'])): ?>
+          <video autoplay loop muted playsinline controls
+                 src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"></video>
+          <?php else: ?>
+          <img src="../asset/World/<?=htmlspecialchars($loc['image_url'])?>" alt="<?=htmlspecialchars($loc['name'])?>"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <?php endif; ?>
+        <div class="infobox-art-fallback" style="display:none">
+          <div class="infobox-art-fallback-kanji">呪</div>
+          <div class="infobox-art-fallback-label"><?=htmlspecialchars($loc['type'])?></div>
+        </div>
         <?php else: ?>
-        <div class="infobox-art-emoji"><?=$icon?></div>
+        <div class="infobox-art-fallback">
+          <div class="infobox-art-fallback-kanji">呪</div>
+          <div class="infobox-art-fallback-label"><?=htmlspecialchars($loc['type'])?></div>
+        </div>
         <?php endif; ?>
       </div>
       <table class="ib-table">
@@ -123,7 +137,6 @@ $sigDots=round($loc['significance_level']/20);
       <a href="world.php" class="qn-link">Semua Lokasi</a>
       <a href="characters.php" class="qn-link">Characters</a>
       <a href="jujutsu.php" class="qn-link">Jujutsu</a>
-      <a href="story.php" class="qn-link">Story Arc</a>
     </div>
   </div>
 </div>
@@ -132,4 +145,5 @@ $sigDots=round($loc['significance_level']/20);
   <div style="font-family:'Cinzel Decorative',serif;font-size:1rem;background:linear-gradient(135deg,var(--gold),var(--purple-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;">呪術廻戦</div>
   <div style="font-size:.75rem;color:var(--text-muted);">Jujutsu Kaisen © Gege Akutami / Shueisha</div>
 </footer>
-</body></html>
+</body>
+</html>

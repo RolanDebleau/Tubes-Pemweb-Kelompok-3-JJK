@@ -1,0 +1,436 @@
+/* ========================================================
+   1. LAYOUT WRAPPER HALAMAN (MENGONSUMSI FLEX INDUK)
+   ======================================================== */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: calc(100vh - 5.71rem); /* Mengurangi tinggi ruang navbar secara presisi */
+    margin: 5.71rem auto 0 auto;
+    padding-bottom: 1.42rem;
+    z-index: 5;
+    position: relative;
+}
+
+/* Dekorasi Latar Belakang Aura Ghoib */
+.page-container .ellipse {
+    position: absolute;
+    top: -14.28rem;
+    left: -14.28rem;
+    width: 50rem;
+    height: 42.85rem;
+    background-color: #0613a6;
+    border-radius: 50%;
+    filter: blur(14.28rem);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ========================================================
+   2. RUANG KERJA UTAMA TENGAH (FLEXBOX MASTER)
+   ======================================================== */
+.main-workspace {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    min-height: 0; /* Penting agar scrollbar internal flexbox bekerja */
+    gap: 2.14rem;
+}
+
+/* ========================================================
+   3. PANEL KIRI (KONTEN INFORMASI & SCROLLBAR)
+   ======================================================== */
+.left-panel {
+    flex: 0 0 55%;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrollable-content-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; 
+    padding-right: 1.78rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.78rem; /* Memberikan jarak seragam antar komponen */
+}
+
+/* Kustomisasi Scrollbar Khas JJK */
+.scrollable-content-wrapper::-webkit-scrollbar {
+    width: 0.42rem;
+}
+.scrollable-content-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollable-content-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.21rem;
+}
+
+/* Identitas Judul Karakter */
+.character-title {
+    font-size: 6.85rem;
+    font-weight: 700;
+    line-height: 0.95;
+    margin-bottom: 0.35rem;
+}
+
+.character-title .last-name {
+    font-size: 5.71rem;
+}
+
+.character-epithet {
+    font-size: 1.42rem;
+    color: #8a99ad;
+    letter-spacing: 0.03rem;
+}
+
+.panel-subtitle {
+    font-size: 1.14rem;
+    font-weight: 600;
+    color: #0613a6;
+    margin-bottom: 0.71rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07rem;
+}
+
+/* Metadata Grid Card */
+.metadata-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 0.07rem solid rgba(255, 255, 255, 0.06);
+    border-radius: 0.85rem;
+    padding: 1.14rem 1.42rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.meta-row {
+    display: flex;
+    align-items: center;
+}
+
+.meta-label {
+    flex: 0 0 10.71rem;
+    font-size: 0.92rem;
+    color: #8a99ad;
+    text-transform: uppercase;
+}
+
+.meta-value {
+    font-size: 1.07rem;
+    font-weight: 600;
+}
+
+.badge-grade {
+    background-color: #0613a6;
+    padding: 0.14rem 0.71rem;
+    border-radius: 0.28rem;
+    font-size: 0.85rem;
+}
+
+.description-paragraph {
+    font-size: 1.07rem;
+    line-height: 1.5;
+    color: #d1d5db;
+}
+
+/* Bar Status Kekuatan */
+.stats-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-item {
+    margin-bottom: 0.85rem;
+}
+
+.stat-item:last-child {
+    margin-bottom: 0;
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.28rem;
+}
+
+.stat-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.stat-val {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0613a6;
+}
+
+.bar-bg {
+    width: 100%;
+    height: 0.57rem;
+    background-color: #1f2937;
+    border-radius: 0.28rem;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0613a6 0%, #4f46e5 100%);
+}
+
+/* Form Komentar & Rating */
+.comment-component {
+    background: rgba(255, 255, 255, 0.02);
+    border: 0.07rem dashed rgba(255, 255, 255, 0.12);
+    border-radius: 0.71rem;
+    padding: 1.07rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-component.login-trigger {
+    text-align: center;
+    padding: 1.42rem;
+}
+
+.comment-component.login-trigger p {
+    color: #8a99ad;
+    font-size: 1rem;
+}
+
+.comment-component.login-trigger a {
+    color: #0613a6;
+    font-weight: bold;
+}
+
+.comment-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.71rem;
+}
+
+.comment-heading {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.rating-select {
+    display: flex;
+    gap: 0.28rem;
+}
+
+.star-icon {
+    font-size: 1.28rem;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: transform 0.1s ease, color 0.15s ease-in-out;
+    user-select: none;
+}
+
+.star-icon:hover {
+    transform: scale(1.2);
+}
+
+.star-icon.active {
+    color: #ffb800;
+}
+
+.comment-field-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.comment-field-group input {
+    width: 100%;
+    padding: 0.71rem 6.42rem 0.71rem 0.85rem;
+    background-color: #111827;
+    border: 0.07rem solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.42rem;
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+}
+
+.btn-submit {
+    position: absolute;
+    right: 0.42rem;
+    background-color: #0613a6;
+    color: #ffffff;
+    border: none;
+    padding: 0.42rem 1.14rem;
+    border-radius: 0.28rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ========================================================
+   4. PANEL KANAN (ESTETIKA CERMIN PARALLAX BERLAWANAN)
+   ======================================================= */
+.right-panel {
+    flex: 0 0 45%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2.85rem; 
+}
+
+/* Master Canvas Jajar Genjang */
+.portrait-card {
+    position: relative;
+    height: 100%;
+    max-height: 46.42rem; 
+    aspect-ratio: 1 / 2.2; 
+    filter: drop-shadow(-1.42rem 2.14rem 1.42rem rgba(0, 0, 0, 0.95));
+}
+
+/* Base Lapisan Cermin */
+.card-inner-bg, .card-inner-fg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
+}
+
+.character-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    object-position: center 10%; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+}
+
+/* LAYER BELAKANG: Cermin Gelap */
+.card-inner-bg {
+    z-index: 1;
+    transform: translate(-1.07rem, 1.07rem); 
+}
+
+.character-img.img-dark {
+    filter: brightness(0.3) grayscale(0.5); 
+}
+
+/* LAYER DEPAN: Sorotan Utama Terang */
+.card-inner-fg {
+    z-index: 5;
+    transform: translate(0, 0); 
+}
+
+/* AKSI HOVER MANDIRI: Parallax Berlawanan */
+.portrait-card:hover .card-inner-fg {
+    transform: translate(2.14rem, -2.14rem); /* Meluncur Kanan Atas */
+    filter: drop-shadow(-1.07rem 1.78rem 1.07rem rgba(0, 0, 0, 0.6));
+}
+
+.portrait-card:hover .card-inner-bg {
+    transform: translate(-2.14rem, 2.14rem); /* Meluncur Kiri Bawah */
+    filter: blur(0.1rem);
+}
+
+/* ========================================================
+   5. AREA FOOTER (FEEDBACK ULASAN HORIZONTAL SCROLL)
+   ======================================================== */
+.footer-comments-container {
+    margin-top: 1.42rem;
+    height: 14.28rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.comments-section-title {
+    font-size: 1.14rem;
+    font-weight: 600;
+    color: #8a99ad;
+    text-transform: uppercase;
+    letter-spacing: 0.07rem;
+    margin-bottom: 0.85rem;
+}
+
+.horizontal-comments-scroll {
+    display: flex;
+    gap: 1.14rem;
+    width: 100%;
+    height: 10.71rem;
+    overflow-x: auto; 
+    overflow-y: hidden;
+    padding-bottom: 0.71rem;
+}
+
+/* Scrollbar Kolum Horizontal */
+.horizontal-comments-scroll::-webkit-scrollbar {
+    height: 0.42rem;
+}
+.horizontal-comments-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0.21rem;
+}
+.horizontal-comments-scroll::-webkit-scrollbar-thumb {
+    background: rgba(6, 19, 166, 0.4);
+    border-radius: 0.21rem;
+}
+.horizontal-comments-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 19, 166, 0.8);
+}
+
+.empty-comments {
+    color: #8a99ad;
+    padding: 1.42rem;
+}
+
+/* Kartu Komentar */
+.user-comment-card {
+    flex: 0 0 22.85rem;
+    height: 9.28rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.07rem solid rgba(255, 255, 255, 0.06);
+    border-radius: 0.85rem;
+    padding: 1.14rem;
+}
+
+.card-user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.71rem;
+}
+
+.user-avatar {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.user-stars {
+    font-size: 0.85rem;
+    color: #ffb800;
+    letter-spacing: 0.07rem;
+}
+
+.comment-text-content {
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: #9ca3af;
+}

@@ -314,5 +314,8 @@ function deleteLocation($id) {
     $stmt->bind_param("i", $id);
     return $stmt->execute();
 }
-?><?php
-// tambahan CRUD sudah ada di file ini, append via heredoc tidak aman, gunakan str_replace
+
+function isVideoFile($filename) {
+    return (bool) preg_match('/\.(mp4|webm|mov)$/i', $filename);
+}
+?>

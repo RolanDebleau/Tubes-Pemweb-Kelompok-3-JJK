@@ -170,8 +170,6 @@ function navActive(string $page, string $current): string {
     <ul class="nav-links">
         <li><a href="<?= $basePath ?>index.php"<?= navActive('home', $currentPage) ?>>Home</a></li>
         <li><a href="<?= $basePath ?>pages/characters.php"<?= navActive('characters', $currentPage) ?>>Characters</a></li>
-        <li><a href="<?= $basePath ?>pages/world.php"<?= navActive('world', $currentPage) ?>>World</a></li>
-        <li><a href="<?= $basePath ?>pages/jujutsu.php"<?= navActive('jujutsu', $currentPage) ?>>Jujutsu</a></li>
         <li><a href="<?= $basePath ?>game/index.php"<?= navActive('game', $currentPage) ?>>Mini Game</a></li>
         <?php if (isLoggedIn()): ?>
         <li><a href="<?= $basePath ?>pages/leaderboard.php"<?= navActive('leaderboard', $currentPage) ?>>Leaderboard</a></li>

@@ -14,10 +14,11 @@ $tc=$typeColors[$t['type']]??$typeColors['Innate Technique'];
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title><?=htmlspecialchars($t['name'])?> — JJK Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--border-gold:rgba(240,192,64,.2);--card-bg:rgba(10,8,20,.85);--nav-h:80px;--accent:<?=$tc['a']?>;--accent-bg:<?=$tc['bg']?>;--accent-glow:<?=$tc['glow']?>;}
-*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:transparent;color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#08060f;}::-webkit-scrollbar-thumb{background:#3a0d7a;border-radius:3px;}
 .page-header{padding:calc(var(--nav-h)+44px) 60px 32px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,<?=$tc['bg']?>,transparent);}
 .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,<?=$tc['bg']?>,transparent 70%);pointer-events:none;position:absolute;}
@@ -71,7 +72,7 @@ $tc=$typeColors[$t['type']]??$typeColors['Innate Technique'];
 </style>
 </head>
 <body>
-<?php $currentPage='jujutsu'; $basePath='../'; include '../includes/navbar.php'; ?>
+<?php $currentPage='jujutsu'; $basePath='../'; include '../includes/navbar2.php'; ?>
 
 <div class="page-header" style="position:relative">
   <div class="breadcrumb">
@@ -201,7 +202,6 @@ $tc=$typeColors[$t['type']]??$typeColors['Innate Technique'];
       <a href="characters.php" class="qn-link"> Characters</a>
       <a href="jujutsu.php" class="qn-link"> Semua Teknik</a>
       <a href="world.php" class="qn-link"> World</a>
-      <a href="story.php" class="qn-link"> Story Arc</a>
     </div>
   </div>
 </div>

@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/config.php';
+
 $search = trim($_GET['search'] ?? '');
 $grade_filter = $_GET['grade'] ?? '';
 
@@ -21,22 +22,6 @@ $stmt = $db->prepare($sql);
 if (!empty($params)) $stmt->bind_param($types, ...$params);
 $stmt->execute();
 $characters = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-$charEmojis = [
-    '👊','🌑','🔨','♾️','💀','👁️','👋','⚡',
-    '🔮','🗡️','🌊','🔥','🌿','🦴','🐼','👁',
-    '🩸','💠','🌸','⚡','🦋','🐦','🎭','🌙',
-    '💫','🔴','🟣','⚫','🌀','🏮','🎯','💥',
-];
-$charColors = [
-    'Special Grade' => ['bg' => 'linear-gradient(135deg,rgba(240,192,64,.18),rgba(240,192,64,.04))', 'class'=>'grade-special', 'accent'=>'#f0c040'],
-    'Semi-Grade 1'  => ['bg' => 'linear-gradient(135deg,rgba(157,77,255,.16),rgba(157,77,255,.03))', 'class'=>'grade-semi',    'accent'=>'#cc99ff'],
-    'Grade 1'       => ['bg' => 'linear-gradient(135deg,rgba(107,33,232,.15),rgba(107,33,232,.03))', 'class'=>'grade-1',       'accent'=>'#9d4dff'],
-    'Grade 2'       => ['bg' => 'linear-gradient(135deg,rgba(0,150,255,.12),rgba(0,150,255,.02))',   'class'=>'grade-2',       'accent'=>'#4dc8ff'],
-    'Grade 3'       => ['bg' => 'linear-gradient(135deg,rgba(100,100,120,.14),rgba(100,100,120,.03))','class'=>'grade-3',      'accent'=>'#aaa8c0'],
-    'Grade 4'       => ['bg' => 'linear-gradient(135deg,rgba(80,80,90,.12),rgba(80,80,90,.02))',     'class'=>'grade-4',       'accent'=>'#888888'],
-    'Unranked'      => ['bg' => 'linear-gradient(135deg,rgba(60,60,70,.10),rgba(60,60,70,.02))',     'class'=>'grade-unranked', 'accent'=>'#666666'],
-];
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -44,300 +29,262 @@ $charColors = [
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Characters — JJK Universe</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-    --black:#03020a; --purple:#6b21e8; --purple-glow:#9d4dff;
-    --gold:#f0c040; --gold-light:#ffe888; --red:#cc2233;
-    --text:#ede8f5; --text-muted:#7a7490;
-    --border:rgba(107,33,232,.2); --border-gold:rgba(240,192,64,.2);
-    --card-bg:rgba(10,8,20,.85); --nav-h:80px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
-::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:#08060f;} ::-webkit-scrollbar-thumb{background:#3a0d7a;border-radius:3px;}
-
-.page-hero{padding-top:calc(var(--nav-h) + 60px);padding-bottom:60px;padding-left:40px;padding-right:40px;text-align:center;position:relative;overflow:hidden;}
-.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(107,33,232,.12) 0%,transparent 60%);pointer-events:none;}
-.page-tag{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:4px;color:var(--purple-glow);text-transform:uppercase;margin-bottom:16px;display:block;}
-.page-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,4vw,3rem);background:linear-gradient(135deg,var(--text),var(--purple-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;}
-.page-sub{color:var(--text-muted);font-size:1rem;max-width:500px;margin:0 auto;}
-
-.filter-bar{max-width:1300px;margin:0 auto 40px;padding:0 40px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
-.search-input{flex:1;min-width:200px;background:rgba(107,33,232,.05);border:1px solid var(--border);border-radius:2px;padding:12px 16px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:1rem;outline:none;transition:all .3s;}
-.search-input:focus{border-color:var(--purple-glow);background:rgba(107,33,232,.1);}
-.search-input::placeholder{color:var(--text-muted);}
-.filter-btn{font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:2px;padding:10px 18px;border-radius:2px;cursor:pointer;transition:all .3s;text-decoration:none;background:transparent;border:1px solid var(--border);color:var(--text-muted);}
-.filter-btn:hover,.filter-btn.active{border-color:var(--purple-glow);color:var(--purple-glow);background:rgba(107,33,232,.1);}
-.filter-btn.grade-special-btn.active{border-color:var(--gold);color:var(--gold);}
-
-.main-content{max-width:1300px;margin:0 auto;padding:0 40px 80px;}
-.chars-count{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;color:var(--text-muted);margin-bottom:24px;}
-
-/* ===== BESTIARY GRID (original style with border) ===== */
-.characters-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-.char-card {
-    background: var(--card-bg);
-    border: 1px solid color-mix(in srgb, var(--accent, var(--purple-glow)) 30%, transparent);
-    border-radius: 6px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(.25,.46,.45,.94);
-    position: relative;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    opacity: 0;
-    transform: translateY(24px);
-    box-shadow: 0 2px 12px color-mix(in srgb, var(--accent, var(--purple-glow)) 8%, transparent);
-}
-
-.char-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.char-card:hover {
-    border-color: var(--accent, var(--purple-glow));
-    transform: translateY(-8px);
-    box-shadow: 0 20px 60px color-mix(in srgb, var(--accent, var(--purple-glow)) 30%, transparent),
-                0 0 0 1px var(--accent, rgba(157,77,255,.2)),
-                0 0 30px color-mix(in srgb, var(--accent, var(--purple-glow)) 12%, transparent);
-}
-
-.char-card::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(107,33,232,.05), transparent);
-    opacity: 0; transition: opacity 0.3s;
-    pointer-events: none;
-}
-.char-card:hover::before { opacity: 1; }
-
-/* Art area */
-.char-card-art {
-    height: 200px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-}
-
-.char-card-art-bg { position: absolute; inset: 0; }
-
-.char-card-emoji {
-    position: relative; z-index: 1;
-    font-size: 4rem;
-    filter: drop-shadow(0 4px 20px rgba(0,0,0,.5));
-}
-
-.char-card-img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: top center;
-    z-index: 1;
-    transition: transform .4s ease;
-    filter: brightness(0.88);
-}
-.char-card:hover .char-card-img {
-    transform: scale(1.06);
-    filter: brightness(1);
-}
-
-/* Corner accent line */
-.char-card::after {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(to right, transparent, var(--accent, var(--purple-glow)), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-.char-card:hover::after { opacity: 1; }
-
-/* Grade badge */
-.char-grade-badge {
-    position: absolute; top: 10px; right: 10px;
-    font-family: 'Orbitron', sans-serif; font-size: .5rem; letter-spacing: 1px;
-    padding: 3px 8px; border-radius: 2px;
-    text-transform: uppercase; z-index: 3;
-    backdrop-filter: blur(6px);
-}
-
-/* Info area */
-.char-card-info { padding: 16px; }
-.char-name {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: .82rem; color: var(--text);
-    margin-bottom: 4px; line-height: 1.3;
-}
-.char-affiliation {
-    font-size: .72rem; color: var(--purple-glow);
-    margin-bottom: 4px;
-}
-.char-technique {
-    font-size: .72rem; color: var(--text-muted);
-    margin-bottom: 12px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-
-/* Power bars */
-.power-bars { display: flex; flex-direction: column; gap: 5px; }
-.power-bar-row { display: flex; align-items: center; gap: 8px; }
-.power-bar-label { font-family: 'Orbitron', sans-serif; font-size: .5rem; color: var(--text-muted); width: 28px; flex-shrink: 0; }
-.power-bar-track { flex: 1; height: 3px; background: rgba(255,255,255,.06); border-radius: 2px; overflow: hidden; }
-.power-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1s ease; }
-.fill-atk { background: linear-gradient(90deg, #cc2233, #ff3355); }
-.fill-def { background: linear-gradient(90deg, var(--purple), var(--purple-glow)); }
-.fill-spd { background: linear-gradient(90deg, #0088ff, #44ccff); }
-
-/* Grade colors */
-.grade-special{background:rgba(240,192,64,.2);border:1px solid rgba(240,192,64,.5);color:var(--gold);}
-.grade-semi{background:rgba(157,77,255,.2);border:1px solid rgba(157,77,255,.5);color:#cc99ff;}
-.grade-1{background:rgba(107,33,232,.2);border:1px solid rgba(107,33,232,.5);color:var(--purple-glow);}
-.grade-2{background:rgba(0,150,255,.15);border:1px solid rgba(0,150,255,.4);color:#4dc8ff;}
-.grade-3{background:rgba(100,100,120,.2);border:1px solid rgba(100,100,120,.5);color:#aaa8c0;}
-.grade-4{background:rgba(80,80,90,.18);border:1px solid rgba(80,80,90,.45);color:#888898;}
-.grade-unranked{background:rgba(60,60,70,.15);border:1px solid rgba(60,60,70,.4);color:#777788;}
-
-.no-results{text-align:center;padding:80px 20px;color:var(--text-muted);}
-.no-results-icon{font-size:4rem;margin-bottom:20px;}
-
-footer{border-top:1px solid var(--border);padding:30px 40px;text-align:center;}
-.footer-logo{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--gold);}
-.footer-sub{font-size:.75rem;color:var(--text-muted);margin-top:6px;}
-
-@media(max-width:1200px){.characters-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:800px){.characters-grid{grid-template-columns:repeat(2,1fr);}.filter-bar{padding:0 20px;}.main-content{padding:0 20px 60px;}}
-@media(max-width:500px){.characters-grid{grid-template-columns:1fr;}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="<?= SITE_URL ?>/style.css">
+<link rel="stylesheet" href="<?= SITE_URL ?>/styles/navbar.css">
+<link rel="stylesheet" href="<?= SITE_URL ?>/styles/characters.css">
 </head>
 <body>
+  <div class="app-global-container">
 
-<?php
-$currentPage = 'characters';
-$basePath    = '../';
-require_once __DIR__ . '/../includes/navbar.php';
-?>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="nav-container">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="<?= SITE_URL ?>" class="nav-item">Home</a>
+          <a href="<?= SITE_URL ?>/pages/characters.php" class="nav-item active">Characters</a>
+          <a href="<?= SITE_URL ?>/pages/jujutsu.php" class="nav-item">Jujutsu</a>
+          <a href="<?= SITE_URL ?>/pages/world.php" class="nav-item">World</a>
+          <a href="<?= SITE_URL ?>/game/" class="nav-item">Mini Game</a>
+          <?php if (isLoggedIn()): ?>
+          <a href="<?= SITE_URL ?>/pages/leaderboard.php" class="nav-item">Leaderboard</a>
+          <?php if (isAdmin()): ?>
+          <a href="<?= SITE_URL ?>/admin/dashboard.php" class="nav-item" style="color:#ffb800">Admin</a>
+          <?php endif; ?>
+          <?php endif; ?>
+        </nav>
+        <div class="nav-user-profile">
+          <span class="nav-username">Hi, <strong><?= htmlspecialchars($_SESSION['username'] ?? 'Guest') ?></strong></span>
+          <?php if (isLoggedIn()): ?>
+            <a href="<?= SITE_URL ?>/pages/logout.php" class="btn-logout">Logout</a>
+          <?php else: ?>
+            <a href="<?= SITE_URL ?>/pages/login.php" class="btn-logout" style="background-color:#0613a6;color:#fff;border-color:#0613a6;">Login</a>
+          <?php endif; ?>
+        </div>
+      </div>
+    </header>
 
-<div class="page-hero">
-    <span class="page-tag">Karakter</span>
-    <h1 class="page-title">Para Tukang Sihir & Kutukan</h1>
-    <p class="page-sub">Jelajahi semua karakter dari dunia Jujutsu Kaisen, dari murid hingga Special Grade.</p>
-</div>
+    <main class="characters" data-page="characters">
 
-<div class="filter-bar">
-    <form method="GET" style="display:contents;">
-        <input type="text" name="search" class="search-input" placeholder=" Cari karakter, teknik, afiliasi..." value="<?= htmlspecialchars($search) ?>">
-        <button type="submit" class="filter-btn active">CARI</button>
-    </form>
-    <a href="characters.php" class="filter-btn <?= empty($grade_filter) ? 'active' : '' ?>">Semua</a>
-    <a href="?grade=Special+Grade" class="filter-btn grade-special-btn <?= $grade_filter==='Special Grade'?'active':'' ?>"> Special</a>
-    <a href="?grade=Semi-Grade+1"  class="filter-btn <?= $grade_filter==='Semi-Grade 1'?'active':'' ?>"> Semi-1</a>
-    <a href="?grade=Grade+1"       class="filter-btn <?= $grade_filter==='Grade 1'?'active':'' ?>">Grade 1</a>
-    <a href="?grade=Grade+2"       class="filter-btn <?= $grade_filter==='Grade 2'?'active':'' ?>">Grade 2</a>
-    <a href="?grade=Grade+3"       class="filter-btn <?= $grade_filter==='Grade 3'?'active':'' ?>">Grade 3</a>
-    <a href="?grade=Grade+4"       class="filter-btn <?= $grade_filter==='Grade 4'?'active':'' ?>">Grade 4</a>
-    <a href="?grade=Unranked"      class="filter-btn <?= $grade_filter==='Unranked'?'active':'' ?>">Unranked</a>
-</div>
+      <div class="bg-wrapper" aria-hidden="true">
+        <img class="bg-image" src="<?= SITE_URL ?>/asset/home_bg.jpg" alt="Background" />
+        <div class="overlay-light"></div>
+        <div class="overlay-dark"></div>
+      </div>
 
-<div class="main-content">
-    <div class="chars-count"><?= count($characters) ?> KARAKTER DITEMUKAN</div>
-    
-    <?php if (empty($characters)): ?>
-    <div class="no-results">
-        <div class="no-results-icon"></div>
-        <p style="font-size:1.1rem;margin-bottom:8px;">Tidak ada karakter ditemukan</p>
-        <p style="font-size:.9rem;">Coba kata kunci lain atau hapus filter</p>
-    </div>
-    <?php else: ?>
-    <div class="characters-grid">
-        <?php foreach ($characters as $i => $char):
-            $emoji = $charEmojis[$i % count($charEmojis)];
-            $gradeData = $charColors[$char['grade']] ?? $charColors['Grade 3'];
+      <!-- SEARCH & FILTER -->
+      <section class="search-filter-section">
+        <form method="GET" class="search-form">
+          <input type="text" name="search" class="search-input"
+            placeholder="Cari nama, grade, atau teknik kutukan..."
+            value="<?= htmlspecialchars($search) ?>">
+          <button type="submit" class="btn-search">Cari</button>
+          <?php if (!empty($search) || !empty($grade_filter)): ?>
+            <a href="characters.php" class="btn-reset">Reset</a>
+          <?php endif; ?>
+        </form>
+        <div class="grade-filters">
+          <a href="characters.php" class="grade-btn <?= (empty($grade_filter)) ? 'active' : '' ?>">Semua</a>
+          <?php foreach (['Special Grade','Semi-Grade 1','Grade 1','Grade 2','Grade 3','Grade 4','Unranked'] as $g): ?>
+          <a href="?grade=<?= urlencode($g) ?><?= !empty($search) ? '&search='.urlencode($search) : '' ?>"
+             class="grade-btn <?= $grade_filter === $g ? 'active' : '' ?>"><?= $g ?></a>
+          <?php endforeach; ?>
+        </div>
+      </section>
 
-            // Half-body image
-            $halfImg = null;
-            if (!empty($char['image_url'])) {
+      <!-- CHARACTER GALLERY -->
+      <section class="character-gallery" aria-label="Character gallery">
+        <div class="gallery-wrapper">
+          <?php if (!empty($characters)): ?>
+            <?php foreach ($characters as $char):
+              // Resolve image
+              $fullImg = null;
+              if (!empty($char['image_url'])) {
                 $base = pathinfo($char['image_url'], PATHINFO_FILENAME);
-                foreach(['webp','jpg','png'] as $ext) {
-                    if (file_exists(__DIR__ . '/../asset/Half/' . $base . '.' . $ext)) {
-                        $halfImg = '../asset/Half/' . $base . '.' . $ext;
-                        break;
+                foreach (['webp','jpg','png'] as $ext) {
+                  foreach ([$base . '_Full.' . $ext, $base . '_Full (2).' . $ext] as $cand) {
+                    if (file_exists(__DIR__ . '/../asset/Full/' . $cand)) {
+                      $fullImg = SITE_URL . '/asset/Full/' . rawurlencode($cand);
+                      break 2;
                     }
+                  }
                 }
-            }
-            $displayImg = $halfImg ?? (!empty($char['image_url']) ? '../asset/'.$char['image_url'] : null);
-        ?>
-        <a href="character_detail.php?id=<?= $char['id'] ?>"
-           class="char-card"
-           style="--accent:<?= $gradeData['accent'] ?>; transition-delay:<?= ($i % 4) * 0.07 ?>s;">
-            <div class="char-card-art">
-                <div class="char-card-art-bg" style="background:<?= $gradeData['bg'] ?>"></div>
-                <span class="char-grade-badge <?= $gradeData['class'] ?>"><?= htmlspecialchars($char['grade']) ?></span>
+              }
+              $displayImg = $fullImg ?? (!empty($char['image_url']) ? SITE_URL . '/asset/' . $char['image_url'] : null);
+            ?>
+            <a href="<?= SITE_URL ?>/pages/character_detail.php?id=<?= $char['id'] ?>"
+               class="card" data-character="true" title="<?= htmlspecialchars($char['name']) ?>">
+              <div class="card-inner">
                 <?php if ($displayImg): ?>
-                <img class="char-card-img"
+                <img class="character-img"
                      src="<?= htmlspecialchars($displayImg) ?>"
                      alt="<?= htmlspecialchars($char['name']) ?>"
-                     onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-                <span class="char-card-emoji" style="display:none"><?= $emoji ?></span>
+                     onerror="this.src='https://placehold.co/300x500?text=<?= urlencode($char['name']) ?>'" />
                 <?php else: ?>
-                <span class="char-card-emoji"><?= $emoji ?></span>
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:4rem;">👊</div>
                 <?php endif; ?>
+              </div>
+              <div class="card-label">
+                <span class="card-name"><?= htmlspecialchars($char['name']) ?></span>
+                <span class="card-grade"><?= htmlspecialchars($char['grade']) ?></span>
+              </div>
+            </a>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <div class="empty-state">
+              <h2>Tidak ada karakter yang ditemukan.</h2>
+              <p>Coba gunakan kata kunci lain atau reset filter.</p>
             </div>
-            <div class="char-card-info">
-                <div class="char-name"><?= htmlspecialchars($char['name']) ?></div>
-                <div class="char-affiliation"> <?= htmlspecialchars($char['affiliation'] ?? '-') ?></div>
-                <div class="char-technique"> <?= htmlspecialchars($char['cursed_technique']) ?></div>
-                <div class="power-bars">
-                    <div class="power-bar-row">
-                        <span class="power-bar-label">ATK</span>
-                        <div class="power-bar-track">
-                            <div class="power-bar-fill fill-atk" data-w="<?= $char['attack_power'] ?>"></div>
-                        </div>
-                    </div>
-                    <div class="power-bar-row">
-                        <span class="power-bar-label">DEF</span>
-                        <div class="power-bar-track">
-                            <div class="power-bar-fill fill-def" data-w="<?= $char['defense_power'] ?>"></div>
-                        </div>
-                    </div>
-                    <div class="power-bar-row">
-                        <span class="power-bar-label">SPD</span>
-                        <div class="power-bar-track">
-                            <div class="power-bar-fill fill-spd" data-w="<?= $char['speed_power'] ?>"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <?php endforeach; ?>
-    </div>
-    <?php endif; ?>
-</div>
+          <?php endif; ?>
+        </div>
+      </section>
 
-<footer>
-    <div class="footer-logo">呪 JJK Universe</div>
-    <div class="footer-sub">Praktikum Pemrograman Web 2026</div>
-</footer>
+    </main>
 
-<script>
-const cards = document.querySelectorAll('.char-card');
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            // Animate power bars
-            e.target.querySelectorAll('.power-bar-fill').forEach(bar => {
-                setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, 200);
-            });
-            observer.unobserve(e.target);
+  </div><!-- end app-global-container -->
+
+  <style>
+    /* Grade filter pills */
+    .grade-filters {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      justify-content: center; margin-top: 0.6rem;
+    }
+    .grade-btn {
+      font-size: 0.8rem; font-weight: 600;
+      padding: 0.3rem 0.9rem; border-radius: 2rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.6); text-decoration: none;
+      transition: all 0.2s;
+    }
+    .grade-btn:hover, .grade-btn.active {
+      background: #0613a6; border-color: #0613a6; color: #fff;
+    }
+    /* Card label overlay */
+    .card { position: relative; }
+    .card-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 0.8rem 0.6rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .card:hover .card-label { opacity: 1; }
+    .card-name {
+      font-size: 0.85rem; font-weight: 700; color: #fff;
+      text-align: center; line-height: 1.2;
+    }
+    .card-grade {
+      font-size: 0.7rem; color: #ffb800; margin-top: 2px;
+    }
+    /* Fix search section spacing */
+    .search-filter-section {
+      flex-direction: column; align-items: center; gap: 0.5rem;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const gallery = document.querySelector(".character-gallery");
+      const wrapper = document.querySelector(".gallery-wrapper");
+      const cards = Array.from(document.querySelectorAll(".card[data-character='true']"));
+      if (!gallery || !wrapper || cards.length < 6) return;
+
+      // Clone cards for infinite loop
+      const cloneCount = Math.min(cards.length, 5);
+      for (let i = 0; i < cloneCount; i++) {
+        const clone = cards[i].cloneNode(true);
+        clone.removeAttribute("data-character");
+        wrapper.appendChild(clone);
+      }
+      for (let i = cards.length - 1; i >= cards.length - cloneCount; i--) {
+        const clone = cards[i].cloneNode(true);
+        clone.removeAttribute("data-character");
+        wrapper.insertBefore(clone, wrapper.firstChild);
+      }
+
+      const getCardSpace = () => {
+        const cardWidth = cards[0].getBoundingClientRect().width;
+        const gap = parseFloat(window.getComputedStyle(wrapper).gap) || 0;
+        return cardWidth + gap;
+      };
+
+      const updateInitialScroll = () => {
+        gallery.scrollLeft = getCardSpace() * cloneCount;
+      };
+      setTimeout(updateInitialScroll, 50);
+
+      // Infinite scroll loop
+      gallery.addEventListener("scroll", () => {
+        const singleCardSpace = getCardSpace();
+        const startThreshold = singleCardSpace * cloneCount;
+        if (gallery.scrollLeft <= 5) {
+          gallery.scrollLeft = wrapper.scrollWidth - gallery.clientWidth - startThreshold - 10;
+        } else if (gallery.scrollLeft >= wrapper.scrollWidth - gallery.clientWidth - 5) {
+          gallery.scrollLeft = startThreshold + 10;
         }
+      });
+
+      // ── Auto-scroll when mouse hovers near left/right edges ──
+      let autoScrollRAF = null;
+      const EDGE_ZONE = 180; // px dari tepi
+      const MAX_SPEED = 12;  // px per frame
+
+      gallery.addEventListener("mousemove", (e) => {
+        const rect = gallery.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const width = rect.width;
+        let speed = 0;
+
+        if (x < EDGE_ZONE) {
+          // Kiri: semakin dekat tepi semakin cepat
+          speed = -MAX_SPEED * (1 - x / EDGE_ZONE);
+        } else if (x > width - EDGE_ZONE) {
+          // Kanan
+          speed = MAX_SPEED * (1 - (width - x) / EDGE_ZONE);
+        }
+
+        cancelAnimationFrame(autoScrollRAF);
+        if (speed !== 0) {
+          const scroll = () => {
+            gallery.scrollLeft += speed;
+            autoScrollRAF = requestAnimationFrame(scroll);
+          };
+          autoScrollRAF = requestAnimationFrame(scroll);
+        }
+      });
+
+      gallery.addEventListener("mouseleave", () => {
+        cancelAnimationFrame(autoScrollRAF);
+        autoScrollRAF = null;
+      });
+
+      // ── Mouse-drag scroll (klik + geser) ──
+      let isDragging = false;
+      let dragStartX = 0;
+      let scrollStart = 0;
+
+      gallery.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        dragStartX = e.pageX;
+        scrollStart = gallery.scrollLeft;
+        gallery.style.cursor = "grabbing";
+        cancelAnimationFrame(autoScrollRAF);
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const dx = e.pageX - dragStartX;
+        gallery.scrollLeft = scrollStart - dx;
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (isDragging) {
+          isDragging = false;
+          gallery.style.cursor = "";
+        }
+      });
     });
-}, { threshold: 0.1 });
-cards.forEach(c => observer.observe(c));
-</script>
+  </script>
 </body>
 </html>

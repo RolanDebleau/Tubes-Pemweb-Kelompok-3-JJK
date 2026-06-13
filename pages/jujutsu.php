@@ -23,12 +23,13 @@ $techniques=$stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Jujutsu — Cursed Techniques | JJK Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--black:#03020a;--purple:#6b21e8;--purple-glow:#9d4dff;--gold:#f0c040;--red:#cc2233;--text:#ede8f5;--text-muted:#7a7490;--border:rgba(107,33,232,.2);--border-gold:rgba(240,192,64,.2);--card-bg:rgba(10,8,20,.85);--nav-h:80px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
+body{background:transparent;color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:#08060f;}::-webkit-scrollbar-thumb{background:#3a0d7a;border-radius:3px;}
 
 /* PAGE HEADER */
@@ -50,7 +51,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .results-count{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:2px;color:var(--text-muted);}
 
 /* BASARA-STYLE GRID */
-.basara-grid{max-width:1160px;margin:0 auto;padding:0 32px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:28px;align-items:start;}
+.basara-grid{max-width:1160px;margin:0 auto;padding:1rem 32px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:28px;align-items:start;}
 
 /* Each card has staggered vertical offset + tilt */
 .basara-card{position:relative;cursor:pointer;text-decoration:none;color:inherit;display:block;transition:transform .35s cubic-bezier(.23,1,.32,1),box-shadow .35s;will-change:transform;}
@@ -69,10 +70,10 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .basara-card[data-type="Non-Innate"]:hover .card-inner{border-color:#fca5a5;}
 .basara-card[data-type="Special Ability"]:hover .card-inner{border-color:#38bdf8;}
 /* Subtle always-on border per type */
-.basara-card[data-type="Domain Expansion"] .card-inner{border-color:rgba(240,192,64,.25);}
-.basara-card[data-type="Innate Technique"] .card-inner{border-color:rgba(107,33,232,.25);}
-.basara-card[data-type="Non-Innate"] .card-inner{border-color:rgba(239,68,68,.2);}
-.basara-card[data-type="Special Ability"] .card-inner{border-color:rgba(56,189,248,.2);}
+.basara-card[data-type="Domain Expansion"] .card-inner{border-width:2px;border-color:rgba(240,192,64,.55);}
+.basara-card[data-type="Innate Technique"] .card-inner{border-width:2px;border-color:rgba(157,77,255,.5);}
+.basara-card[data-type="Non-Innate"] .card-inner{border-width:2px;border-color:rgba(239,68,68,.5);}
+.basara-card[data-type="Special Ability"] .card-inner{border-width:2px;border-color:rgba(56,189,248,.5);}
 
 /* Art area */
 .card-art{height:200px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
@@ -122,29 +123,26 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 </style>
 </head>
 <body>
-<?php $currentPage='jujutsu'; $basePath='../'; include '../includes/navbar.php'; ?>
+<?php $currentPage='jujutsu'; $basePath='../'; include '../includes/navbar2.php'; ?>
 
-<div class="page-hero">
-  <span class="hero-eyebrow">Sistem Sihir Kutukan</span>
-  <h1 class="hero-title">Cursed Techniques</h1>
-  <p class="hero-sub">Eksplorasi seluruh teknik kutukan, Domain Expansion, dan kemampuan spesial dari dunia Jujutsu Kaisen.</p>
-  <div class="hero-div"></div>
-</div>
-
-<div class="filter-bar">
-  <form method="GET" style="display:contents">
-    <div class="search-wrap">
-      <input type="text" name="search" placeholder="Cari teknik atau pengguna..." value="<?=htmlspecialchars($search)?>">
-    </div>
-    <select name="type" class="filter-select" onchange="this.form.submit()">
-      <option value="">Semua Tipe</option>
-      <?php foreach(['Innate Technique','Non-Innate','Domain Expansion','Special Ability','Shikigami'] as $t): ?>
-      <option value="<?=$t?>" <?=$type_filter===$t?'selected':''?>><?=$t?></option>
-      <?php endforeach; ?>
-    </select>
+<section class="search-filter-section">
+  <form method="GET" class="search-form">
+    <input type="text" name="search" class="search-input"
+      placeholder="Cari teknik atau pengguna..."
+      value="<?=htmlspecialchars($search)?>">
+    <button type="submit" class="btn-search">Cari</button>
+    <?php if(!empty($search)||!empty($type_filter)): ?>
+      <a href="jujutsu.php" class="btn-reset">Reset</a>
+    <?php endif; ?>
   </form>
-  <span class="results-count"><?=count($techniques)?> TEKNIK DITEMUKAN</span>
-</div>
+  <div class="type-filters">
+    <a href="jujutsu.php" class="type-btn <?=empty($type_filter)?'active':''?>">Semua</a>
+    <?php foreach(['Innate Technique','Non-Innate','Domain Expansion','Special Ability','Shikigami'] as $t): ?>
+    <a href="?type=<?=urlencode($t)?><?=!empty($search)?'&search='.urlencode($search):''?>"
+       class="type-btn <?=$type_filter===$t?'active':''?>"><?=$t?></a>
+    <?php endforeach; ?>
+  </div>
+</section>
 
 <div class="basara-grid">
 <?php if(empty($techniques)): ?>
