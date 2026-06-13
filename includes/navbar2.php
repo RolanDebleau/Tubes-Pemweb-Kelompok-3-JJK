@@ -155,11 +155,10 @@ $basePath    ??= '';
       <a href="<?= $basePath ?>pages/jujutsu.php" class="nav-item<?= $currentPage==='jujutsu'?' active':'' ?>">Jujutsu</a>
       <a href="<?= $basePath ?>pages/world.php" class="nav-item<?= $currentPage==='world'?' active':'' ?>">World</a>
       <a href="<?= $basePath ?>game/index.php" class="nav-item<?= $currentPage==='game'?' active':'' ?>">Mini Game</a>
-      <?php if (isLoggedIn()): ?>
       <a href="<?= $basePath ?>pages/leaderboard.php" class="nav-item<?= $currentPage==='leaderboard'?' active':'' ?>">Leaderboard</a>
-      <?php if (isAdmin()): ?>
+      <?php if (isLoggedIn() && isAdmin()): ?>
       <a href="<?= $basePath ?>admin/dashboard.php" class="nav-item<?= $currentPage==='admin'?' active':'' ?>" style="color:#ffb800">Admin</a>
-      <?php endif; endif; ?>
+      <?php endif; ?>
     </nav>
     <div class="nav-user-profile">
       <span class="nav-username">Hi, <strong><?= htmlspecialchars($_SESSION['username'] ?? 'Guest') ?></strong></span>

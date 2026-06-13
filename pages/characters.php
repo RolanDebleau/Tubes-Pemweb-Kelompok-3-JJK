@@ -46,11 +46,9 @@ $characters = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
           <a href="<?= SITE_URL ?>/pages/jujutsu.php" class="nav-item">Jujutsu</a>
           <a href="<?= SITE_URL ?>/pages/world.php" class="nav-item">World</a>
           <a href="<?= SITE_URL ?>/game/" class="nav-item">Mini Game</a>
-          <?php if (isLoggedIn()): ?>
           <a href="<?= SITE_URL ?>/pages/leaderboard.php" class="nav-item">Leaderboard</a>
-          <?php if (isAdmin()): ?>
+          <?php if (isLoggedIn() && isAdmin()): ?>
           <a href="<?= SITE_URL ?>/admin/dashboard.php" class="nav-item" style="color:#ffb800">Admin</a>
-          <?php endif; ?>
           <?php endif; ?>
         </nav>
         <div class="nav-user-profile">

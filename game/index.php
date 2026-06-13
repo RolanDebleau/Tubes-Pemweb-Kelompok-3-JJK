@@ -33,7 +33,8 @@ $playable = $db->query("SELECT * FROM characters WHERE is_playable = 1 ORDER BY 
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
-body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif;}
+body{background:transparent;color:var(--text);font-family:'Rajdhani',sans-serif;}
+html{background:var(--black);}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:#08060f;}::-webkit-scrollbar-thumb{background:#3a0d7a;}
 
 /* NAV — styles inherited from navbar.php */
@@ -73,13 +74,24 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 .btn-start:disabled{opacity:.45;cursor:not-allowed;}
 
 /* CONTROLS GUIDE */
-.controls-guide{display:flex;gap:20px;margin-top:16px;font-family:'Orbitron',sans-serif;font-size:.52rem;color:var(--text-muted);letter-spacing:1.5px;}
+.controls-guide{display:flex;gap:20px;margin-top:16px;font-family:'Orbitron',sans-serif;font-size:.52rem;color:var(--text-muted);letter-spacing:1.5px;flex-wrap:wrap;justify-content:center;}
 .ctrl-key{background:rgba(107,33,232,.15);border:1px solid var(--border);padding:2px 6px;border-radius:2px;color:var(--purple-glow);}
+
+/* HOW TO PLAY PANEL */
+.howto-panel{margin:26px auto 10px;max-width:980px;width:100%;background:rgba(10,8,20,.85);border:1px solid var(--border);border-radius:6px;padding:18px 22px 14px;}
+.howto-title{font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:4px;color:var(--gold);text-align:center;margin-bottom:14px;}
+.howto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 24px;}
+.howto-item{display:flex;align-items:flex-start;gap:10px;}
+.howto-step{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple-glow));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:.65rem;font-weight:700;color:#fff;}
+.howto-text{font-size:.8rem;line-height:1.45;color:var(--text-muted);}
+.howto-text strong{color:var(--text);}
+.howto-text .ctrl-key{font-size:.65rem;}
+.howto-footer{margin-top:14px;font-family:'Orbitron',sans-serif;font-size:.55rem;color:var(--text-muted);text-align:center;letter-spacing:2px;border-top:1px solid var(--border);padding-top:12px;}
+@media(max-width:760px){.howto-grid{grid-template-columns:1fr;}}
 
 /* HUD */
 .hud{position:absolute;top:0;left:0;right:0;height:56px;background:rgba(3,2,10,.93);border-bottom:1px solid var(--border);display:none;align-items:center;padding:0 16px;gap:20px;z-index:50;}
 .hud-char{display:flex;align-items:center;gap:8px;min-width:120px;}
-.hud-emoji{font-size:1.6rem;}
 .hud-name{font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:1px;color:var(--gold);}
 .hud-bars{display:flex;flex-direction:column;gap:4px;min-width:130px;}
 .hud-bar-row{display:flex;align-items:center;gap:6px;}
@@ -102,7 +114,8 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 /* SKILL INDICATOR */
 .skill-bar{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:none;gap:10px;z-index:50;align-items:flex-end;}
 .skill-slot{display:flex;flex-direction:column;align-items:center;gap:3px;}
-.skill-icon{width:44px;height:44px;background:rgba(10,8,20,.9);border:2px solid rgba(107,33,232,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;position:relative;transition:border-color .2s;}
+.skill-icon{width:44px;height:44px;background:rgba(10,8,20,.9);border:2px solid rgba(107,33,232,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:'Orbitron',sans-serif;letter-spacing:1px;color:var(--text-muted);position:relative;transition:border-color .2s;}
+.skill-icon.ready{color:var(--text);}
 .skill-icon.ready{border-color:var(--purple-glow);box-shadow:0 0 12px rgba(157,77,255,.4);}
 .skill-icon.active{border-color:var(--gold);box-shadow:0 0 16px rgba(240,192,64,.5);}
 .skill-cd{position:absolute;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:.55rem;color:white;border-radius:3px;}
@@ -117,7 +130,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 /* END SCREEN */
 .end-screen{position:absolute;inset:0;background:rgba(3,2,10,.94);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(12px);}
 .end-screen.show{display:flex;}
-.end-icon{font-size:5rem;margin-bottom:14px;animation:popIn .4s ease-out;}
+.end-icon{font-family:'Orbitron',sans-serif;font-size:2.5rem;font-weight:900;letter-spacing:4px;color:var(--gold);margin-bottom:14px;animation:popIn .4s ease-out;}
 @keyframes popIn{0%{transform:scale(0) rotate(-10deg);}70%{transform:scale(1.15) rotate(2deg);}100%{transform:scale(1) rotate(0deg);}}
 .end-title{font-family:'Cinzel Decorative',serif;font-size:2.2rem;margin-bottom:6px;}
 .end-score{font-family:'Orbitron',sans-serif;font-size:1.4rem;color:var(--gold);margin-bottom:20px;}
@@ -225,17 +238,46 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
       <span><span class="ctrl-key">J/Z</span> Attack</span>
       <span><span class="ctrl-key">K/X</span> Skill 1</span>
       <span><span class="ctrl-key">L/C</span> Skill 2 (Ultimate)</span>
-      <span><span class="ctrl-key">ESC</span> Pause</span>
+      <span><span class="ctrl-key">P/ESC</span> Pause</span>
     </div>
-    <div style="margin-top:12px;font-family:'Orbitron',sans-serif;font-size:.55rem;color:var(--text-muted);text-align:center;letter-spacing:2px;">
-      <?php if(!isLoggedIn()):?>⚠ LOGIN untuk menyimpan skor ke leaderboard<?php else:?>✓ Skor otomatis tersimpan ke leaderboard<?php endif;?>
+
+    <div class="howto-panel">
+      <div class="howto-title">CARA BERMAIN</div>
+      <div class="howto-grid">
+        <div class="howto-item">
+          <div class="howto-step">1</div>
+          <div class="howto-text"><strong>Pilih Karakter.</strong> Klik salah satu kartu karakter di atas untuk melihat statistik ATK/DEF/SPD dan teknik kutukannya, lalu tekan "MULAI PERTARUNGAN".</div>
+        </div>
+        <div class="howto-item">
+          <div class="howto-step">2</div>
+          <div class="howto-text"><strong>Bergerak &amp; Melompat.</strong> Gunakan <span class="ctrl-key">A/D</span> atau tombol arah untuk berjalan, dan <span class="ctrl-key">W/Space</span> untuk melompat naik ke platform yang melayang.</div>
+        </div>
+        <div class="howto-item">
+          <div class="howto-step">3</div>
+          <div class="howto-text"><strong>Serang Musuh.</strong> Tekan <span class="ctrl-key">J/Z</span> untuk menyerang. Serangan berturut-turut akan membangun COMBO dan memperbesar damage.</div>
+        </div>
+        <div class="howto-item">
+          <div class="howto-step">4</div>
+          <div class="howto-text"><strong>Gunakan Skill.</strong> Skill 1 (<span class="ctrl-key">K/X</span>) menembakkan serangan jarak jauh dan menggunakan CE (Cursed Energy). Skill 2 / Ultimate (<span class="ctrl-key">L/C</span>) butuh CE lebih banyak tapi damage-nya jauh lebih besar.</div>
+        </div>
+        <div class="howto-item">
+          <div class="howto-step">5</div>
+          <div class="howto-text"><strong>Kelola HP &amp; CE.</strong> Jaga jarak dari musuh agar HP tidak habis. CE akan terisi otomatis seiring waktu — gunakan secara bijak.</div>
+        </div>
+        <div class="howto-item">
+          <div class="howto-step">6</div>
+          <div class="howto-text"><strong>Hadapi Boss &amp; Naik Wave.</strong> Setiap wave berisi gelombang Cursed Spirit. Setelah semua musuh kalah, Boss (Sukuna) akan muncul — kalahkan dia untuk lanjut ke wave berikutnya.</div>
+        </div>
+      </div>
+      <div class="howto-footer">
+        <?php if(!isLoggedIn()):?>⚠ LOGIN untuk menyimpan skor ke leaderboard<?php else:?>✓ Skor otomatis tersimpan ke leaderboard<?php endif;?>
+      </div>
     </div>
   </div>
 
   <!-- HUD -->
   <div class="hud" id="hud">
     <div class="hud-char">
-      <span class="hud-emoji" id="hudEmoji">👊</span>
       <span class="hud-name" id="hudName">-</span>
     </div>
     <div class="hud-bars">
@@ -252,7 +294,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
     </div>
     <div class="hud-combo" id="hudCombo"></div>
     <div class="hud-wave">WAVE <span id="waveNum">1</span></div>
-    <div class="hud-kills">🗡 <span id="killCount">0</span> defeated</div>
+    <div class="hud-kills">Defeated: <span id="killCount">0</span></div>
     <div class="hud-score">
       <div class="hud-score-num" id="scoreNum">0</div>
       <div class="hud-score-lbl">SCORE</div>
@@ -266,16 +308,16 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
   <!-- SKILL BAR -->
   <div class="skill-bar" id="skillBar">
     <div class="skill-slot">
-      <div class="skill-icon ready" id="skill1Icon">🔥</div>
-      <div class="skill-key">J · ATACK</div>
+      <div class="skill-icon ready" id="skill2Icon">ATK</div>
+      <div class="skill-key">J · ATTACK</div>
     </div>
     <div class="skill-slot">
-      <div class="skill-icon ready" id="skill2Icon">⚡</div>
-      <div class="skill-key">K · SKILL</div>
+      <div class="skill-icon ready" id="skill1Icon">SK1</div>
+      <div class="skill-key">K · SKILL 1</div>
     </div>
     <div class="skill-slot">
-      <div class="skill-icon" id="skill3Icon">💥</div>
-      <div class="skill-key">L · ULTS</div>
+      <div class="skill-icon" id="skill3Icon">ULT</div>
+      <div class="skill-key">L · ULTIMATE</div>
     </div>
   </div>
 
@@ -295,7 +337,7 @@ body{background:var(--black);color:var(--text);font-family:'Rajdhani',sans-serif
 
   <!-- END SCREEN -->
   <div class="end-screen" id="endScreen">
-    <div class="end-icon" id="endIcon">💀</div>
+    <div class="end-icon" id="endIcon">✕</div>
     <div class="end-title" id="endTitle" style="color:#cc2233">GAME OVER</div>
     <div class="end-score">Score: <span id="finalScore">0</span></div>
     <div class="end-stats">
@@ -953,12 +995,12 @@ let PLATS = [];
 function initPlatforms() {
   const g = canvas.height-80, cw=canvas.width;
   PLATS = [
-    {x:Math.floor(cw*.06), y:g-155, w:Math.floor(cw*.18), h:14},
-    {x:Math.floor(cw*.30), y:g-220, w:Math.floor(cw*.20), h:14},
-    {x:Math.floor(cw*.57), y:g-165, w:Math.floor(cw*.16), h:14},
-    {x:Math.floor(cw*.78), y:g-255, w:Math.floor(cw*.16), h:14},
-    {x:Math.floor(cw*.16), y:g-315, w:Math.floor(cw*.13), h:14},
-    {x:Math.floor(cw*.67), y:g-335, w:Math.floor(cw*.13), h:14},
+    {x:Math.floor(cw*.06), y:g-130, w:Math.floor(cw*.18), h:16},
+    {x:Math.floor(cw*.30), y:g-190, w:Math.floor(cw*.20), h:16},
+    {x:Math.floor(cw*.57), y:g-140, w:Math.floor(cw*.16), h:16},
+    {x:Math.floor(cw*.78), y:g-200, w:Math.floor(cw*.16), h:16},
+    {x:Math.floor(cw*.16), y:g-250, w:Math.floor(cw*.13), h:16},
+    {x:Math.floor(cw*.67), y:g-260, w:Math.floor(cw*.13), h:16},
   ];
 }
 
@@ -1015,7 +1057,7 @@ class Player {
     this.atk = char.atk;
     this.def = char.def;
     this.spd = 2 + (char.spd/100)*5.5;
-    this.jumpPow = -16;
+    this.jumpPow = -19;
 
     this.attackTmr=0; this.atkCd=16;
     this.skill1Tmr=0; this.skill1Cd=90;  this.skill1Cost=20;
@@ -1261,7 +1303,9 @@ class Enemy {
     }
 
     const dx = player.x-this.x;
+    const dy = (player.y+player.h) - (this.y+this.h); // bottom-to-bottom diff
     const dist=Math.abs(dx);
+    const vDist=Math.abs(dy);
     this.dir = dx>0?1:-1;
     this.aiTmr++;
 
@@ -1270,7 +1314,7 @@ class Enemy {
     else if(dist>65){this.vx=this.dir*this.spd;}
     else{
       this.vx*=0.8;
-      if(this.attackTmr<=0){
+      if(this.attackTmr<=0 && vDist<=40){
         player.takeDamage(this.atk);
         this.attackTmr=58;
       }
@@ -1347,8 +1391,10 @@ class Boss {
     }
 
     const dx=player.x-this.x;
+    const dy=(player.y+player.h)-(this.y+this.h);
     this.dir=dx>0?1:-1;
     const dist=Math.abs(dx);
+    const vDist=Math.abs(dy);
 
     // Charge
     this.chargeTmr--;
@@ -1365,7 +1411,7 @@ class Boss {
       this.vx+=(this.dir*this.spd-this.vx)*0.1;
     } else {
       this.vx*=0.8;
-      if(this.attackTmr<=0){player.takeDamage(this.atk);this.attackTmr=this.rage?32:52;}
+      if(this.attackTmr<=0 && vDist<=50){player.takeDamage(this.atk);this.attackTmr=this.rage?32:52;}
     }
 
     // Shoot
@@ -1409,12 +1455,12 @@ class Boss {
 
     ctx.font='bold 9px "Orbitron",sans-serif';
     ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(`${this.rage?'💢 ':''} RYOMEN SUKUNA — ${Math.ceil(this.hp)}/${this.maxHp}`,canvas.width/2,by+8);
+    ctx.fillText(`RYOMEN SUKUNA — ${Math.ceil(this.hp)}/${this.maxHp}`,canvas.width/2,by+8);
 
     ctx.font='9px "Orbitron",sans-serif';
     ctx.fillStyle=this.rage?'#ff6600':'#ff4455';
     ctx.textAlign='center';ctx.textBaseline='bottom';
-    ctx.fillText(this.rage?'👹 MALEVOLENT SHRINE':'👺 RYOMEN SUKUNA',this.x+this.w/2,this.y+floatOff-6);
+    ctx.fillText(this.rage?'MALEVOLENT SHRINE':'RYOMEN SUKUNA',this.x+this.w/2,this.y+floatOff-6);
   }
 }
 
@@ -1522,14 +1568,18 @@ function updateSkillBar(){
   const s2=document.getElementById('skill2Icon');
   const s3=document.getElementById('skill3Icon');
 
+  // attack
+  s2.className='skill-icon'+(p.attackTmr<=0?' ready':p.isAttacking?' active':'');
+  s2.innerHTML = p.attackTmr>0?`<div class="skill-cd">${Math.ceil(p.attackTmr/10)}</div>ATK`:'ATK';
+
   // skill 1
   s1.className='skill-icon'+(p.skill1Tmr<=0&&p.ce>=p.skill1Cost?' ready':p.isSkill1?' active':'');
-  s1.innerHTML = p.skill1Tmr>0?`<div class="skill-cd">${Math.ceil(p.skill1Tmr/60*p.skill1Cd/60+p.skill1Tmr/10)}</div>⚡`:'⚡';
+  s1.innerHTML = p.skill1Tmr>0?`<div class="skill-cd">${Math.ceil(p.skill1Tmr/10)}</div>SK1`:'SK1';
 
   // skill 2 (ultimate)
   s3.className='skill-icon'+(p.skill2Tmr<=0&&p.ce>=p.skill2Cost?' ready':p.isSkill2?' active':'');
   const s2cd=Math.ceil(p.skill2Tmr/10);
-  s3.innerHTML = p.skill2Tmr>0?`<div class="skill-cd">${s2cd}s</div>💥`:'💥';
+  s3.innerHTML = p.skill2Tmr>0?`<div class="skill-cd">${s2cd}s</div>ULT`:'ULT';
 }
 
 // ============================================================
@@ -1593,16 +1643,18 @@ function drawBg(){
 
   // Platforms
   PLATS.forEach(p=>{
+    // top surface
     const pg=ctx.createLinearGradient(p.x,p.y,p.x,p.y+p.h);
-    pg.addColorStop(0,'#4a1080');pg.addColorStop(1,'#1a0535');
+    pg.addColorStop(0,'#7a2fd0');pg.addColorStop(1,'#3a0d7a');
     ctx.fillStyle=pg; ctx.fillRect(p.x,p.y,p.w,p.h);
-    ctx.shadowColor='#9d4dff';ctx.shadowBlur=10;
-    ctx.strokeStyle='#9d4dff';ctx.lineWidth=2;
+    // front face (depth) so it reads as a solid ledge
+    ctx.fillStyle='#1a0535';
+    ctx.fillRect(p.x,p.y+p.h,p.w,6);
+    // glowing edge to mark the steppable surface
+    ctx.shadowColor='#9d4dff';ctx.shadowBlur=12;
+    ctx.strokeStyle='#cc99ff';ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+p.w,p.y);ctx.stroke();
     ctx.shadowBlur=0;
-    ctx.globalAlpha=.12;ctx.font='9px serif';ctx.fillStyle='#cc88ff';ctx.textAlign='center';
-    ctx.fillText('呪',p.x+p.w/2,p.y+p.h+8);
-    ctx.globalAlpha=1;
   });
 }
 
@@ -1624,7 +1676,7 @@ function startBoss(){
   G.bossActive=true;
   G.boss=new Boss(G.wave);
   G.boss.y=canvas.height-80-G.boss.h;
-  G.waveText='👺 BOSS APPEARS!';
+  G.waveText='BOSS APPEARS!';
   G.waveSubText='Ryomen Sukuna — The King of Curses!';
   G.waveAnnounce=90;
   shake(12,30);
@@ -1712,7 +1764,7 @@ function gameLoop(){
       ctx.fillStyle=pt.crit?'#f0c040':'#ff5566';
       ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.shadowColor=pt.crit?'#f0c040':'#ff5566';ctx.shadowBlur=pt.crit?12:0;
-      ctx.fillText((pt.crit?'✦ ':'-')+Math.ceil(pt.dmg),pt.x,pt.y);
+      ctx.fillText((pt.crit?'CRIT -':'-')+Math.ceil(pt.dmg),pt.x,pt.y);
       ctx.shadowBlur=0;ctx.globalAlpha=1;
     } else {
       ctx.globalAlpha=pt.life/pt.ml;
@@ -1754,7 +1806,7 @@ async function endGame(won){
   cancelAnimationFrame(G.animFrameId);
 
   const sc=document.getElementById('endScreen');
-  document.getElementById('endIcon').textContent=won?'🏆':'💀';
+  document.getElementById('endIcon').textContent=won?'WIN':'✕';
   document.getElementById('endTitle').textContent=won?'VICTORY!':'GAME OVER';
   document.getElementById('endTitle').style.color=won?'#f0c040':'#cc2233';
   document.getElementById('finalScore').textContent=G.score.toLocaleString();
@@ -1842,12 +1894,7 @@ function initGame(char){
   G.player=p;
   G.selectedChar=char;
 
-  document.getElementById('hudEmoji').textContent=char.emoji;
   document.getElementById('hudName').textContent=char.name.toUpperCase();
-  // Update skill icons
-  document.getElementById('skill1Icon').textContent='⚡';
-  document.getElementById('skill2Icon').textContent='🔥';
-  document.getElementById('skill3Icon').textContent='💥';
 
   G.waveText='WAVE 1';
   G.waveSubText='10 Cursed Spirits incoming!';

@@ -23,11 +23,10 @@
                     <a href="<?= SITE_URL ?>/pages/jujutsu.php" class="nav-item<?= ($currentPage ?? '') === 'jujutsu' ? ' active' : '' ?>">Jujutsu</a>
                     <a href="<?= SITE_URL ?>/pages/world.php" class="nav-item<?= ($currentPage ?? '') === 'world' ? ' active' : '' ?>">World</a>
                     <a href="<?= SITE_URL ?>/game/" class="nav-item<?= ($currentPage ?? '') === 'game' ? ' active' : '' ?>">Mini Game</a>
-                    <?php if (isLoggedIn()): ?>
                     <a href="<?= SITE_URL ?>/pages/leaderboard.php" class="nav-item<?= ($currentPage ?? '') === 'leaderboard' ? ' active' : '' ?>">Leaderboard</a>
-                    <?php if (isAdmin()): ?>
+                    <?php if (isLoggedIn() && isAdmin()): ?>
                     <a href="<?= SITE_URL ?>/admin/dashboard.php" class="nav-item<?= ($currentPage ?? '') === 'admin' ? ' active' : '' ?>" style="color:#ffb800">Admin</a>
-                    <?php endif; endif; ?>
+                    <?php endif; ?>
                 </nav>
                 <div class="nav-user-profile">
                     <span class="nav-username">

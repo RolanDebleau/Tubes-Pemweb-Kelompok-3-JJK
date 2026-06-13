@@ -171,11 +171,9 @@ function navActive(string $page, string $current): string {
         <li><a href="<?= $basePath ?>index.php"<?= navActive('home', $currentPage) ?>>Home</a></li>
         <li><a href="<?= $basePath ?>pages/characters.php"<?= navActive('characters', $currentPage) ?>>Characters</a></li>
         <li><a href="<?= $basePath ?>game/index.php"<?= navActive('game', $currentPage) ?>>Mini Game</a></li>
-        <?php if (isLoggedIn()): ?>
         <li><a href="<?= $basePath ?>pages/leaderboard.php"<?= navActive('leaderboard', $currentPage) ?>>Leaderboard</a></li>
-        <?php if (isAdmin()): ?>
+        <?php if (isLoggedIn() && isAdmin()): ?>
         <li><a href="<?= $basePath ?>admin/dashboard.php"<?= navActive('admin', $currentPage) ?> style="color:var(--gold)">Admin</a></li>
-        <?php endif; ?>
         <?php endif; ?>
     </ul>
 
