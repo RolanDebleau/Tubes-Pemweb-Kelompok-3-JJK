@@ -1,6 +1,6 @@
 <?php
 require_once 'includes/config.php';
-
+cccccc
 // Menyiapkan data untuk sistem header dinamis
 $pageTitle = "Jujutsu Universe - Expand Your Domain";
 $extra_css = ['index']; 
